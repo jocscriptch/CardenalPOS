@@ -7,7 +7,7 @@ class Home extends Controller{
     public function index()
     {
         $data['title'] = 'Iniciar Sesión';
-        $this->views->View('principal', 'login' , $data);
+        $this->views->getView('principal', 'login' , $data);
     }
     //validar formulario del login
     public function validateLogin()
