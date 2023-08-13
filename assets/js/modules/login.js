@@ -28,7 +28,11 @@ document.addEventListener('DOMContentLoaded', function () {
         //verificar estados
         http.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
+                const res = JSON.parse(this.responseText);
+                if(res.type == 'success'){
+                    window.location = base_url + 'admin';
+                }
+                alert(res.msg);
               }
             }
        }
