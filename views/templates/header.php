@@ -96,20 +96,6 @@
                 </li>
                 <li>
                     <a href="widgets.html">
-                        <div class="parent-icon"><i class='fa-solid fa-box-open'></i>
-                        </div>
-                        <div class="menu-title">Cajas</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="widgets.html">
-                        <div class="parent-icon"><i class='fa-solid fa-truck-fast'></i>
-                        </div>
-                        <div class="menu-title">Compras</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="widgets.html">
                         <div class="parent-icon"><i class='fa-solid fa-cash-register'></i>
                         </div>
                         <div class="menu-title">Ventas</div>
