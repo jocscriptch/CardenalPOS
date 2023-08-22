@@ -117,10 +117,20 @@
 <script src="<?php echo BASE_URL; ?>assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/plugins/chartjs/js/Chart.min.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/plugins/chartjs/js/Chart.extension.js"></script>
-<script src="<?php echo BASE_URL; ?>assets/js/index.js"></script>
 <!--app JS-->
 <script src="<?php echo BASE_URL; ?>assets/js/app.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/all.min.js"></script>
-</body>
+<script src="<?php echo BASE_URL; ?>assets/DataTables/datatables.min.js"></script>
+<script>
+        const base_url = '<?php echo BASE_URL; ?>';
+</script>
 
+<?php if (!empty($data['script'])) { ?>
+    <script src="<?php echo BASE_URL . 'assets/js/modules/' . $data['script']; ?>"></script>
+<?php } ?>
+
+
+
+
+</body>
 </html>
