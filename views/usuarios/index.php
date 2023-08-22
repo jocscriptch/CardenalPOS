@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title text-center"><i class="fas fa-users"></i>Lista de Usuarios</h5>
+        <h5 class="card-title text-center"><i class="fas fa-user"></i>Lista de Usuarios</h5>
         <hr>
         <table class="table table-bordered table-striped table-hove" id="tblUsuarios" style="width: 100%;">
             <thead>

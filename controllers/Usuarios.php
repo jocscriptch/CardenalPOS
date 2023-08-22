@@ -18,9 +18,10 @@ class Usuarios extends Controller{
         $data = $this->model->getUsuarios(1);
 
         for ($i=0; $i < count($data); $i++) {
-            $data[$i]['rol'] = '<span class="badge bg-info">EMPLEADO</span>';
             if ($data[$i]['rol'] == 1) {
                 $data[$i]['rol'] = '<span class="badge bg-success">ADMINISTRADOR</span>';
+            }else{
+                $data[$i]['rol'] = '<span class="badge bg-info">EMPLEADO</span>';
             }
             $data[$i]['acciones'] = '';
         }

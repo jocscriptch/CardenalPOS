@@ -121,6 +121,8 @@
 <script src="<?php echo BASE_URL; ?>assets/js/app.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/all.min.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/DataTables/datatables.min.js"></script>
+<script src="<?php echo BASE_URL; ?>assets/js/custom-buttons.js"></script>
+
 <script>
         const base_url = '<?php echo BASE_URL; ?>';
 </script>
