@@ -74,7 +74,7 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
-                        <h6 class="mb-0">Sales Overview</h6>
+                        <h6 class="mb-0">Resumen de ventas</h6>
                     </div>
                     <div class="dropdown ms-auto">
                         <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
@@ -133,7 +133,7 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
-                        <h6 class="mb-0">Trending Products</h6>
+                        <h6 class="mb-0">Repuestos mas vendidos</h6>
                     </div>
                     <div class="dropdown ms-auto">
                         <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
@@ -158,16 +158,16 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
-                    Jeans <span class="badge bg-success rounded-pill">25</span>
+                    Cadena <span class="badge bg-success rounded-pill">25</span>
                 </li>
                 <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
-                    T-Shirts <span class="badge bg-danger rounded-pill">10</span>
+                    Aceite<span class="badge bg-danger rounded-pill">10</span>
                 </li>
                 <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
-                    Shoes <span class="badge bg-primary rounded-pill">65</span>
+                    Llanta <span class="badge bg-primary rounded-pill">65</span>
                 </li>
                 <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
-                    Lingerie <span class="badge bg-warning text-dark rounded-pill">14</span>
+                    Luces <span class="badge bg-warning text-dark rounded-pill">14</span>
                 </li>
             </ul>
         </div>
