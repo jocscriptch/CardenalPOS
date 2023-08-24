@@ -14,9 +14,9 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active mt-2" id="nav-usuarios" role="tabpanel"
                 aria-labelledby="nav-usuarios-tab">
-                <h5 class="card-title text-center mb-3"><i class="fas fa-users"></i> Lista de Usuarios</h5>
+                <h5 class="card-title text-center "><i class="fas fa-users"></i> Lista de Usuarios</h5>
                 <hr>
-                <table class="table table-bordered table-striped table-hove" id="tblUsuarios" style="width: 100%;">
+                <table class="table table-bordered table-striped table-hover nowrap" id="tblUsuarios" style="width: 100%;">
                     <thead>
                         <tr>
                             <th>Nombres</th>
@@ -36,71 +36,84 @@
                 </table>
             </div>
             <div class="tab-pane fade" id="nav-nuevo" role="tabpanel" aria-labelledby="nav-nuevo-tab">
-                <div class="row p-4">
-                    <div class="col-lg-4 col-sm-6">
-                        <label>Nombre</label>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fas fa-list"></i></span>
-                            <input type="text" class="form-control" placeholder="Nombre">
+                <form class="p-4" id="form" autocomplete="off">
+                    <div class="row">
+                        <div class="col-lg-4  col-sm-6 mb-2">
+                            <label>Nombre</label>
+                            <div class="input-group ">
+                                <span class="input-group-text"><i class="fas fa-list"></i></span>
+                                <input type="text" id="nombres" name="nombres" class="form-control"
+                                    placeholder="Nombre">
+                            </div>
+                            <span id="errorNombres" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="col-lg-4 col-sm-6">
-                        <label>Apellido</label>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
-                            <input type="text" class="form-control" placeholder="Apellido">
+                        <div class="col-lg-4  col-sm-6 mb-2">
+                            <label>Apellido</label>
+                            <div class="input-group ">
+                                <span class="input-group-text"><i class="fas fa-list-alt"></i></span>
+                                <input type="text" id="apellidos" name="apellidos" class="form-control"
+                                    placeholder="Apellido">
+                            </div>
+                            <span id="errorApellidos" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="col-lg-4 col-sm-6">
-                        <label>Correo</label>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                            <input type="email" class="form-control" placeholder="Correo">
+                        <div class="col-lg-4  col-sm-6 mb-2">
+                            <label>Correo</label>
+                            <div class="input-group ">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Correo">
+                            </div>
+                            <span id="errorEmail" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="col-lg-4 col-sm-6">
-                        <label>Telefono</label>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                            <input type="number" class="form-control" placeholder="Telefono">
+                        <div class="col-lg-4  col-sm-6 mb-2">
+                            <label>Telefono</label>
+                            <div class="input-group ">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                <input type="number" id="telefono" name="telefono" class="form-control"
+                                    placeholder="Telefono">
+                            </div>
+                            <span id="errorTelefono" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="col-lg-8 col-sm-6">
-                        <label>Direccion</label>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fas fa-home"></i></span>
-                            <input type="text" class="form-control" placeholder="Direccion">
+                        <div class="col-lg-8  col-sm-6 mb-2">
+                            <label>Direccion</label>
+                            <div class="input-group ">
+                                <span class="input-group-text"><i class="fas fa-home"></i></span>
+                                <input type="text" id="direccion" name="direccion" class="form-control"
+                                    placeholder="Direccion">
+                            </div>
+                            <span id="errorDireccion" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="col-lg-4 col-sm-6">
-                        <label>Clave</label>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                            <input type="password" class="form-control" placeholder="Clave">
+                        <div class="col-lg-4  col-sm-6 mb-2">
+                            <label>Clave</label>
+                            <div class="input-group ">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" id="clave" name="clave" class="form-control" placeholder="Clave">
+                            </div>
+                            <span id="errorClave" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="col-lg-4 col-sm-6">
-                        <label>Rol</label>
-                        <div class="input-group mb-3">
-                            <label class="input-group-text" for="inputGroupSelect01"><i class="fas fa-id-card"></i></label>
-                            <select class="form-select" id="inputGroupSelect01">
-                                <option selected>Seleccione...</option>
-                                <option value="1">Administrador</option>
-                                <option value="2">Empleado</option>
-                            </select>
+                        <div class="col-lg-4  col-sm-6 mb-2">
+                            <label>Rol</label>
+                            <div class="input-group ">
+                                <label class="input-group-text" for="rol"><i class="fas fa-id-card"></i></label>
+                                <select class="form-select" id="rol" name="rol">
+                                    <option value="" selected>Seleccione...</option>
+                                    <option value="1">Administrador</option>
+                                    <option value="2">Empleado</option>
+                                </select>
+                            </div>
+                            <span id="errorRol" class="text-danger"></span>
                         </div>
-                    </div>
 
-                </div>
-                <div class="text-end">
-                    <button class="btn btn-primary" type="button">Registrar</button>
-                </div>
+                    </div>
+                    <div class="text-end">
+                        <button class="btn btn-primary" type="submit" id="btnAccion">Registrar</button>
+                    </div>
+                </form>
             </div>
         </div>
 

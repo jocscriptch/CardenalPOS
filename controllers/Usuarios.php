@@ -1,6 +1,8 @@
 <?php
-class Usuarios extends Controller{
-    public function __construct() {
+class Usuarios extends Controller
+{
+    public function __construct()
+    {
         parent::__construct();
         session_start();
     }
@@ -8,7 +10,7 @@ class Usuarios extends Controller{
     {
         $data['title'] = 'Usuarios';
         $data['script'] = 'usuarios.js';
-        $this->views->getView('usuarios','index', $data);
+        $this->views->getView('usuarios', 'index', $data);
         //se manda el folder usuarios, luego el archivo index que esta dentro de dicho folder
 
     }
@@ -17,10 +19,10 @@ class Usuarios extends Controller{
     {
         $data = $this->model->getUsuarios(1);
 
-        for ($i=0; $i < count($data); $i++) {
+        for ($i = 0; $i < count($data); $i++) {
             if ($data[$i]['rol'] == 1) {
                 $data[$i]['rol'] = '<span class="badge bg-success">ADMINISTRADOR</span>';
-            }else{
+            } else {
                 $data[$i]['rol'] = '<span class="badge bg-info">EMPLEADO</span>';
             }
             $data[$i]['acciones'] = '';
@@ -29,6 +31,76 @@ class Usuarios extends Controller{
         die();
     }
 
+    //metodo registrar y modificar
+    public function registrar()
+    {
+        if (isset($_POST)) {
+            if (empty($_POST['nombres'])) {
+                $res = array('msg' => 'Nombre Requerido', 'type' => 'warning');
+
+            } else if (empty($_POST['apellidos'])) {
+                $res = array('msg' => 'Apellidos Requerido', 'type' => 'warning');
+
+            } else if (empty($_POST['email'])) {
+                $res = array('msg' => 'Correo Requerido', 'type' => 'warning');
+
+            } else if (empty($_POST['telefono'])) {
+                $res = array('msg' => 'Telefono Requerido', 'type' => 'warning');
+
+            } else if (empty($_POST['direccion'])) {
+                $res = array('msg' => 'Direccion Requerido', 'type' => 'warning');
+
+            } else if (empty($_POST['clave'])) {
+                $res = array('msg' => 'Clave Requerido', 'type' => 'warning');
+
+            } else if (empty($_POST['rol'])) {
+                $res = array('msg' => 'Rol Requerido', 'type' => 'warning');
+
+            } else {
+                $nombres = strClean($_POST['nombres']);
+                $apellidos = strClean($_POST['apellidos']);
+                $email = strClean($_POST['email']);
+                $telefono = strClean($_POST['telefono']);
+                $direccion = strClean($_POST['direccion']);
+                $clave = strClean($_POST['clave']);
+                $hash = password_hash($clave, PASSWORD_DEFAULT);
+                $rol = strClean($_POST['rol']);
+
+                //verificar si existe los datos con la db
+                $verificarEmail = $this->model->getValidar('correo', $email);
+                if (empty($verificarEmail)) {
+
+                    $verificarTel = $this->model->getValidar('telefono', $telefono);
+
+                    if (empty($verificarTel)) {
+
+                        $data = $this->model->registrar(
+                            $nombres,
+                            $apellidos,
+                            $email,
+                            $telefono,
+                            $direccion,
+                            $hash,
+                            $rol
+                        );
+                        if ($data > 0) {
+                            $res = array('msg' => 'Usuario Registrado', 'type' => 'success');
+                        } else {
+                            $res = array('msg' => 'Error Registrar', 'type' => 'error');
+                        }
+                    } else {
+                        $res = array('msg' => 'TELEFONO DEBE SER UNICO', 'type' => 'warning');
+                    }
+                } else {
+                    $res = array('msg' => 'EL CORREO DEBE SER UNICO', 'type' => 'warning');
+                }
+            }
+        } else {
+            $res = array('msg' => 'Error desconocido', 'type' => 'error');
+        }
+        echo json_encode($res, JSON_UNESCAPED_UNICODE);
+        die();
+    }
 }
 
 ?>
