@@ -5,7 +5,7 @@ class UsuariosModel extends Query{
     }
     public function getUsuarios($estado)
     {
-        $sql = "SELECT CONCAT(nombre, ' ', apellido) AS nombres, correo, telefono, direccion, rol FROM usuarios WHERE estado = $estado";
+        $sql = "SELECT id, CONCAT(nombre, ' ', apellido) AS nombres, correo, telefono, direccion, rol FROM usuarios WHERE estado = $estado";
         return $this->selectAll($sql);
 
     }
@@ -21,6 +21,13 @@ class UsuariosModel extends Query{
     {
         $sql = "SELECT * FROM usuarios WHERE $campo = '$valor'";
         return $this->select($sql);
+    }
+
+    public function eliminar($estado, $id)
+    {
+        $sql = "UPDATE usuarios SET estado = ? WHERE id = ?";
+        $array = array($estado, $id);
+        return $this->save($sql, $array);
     }
 }
 ?>
