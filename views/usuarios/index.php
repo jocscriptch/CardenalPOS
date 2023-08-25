@@ -2,6 +2,21 @@
 
 <div class="card">
     <div class="card-body">
+        <div class="d-flex align-items-center">
+            <div></div>
+            <div class="dropdown ms-auto">
+                <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
+                        class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="<?php echo BASE_URL . 'usuarios/inactivos'; ?>">
+                            <i class="fas fa-trash text-danger mx-2"></i>Inactivos
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-usuarios-tab" data-bs-toggle="tab"
@@ -16,8 +31,9 @@
                 aria-labelledby="nav-usuarios-tab">
                 <h5 class="card-title text-center "><i class="fas fa-users"></i> Lista de Usuarios</h5>
                 <hr>
-        
-                <table class="table table-bordered table-striped table-hover nowrap" id="tblUsuarios" style="width: 100%;">
+
+                <table class="table table-bordered table-striped table-hover nowrap" id="tblUsuarios"
+                    style="width: 100%;">
                     <thead>
                         <tr>
                             <th>Nombres</th>

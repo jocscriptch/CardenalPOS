@@ -28,7 +28,7 @@ class Usuarios extends Controller
             $data[$i]['acciones'] =
                 '<div class="text-center">
                       <button class="btn btn-danger" type="button" onClick="eliminarUsuario(' . $data[$i]['id'] . ')"><i class="fa-solid fa-trash"></i></button>
-                      <button class="btn btn-info" type="button" onClick="editarUsuario(' . $data[$i]['id'] . ')"><i class="fa-solid fa-pen"></i></button>
+                      <button class="btn btn-info" type="button" onClick="editarUsuario(' . $data[$i]['id'] . ')"><i class="fa-solid fa-pen text-white"></i></button>
                  </div>';
         }
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
@@ -167,6 +167,54 @@ class Usuarios extends Controller
 
         $data = $this->model->editar($id);
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    //vista de usuarios inactivos
+    public function inactivos()
+    {
+        $data['title'] = 'Usuarios Inactivos';
+        $data['script'] = 'usuarios_inactivos.js';
+        $this->views->getView('usuarios', 'inactivos', $data);
+    }
+
+    public function listarInactivos()
+    {
+        $data = $this->model->getUsuarios(0);
+
+        for ($i = 0; $i < count($data); $i++) {
+            if ($data[$i]['rol'] == 1) {
+                $data[$i]['rol'] = '<span class="badge bg-success">ADMINISTRADOR</span>';
+            } else {
+                $data[$i]['rol'] = '<span class="badge bg-info">EMPLEADO</span>';
+            }
+            $data[$i]['acciones'] =
+                '<div class="text-center">
+                      <button class="btn btn-info" type="button" onClick="restaurarUsuario(' . $data[$i]['id'] . ')"><i class="fas fa-check-circle text-white"></i></button>
+                </div>';
+        }
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    //restaurar usuarios
+    public function restaurar($id)
+    {
+        if (isset($_GET)) {
+            if (is_numeric($id)) {
+                $data = $this->model->eliminar(1, $id);
+                if ($data == 1) {
+                    $res = array('msg' => 'USUARIO RESTAURADO', 'type' => 'success');
+                } else {
+                    $res = array('msg' => 'ERROR AL RESTAURAR', 'type' => 'error');
+                }
+            } else {
+                $res = array('msg' => 'ERROR DESCONOCIDO', 'type' => 'error');
+            }
+        } else {
+            $res = array('msg' => 'ERROR DESCONOCIDO', 'type' => 'error');
+        }
+        echo json_encode($res, JSON_UNESCAPED_UNICODE);
         die();
     }
 
