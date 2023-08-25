@@ -8,6 +8,8 @@ const direccion = document.querySelector('#direccion');
 const clave = document.querySelector('#clave');
 const rol = document.querySelector('#rol');
 
+const id = document.querySelector('#id');
+
 //para mostrar errores
 const errorNombres = document.querySelector('#errorNombres');
 const errorApellidos = document.querySelector('#errorApellidos');
@@ -17,11 +19,12 @@ const errorDireccion = document.querySelector('#errorDireccion');
 const errorClave = document.querySelector('#errorClave');
 const errorRol = document.querySelector('#errorRol');
 
+const btnAccion = document.querySelector('#btnAccion');
+const btnNuevo = document.querySelector('#btnNuevo');
+
 document.addEventListener('DOMContentLoaded', function () {
 
     //cargar datos con el pluggin datatables
-
-
     tblUsuarios = $('#tblUsuarios').DataTable({
         ajax: {
             url: base_url + 'usuarios/listar',
@@ -43,6 +46,12 @@ document.addEventListener('DOMContentLoaded', function () {
         responsive: true,
         order: [[0, 'asc']]
     });
+
+    //Limpiar campos
+    btnNuevo.addEventListener('click', function () {
+        limpiarCampos();
+    })
+
 
     //registrar usuarios
     form.addEventListener('submit', function (e) {
@@ -77,32 +86,32 @@ document.addEventListener('DOMContentLoaded', function () {
         } else if (rol.value == '') {
             errorRol.textContent = 'DEBES INGRESAR EL ROL';
 
-        }else{
-                const url = base_url + 'usuarios/registrar';
-                //crear formData
-                const data = new FormData(this);
-                const http = new XMLHttpRequest(); //creando instancia de XMLHTTPREQUEST
-                http.open('POST', url, true); //abriendo una conexion
-                http.send(data); //enviando datos
-    
-                //verificar estados
-                http.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        const res = JSON.parse(this.responseText);
-                        Swal.fire({
-                            toast: true,
-                            position: 'top',
-                            icon: res.type,
-                            title: res.msg,
-                            showConfirmButton: false,
-                            timer: 2000
-                          })
-                          if (res.type == 'success') {
-                            form.reset();
-                            tblUsuarios.ajax.reload();
-                          }
+        } else {
+            const url = base_url + 'usuarios/registrar';
+            //crear formData
+            const data = new FormData(this);
+            const http = new XMLHttpRequest(); //creando instancia de XMLHTTPREQUEST
+            http.open('POST', url, true); //abriendo una conexion
+            http.send(data); //enviando datos
+
+            //verificar estados
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText);
+                    Swal.fire({
+                        toast: true,
+                        position: 'top',
+                        icon: res.type,
+                        title: res.msg,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    if (res.type == 'success') {
+                        limpiarCampos();
+                        tblUsuarios.ajax.reload();
                     }
-                
+                }
+
             }
         }
 
@@ -119,32 +128,72 @@ function eliminarUsuario(idUsuario) {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Eliminar'
-      }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
             const url = base_url + 'usuarios/eliminar/' + idUsuario;
-               
-                const http = new XMLHttpRequest(); //creando instancia de XMLHTTPREQUEST
-                http.open('GET', url, true); //abriendo una conexion
-                http.send(); 
-    
-                //verificar estados
-                http.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        const res = JSON.parse(this.responseText);
-                        Swal.fire({
-                            toast: true,
-                            position: 'top',
-                            icon: res.type,
-                            title: res.msg,
-                            showConfirmButton: false,
-                            timer: 2000
-                          })
-                          if (res.type == 'success') {
-                            tblUsuarios.ajax.reload();
-                          }
+
+            const http = new XMLHttpRequest(); //creando instancia de XMLHTTPREQUEST
+            http.open('GET', url, true); //abriendo una conexion
+            http.send();
+
+            //verificar estados
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText);
+                    Swal.fire({
+                        toast: true,
+                        position: 'top',
+                        icon: res.type,
+                        title: res.msg,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    if (res.type == 'success') {
+                        tblUsuarios.ajax.reload();
                     }
-                
+                }
+
             }
         }
-      })
+    })
+}
+
+//funcion editar usuario
+function editarUsuario(idUsuario) {
+
+    const url = base_url + 'usuarios/editar/' + idUsuario;
+    const http = new XMLHttpRequest();
+    http.open('GET', url, true);
+    http.send();
+
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+
+            //recuperando datos para editar los usuarios
+            id.value = res.id;
+            nombres.value = res.nombre;
+
+            apellidos.value = res.apellido;
+            email.value = res.correo;
+            telefono.value = res.telefono;
+            direccion.value = res.direccion;
+            rol.value = res.rol;
+            clave.value = '0000';
+            clave.setAttribute('readonly', 'readonly');
+            btnAccion.textContent = 'Actualizar';
+
+            var firstTabEl = document.querySelector('#nav-tab button:last-child')
+            var firstTab = new bootstrap.Tab(firstTabEl)
+            firstTab.show()
+        }
+    }
+}
+
+function limpiarCampos() {
+    id.value = '';
+    btnAccion.textContent = 'Registrar';
+    clave.removeAttribute('readonly');
+    form.reset();
+    nombres.focus();
 }

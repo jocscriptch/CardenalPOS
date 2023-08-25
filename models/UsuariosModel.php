@@ -17,9 +17,15 @@ class UsuariosModel extends Query{
         return $this->insertar($sql, $array);
     }
 
-    public function getValidar($campo, $valor)
+    public function getValidar($campo, $valor, $accion, $id)
     {
-        $sql = "SELECT * FROM usuarios WHERE $campo = '$valor'";
+        if ($accion == 'registrar' && $id == 0) {
+            $sql = "SELECT id, correo, telefono FROM usuarios WHERE $campo = '$valor'";
+
+        }else{
+            $sql = "SELECT id, correo, telefono FROM usuarios WHERE $campo = '$valor' AND id != $id";
+        }
+        
         return $this->select($sql);
     }
 
@@ -29,5 +35,23 @@ class UsuariosModel extends Query{
         $array = array($estado, $id);
         return $this->save($sql, $array);
     }
+
+    public function editar($id)
+    {
+        $sql = "SELECT id, nombre, apellido, correo, telefono, direccion, rol FROM usuarios WHERE id = $id";
+        return $this->select($sql);
+    }
+
+    public function actualizar($nombres, $apellidos,
+    $email, $telefono, $direccion, $rol, $id)
+    {
+        $sql = "UPDATE usuarios SET nombre=?, apellido=?, correo=?, telefono=?, direccion=?, rol=? WHERE id=?";
+        $array = array($nombres, $apellidos, $email, $telefono, $direccion, $rol, $id);
+        return $this->save($sql, $array);
+    }
+
+
+
+
 }
 ?>

@@ -38,6 +38,7 @@
             </div>
             <div class="tab-pane fade" id="nav-nuevo" role="tabpanel" aria-labelledby="nav-nuevo-tab">
                 <form class="p-4" id="form" autocomplete="off">
+                    <input type="hidden" id="id" name="id">
                     <div class="row">
                         <div class="col-lg-4  col-sm-6 mb-2">
                             <label>Nombre</label>
@@ -112,6 +113,7 @@
 
                     </div>
                     <div class="text-end">
+                        <button class="btn btn-danger" type="button" id="btnNuevo">Nuevo</button>
                         <button class="btn btn-primary" type="submit" id="btnAccion">Registrar</button>
                     </div>
                 </form>
