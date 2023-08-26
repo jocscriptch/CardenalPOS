@@ -7,10 +7,10 @@
         <table class="table table-bordered table-striped table-hover nowrap" id="tblUsuarios" style="width: 100%;">
             <thead>
                 <tr>
-                    <th>Nombres</th>
+                    <th>Nombre</th>
                     <th>Correo</th>
-                    <th>Telefono</th>
-                    <th>Direccion</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
                     <th>Rol</th>
                     <th></th>
                 </tr>

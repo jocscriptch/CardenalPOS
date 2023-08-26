@@ -106,7 +106,7 @@
                     <a href="widgets.html">
                         <div class="parent-icon"><i class='fa-solid fa-credit-card'></i>
                         </div>
-                        <div class="menu-title">Creditos</div>
+                        <div class="menu-title">Créditos</div>
                     </a>
                 </li>
                 <li>

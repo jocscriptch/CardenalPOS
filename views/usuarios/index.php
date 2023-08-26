@@ -36,10 +36,10 @@
                     style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>Nombres</th>
+                            <th>Nombre</th>
                             <th>Correo</th>
-                            <th>Telefono</th>
-                            <th>Direccion</th>
+                            <th>Teléfono</th>
+                            <th>Dirección</th>
                             <th>Rol</th>
                             <th></th>
                         </tr>
@@ -86,7 +86,7 @@
                         </div>
 
                         <div class="col-lg-4  col-sm-6 mb-2">
-                            <label>Telefono</label>
+                            <label>Teléfono</label>
                             <div class="input-group ">
                                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                 <input type="number" id="telefono" name="telefono" class="form-control"
@@ -96,7 +96,7 @@
                         </div>
 
                         <div class="col-lg-8  col-sm-6 mb-2">
-                            <label>Direccion</label>
+                            <label>Dirección</label>
                             <div class="input-group ">
                                 <span class="input-group-text"><i class="fas fa-home"></i></span>
                                 <input type="text" id="direccion" name="direccion" class="form-control"
