@@ -29,7 +29,7 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active mt-2" id="nav-usuarios" role="tabpanel"
                 aria-labelledby="nav-usuarios-tab">
-                <h5 class="card-title text-center "><i class="fas fa-users"></i> Lista de Usuarios</h5>
+                <h5 class="card-title text-center "><i class="fas fa-users"></i> Lista de Usuarios Activos</h5>
                 <hr>
 
                 <table class="table table-bordered table-striped table-hover nowrap" id="tblUsuarios"
