@@ -88,31 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         } else {
             const url = base_url + 'usuarios/registrar';
-            //crear formData
-            const data = new FormData(this);
-            const http = new XMLHttpRequest(); //creando instancia de XMLHTTPREQUEST
-            http.open('POST', url, true); //abriendo una conexion
-            http.send(data); //enviando datos
-
-            //verificar estados
-            http.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    const res = JSON.parse(this.responseText);
-                    Swal.fire({
-                        toast: true,
-                        position: 'top',
-                        icon: res.type,
-                        title: res.msg,
-                        showConfirmButton: false,
-                        timer: 2000
-                    })
-                    if (res.type == 'success') {
-                        limpiarCampos();
-                        tblUsuarios.ajax.reload();
-                    }
-                }
-
-            }
+            insertarRegistros(url, this, tblUsuarios, btnAccion, true);
         }
 
     })
@@ -120,42 +96,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 //funcion eliminar usuario
 function eliminarUsuario(idUsuario) {
-    Swal.fire({
-        title: '¿Deseas eliminar el registro?',
-        text: "El registro cambiará su estado",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Eliminar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const url = base_url + 'usuarios/eliminar/' + idUsuario;
-
-            const http = new XMLHttpRequest(); //creando instancia de XMLHTTPREQUEST
-            http.open('GET', url, true); //abriendo una conexion
-            http.send();
-
-            //verificar estados
-            http.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    const res = JSON.parse(this.responseText);
-                    Swal.fire({
-                        toast: true,
-                        position: 'top',
-                        icon: res.type,
-                        title: res.msg,
-                        showConfirmButton: false,
-                        timer: 2000
-                    })
-                    if (res.type == 'success') {
-                        tblUsuarios.ajax.reload();
-                    }
-                }
-
-            }
-        }
-    })
+    const url = base_url + 'usuarios/eliminar/' + idUsuario;
+    eliminarRegistros(url,tblUsuarios);
 }
 
 //funcion editar usuario

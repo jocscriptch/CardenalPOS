@@ -31,26 +31,28 @@
                 aria-labelledby="nav-usuarios-tab">
                 <h5 class="card-title text-center "><i class="fas fa-users"></i> Lista de Usuarios Activos</h5>
                 <hr>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover nowrap" id="tblUsuarios"
+                        style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Dirección</th>
+                                <th>Rol</th>
+                                <th></th>
+                            </tr>
+                        </thead>
 
-                <table class="table table-bordered table-striped table-hover nowrap" id="tblUsuarios"
-                    style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Correo</th>
-                            <th>Teléfono</th>
-                            <th>Dirección</th>
-                            <th>Rol</th>
-                            <th></th>
-                        </tr>
-                    </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                    <tbody>
-                        <tr>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
             <div class="tab-pane fade" id="nav-nuevo" role="tabpanel" aria-labelledby="nav-nuevo-tab">
                 <form class="p-4" id="form" autocomplete="off">

@@ -62,7 +62,7 @@
                     <ul>
                         <li> <a href="<?php echo BASE_URL . 'usuarios'; ?>"><i class="bx bx-right-arrow-alt"></i>Usuarios</a>
                         </li>
-                        <li> <a href="app-chat-box.html"><i class="bx bx-right-arrow-alt"></i>Configuración</a>
+                        <li> <a href="<?php echo BASE_URL . 'admin/datos'; ?>"><i class="bx bx-right-arrow-alt"></i>Configuración</a>
                         </li>
                     </ul>
                 </li>
