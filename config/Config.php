@@ -6,5 +6,5 @@ define('USER', 'root');
 define('PASS', '');
 define('DBNAME', 'cardenalpos');
 define('CHARSET', 'utf8mb4');
-define('TITLE', 'MOTO RESPUESTOS CARDENAL')
+define('TITLE', 'CARDENAL POS')
 ?>
