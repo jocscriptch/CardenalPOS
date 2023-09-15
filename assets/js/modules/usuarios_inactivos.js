@@ -29,5 +29,5 @@ document.addEventListener('DOMContentLoaded', function () {
 //funcion restaurar usuario
 function restaurarUsuario(idUsuario) {
     const url = base_url + 'usuarios/restaurar/' + idUsuario;
-    restaurarUsuario(url, tblUsuarios);
+    restaurarRegistros(url, tblUsuarios);
 }
