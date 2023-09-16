@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title text-center">Datos de tu Negocio</h5>
+        <h5 class="card-title text-center"><i class="fa-solid fa-house-laptop me-2"></i>Datos de tu Negocio</h5>
         <hr>
         <form class="p-4" id="form" autocomplete="off">
             <input type="hidden" id="id" name="id" value="<?php echo $data['empresa']['id']; ?>">
@@ -74,6 +74,6 @@
             </div>
         </form>
     </div>
-</div>'
+</div>
 
 <?php include_once 'views/templates/footer.php'; ?>

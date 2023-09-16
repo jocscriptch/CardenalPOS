@@ -1,11 +1,12 @@
-function insertarRegistros(url, idForm, tbl, idBoton, accion) {
+var firstTabEl = document.querySelector('#nav-tab button:last-child')
+var firstTab = new bootstrap.Tab(firstTabEl)
 
+function insertarRegistros(url, idForm, tbl, idBoton, accion) {
     //crear formData
     const data = new FormData(idForm);
     const http = new XMLHttpRequest(); //creando instancia de XMLHTTPREQUEST
     http.open('POST', url, true); //abriendo una conexion
     http.send(data); //enviando datos
-
     //verificar estados
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -19,7 +20,6 @@ function insertarRegistros(url, idForm, tbl, idBoton, accion) {
                 timer: 2000
             })
             if (res.type == 'success') {
-
                 if (accion) {
                     clave.removeAttribute('readonly');
                 }
@@ -29,8 +29,6 @@ function insertarRegistros(url, idForm, tbl, idBoton, accion) {
                     idForm.reset();
                     tbl.ajax.reload();
                 }
-
-
             }
         }
 
@@ -51,7 +49,6 @@ function eliminarRegistros(url, tbl) {
             const http = new XMLHttpRequest(); //creando instancia de XMLHTTPREQUEST
             http.open('GET', url, true); //abriendo una conexion
             http.send();
-
             //verificar estados
             http.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
@@ -68,12 +65,10 @@ function eliminarRegistros(url, tbl) {
                         tbl.ajax.reload();
                     }
                 }
-
             }
         }
     })
 }
-
 function restaurarRegistros(url, tbl) {
     Swal.fire({
         title: '¿Deseas restaurar el registro?',
@@ -87,7 +82,6 @@ function restaurarRegistros(url, tbl) {
             const http = new XMLHttpRequest(); //creando instancia de XMLHTTPREQUEST
             http.open('GET', url, true); //abriendo una conexion
             http.send();
-
             //verificar estados
             http.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
@@ -104,7 +98,6 @@ function restaurarRegistros(url, tbl) {
                         tbl.ajax.reload();
                     }
                 }
-
             }
         }
     })

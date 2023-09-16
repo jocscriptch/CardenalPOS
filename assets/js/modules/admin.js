@@ -14,11 +14,9 @@ const errorDireccion = document.querySelector('#errorDireccion');
 const errorEmail = document.querySelector('#errorEmail');
 
 document.addEventListener('DOMContentLoaded', function () {
-
     // inicializando el ckeditor
     ClassicEditor
         .create(document.querySelector('#mensaje'), {
-
             toolbar: {
                 items: [
                     'exportPDF', 'exportWord', '|',

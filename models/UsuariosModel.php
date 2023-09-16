@@ -1,13 +1,13 @@
 <?php
 class UsuariosModel extends Query{
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
     public function getUsuarios($estado)
     {
         $sql = "SELECT id, CONCAT(nombre, ' ', apellido) AS nombres, correo, telefono, direccion, rol FROM tbusuarios WHERE estado = $estado";
         return $this->selectAll($sql);
-
     }
     public function registrar($nombres, $apellidos,
     $email, $telefono, $direccion, $clave, $rol)
@@ -25,7 +25,6 @@ class UsuariosModel extends Query{
         }else{
             $sql = "SELECT id, correo, telefono FROM tbusuarios WHERE $campo = '$valor' AND id != $id";
         }
-        
         return $this->select($sql);
     }
 
@@ -42,16 +41,12 @@ class UsuariosModel extends Query{
         return $this->select($sql);
     }
 
-    public function actualizar($nombres, $apellidos,
-    $email, $telefono, $direccion, $rol, $id)
+    public function actualizar($nombres, $apellidos, $email,
+    $telefono, $direccion, $rol, $id)
     {
         $sql = "UPDATE tbusuarios SET nombre=?, apellido=?, correo=?, telefono=?, direccion=?, rol=? WHERE id=?";
         $array = array($nombres, $apellidos, $email, $telefono, $direccion, $rol, $id);
         return $this->save($sql, $array);
     }
-
-
-
-
 }
 ?>

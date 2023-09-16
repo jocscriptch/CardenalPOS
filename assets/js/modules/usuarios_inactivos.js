@@ -1,7 +1,6 @@
 let tblUsuarios;
 
 document.addEventListener('DOMContentLoaded', function () {
-
     //cargar datos con el pluggin datatables
     tblUsuarios = $('#tblUsuarios').DataTable({
         ajax: {
