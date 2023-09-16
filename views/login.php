@@ -69,7 +69,6 @@
                                                 </div>
                                                 <span id="passwordError" class="text-danger"></span>
                                             </div>
-                                            
                                             <div class="col-md-12 text-end"> <a
                                                     href="authentication-forgot-password.html">¿Olvidaste tu
                                                     contraseña?</a>

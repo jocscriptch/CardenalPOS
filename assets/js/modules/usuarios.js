@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
         limpiarCampos();
     })
 
-
     //registrar usuarios
     form.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -102,7 +101,6 @@ function eliminarUsuario(idUsuario) {
 
 //funcion editar usuario
 function editarUsuario(idUsuario) {
-
     const url = base_url + 'usuarios/editar/' + idUsuario;
     const http = new XMLHttpRequest();
     http.open('GET', url, true);
@@ -131,7 +129,6 @@ function editarUsuario(idUsuario) {
         }
     }
 }
-
 function limpiarCampos() {
     id.value = '';
     btnAccion.textContent = 'Registrar';

@@ -130,9 +130,6 @@ class Usuarios extends Controller
                     $res = array('msg' => 'EL CORREO DEBE SER UNICO', 'type' => 'warning');
                 }
                 }
-
-
-
             }
         } else {
             $res = array('msg' => 'Error desconocido', 'type' => 'error');
@@ -217,8 +214,5 @@ class Usuarios extends Controller
         echo json_encode($res, JSON_UNESCAPED_UNICODE);
         die();
     }
-
-
 }
-
 ?>

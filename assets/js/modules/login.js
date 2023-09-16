@@ -34,13 +34,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         res.msg,
                         res.type
                     )
-
                     if (res.type == 'success') {
                         setTimeout(() => {
                             let timerInterval
                             Swal.fire({
                                 title: res.msg,
-                                html: 'Rediccionando <b></b> milisegundos.',
+                                html: 'Rediccionando Usuario <b></b> milisegundos.',
                                 timer: 2000,
                                 timerProgressBar: true,
                                 didOpen: () => {
@@ -61,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             })
                         }, 2000);
                     }
-
                 }
             }
         }

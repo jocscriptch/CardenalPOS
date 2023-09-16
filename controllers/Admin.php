@@ -1,7 +1,4 @@
 <?php
-
-use function PHPSTORM_META\type;
-
 class Admin extends Controller
 {
     public function __construct()
@@ -21,7 +18,7 @@ class Admin extends Controller
     //datos de la empresa
     public function datos()
     {
-        $data['title'] = 'Datos de la Empresa';
+        $data['title'] = 'Datos del Negocio';
         $data['script'] = 'admin.js';
         $data['empresa'] = $this->model->getData();
         $this->views->getView('admin', 'index', $data);
@@ -30,7 +27,6 @@ class Admin extends Controller
     //modificar datos de la empresa
     public function modificar()
     {
-
         if (isset($_POST)) {
             //accediento a los campos nombres del formulario index.php
             $rut = strClean($_POST['rut']);
@@ -56,7 +52,6 @@ class Admin extends Controller
                 $res = array('msg' => 'LA DIRECCION ES REQUERIDA', 'type' => 'warning');
 
             } else {
-
                 $data = $this->model->actualizar(
                     $rut,
                     $nombre,
@@ -77,7 +72,6 @@ class Admin extends Controller
         } else {
             $res = array('msg' => 'ERROR DESCONOCIDO', 'type' => 'error');
         }
-
         echo json_encode($res, JSON_UNESCAPED_UNICODE);
         die();
     }
