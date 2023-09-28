@@ -35,15 +35,15 @@ function insertarRegistros(url, idForm, tbl, idBoton, accion) {
     }
 }
 
-function eliminarRegistros(url, tbl) {
+function eliminarRegistros(url, tbl, titulo, texto) {
     Swal.fire({
-        title: '¿Deseas eliminar el registro?',
-        text: "El registro cambiará su estado",
+        title: titulo,
+        text: texto,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Eliminar'
+        confirmButtonText: 'Si, Desactivar'
     }).then((result) => {
         if (result.isConfirmed) {
             const http = new XMLHttpRequest(); //creando instancia de XMLHTTPREQUEST

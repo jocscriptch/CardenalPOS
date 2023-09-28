@@ -75,7 +75,7 @@
                     <ul>
                         <li> <a href="<?php echo BASE_URL . 'medidas'; ?>"><i class="bx bx-right-arrow-alt"></i>Medidas</a>
                         </li>
-                        <li> <a href="app-chat-box.html"><i class="bx bx-right-arrow-alt"></i>Categorias</a>
+                        <li> <a href="<?php echo BASE_URL . 'categorias'; ?>"><i class="bx bx-right-arrow-alt"></i>Categorias</a>
                         </li>
                         <li> <a href="app-chat-box.html"><i class="bx bx-right-arrow-alt"></i>Productos</a>
                         </li>

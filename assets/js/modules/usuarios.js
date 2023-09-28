@@ -96,7 +96,9 @@ document.addEventListener('DOMContentLoaded', function () {
 //funcion eliminar usuario
 function eliminarUsuario(idUsuario) {
     const url = base_url + 'usuarios/eliminar/' + idUsuario;
-    eliminarRegistros(url,tblUsuarios);
+    const titulo = '¿Estás seguro que deseas desactivar este usuario?';
+    const texto = 'El usuario cambiara su estado a inactivo';
+    eliminarRegistros(url,tblUsuarios, titulo, texto);
 }
 
 //funcion editar usuario

@@ -8,7 +8,9 @@
 <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
 <!--End Back To Top Button-->
 <footer class="page-footer">
-    <p class="mb-0">Copyright © <?php echo date('Y')?>. All right reserved.</p>
+    <p class="mb-0">Copyright ©
+        <?php echo date('Y') ?>. All right reserved.
+    </p>
 </footer>
 </div>
 <!--end wrapper-->
@@ -125,17 +127,14 @@
 <script src="<?php echo BASE_URL; ?>assets/js/sweetalert2.all.min.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/ckeditor.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/functions.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <script>
-        const base_url = '<?php echo BASE_URL; ?>';
+    const base_url = '<?php echo BASE_URL; ?>';
 </script>
 
 <?php if (!empty($data['script'])) { ?>
     <script src="<?php echo BASE_URL . 'assets/js/modules/' . $data['script']; ?>"></script>
 <?php } ?>
-
-
-
-
 </body>
 </html>

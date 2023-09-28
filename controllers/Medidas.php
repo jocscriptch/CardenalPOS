@@ -18,8 +18,8 @@ class Medidas extends Controller
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['acciones'] =
                 '<div class="text-center">
-                    <button class="btn btn-danger" type="button" onClick="eliminarMedida(' . $data[$i]['id'] . ')"><i class="fas fa-trash"></i></button>
                     <button class="btn btn-info" type="button" onClick="editarMedida(' . $data[$i]['id'] . ')"><i class="fa-solid fa-pen text-white"></i></button>
+                    <button class="btn btn-danger" type="button" onClick="eliminarMedida(' . $data[$i]['id'] . ')"><i class="fas fa-trash"></i></button>
                 </div>';
         }
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
@@ -77,7 +77,7 @@ class Medidas extends Controller
                 if ($data == 1) {
                     $res = array('msg' => 'MEDIDA DESACTIVADA', 'type' => 'success');
                 } else {
-                    $res = array('msg' => 'ERROR AL ELIMINAR', 'type' => 'error');
+                    $res = array('msg' => 'ERROR AL DESACTIVAR', 'type' => 'error');
                 }
             } else {
                 $res = array('msg' => 'ERROR DESCONOCIDO', 'type' => 'error');
@@ -109,7 +109,7 @@ class Medidas extends Controller
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['acciones'] = '
                 <div class="text-center">
-                    <button class="btn btn-info" type="button" onClick="restaurarMedida(' . $data[$i]['id'] . ')"><i class="fa-solid fa-pen text-white"></i></button>
+                    <button class="btn btn-info" type="button" onClick="restaurarMedida(' . $data[$i]['id'] . ')"><i class="fas fa-check-circle text-white"></i></button>
                 </div>';
         }
         echo json_encode($data, JSON_UNESCAPED_UNICODE);

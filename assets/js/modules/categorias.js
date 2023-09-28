@@ -1,25 +1,27 @@
-let tblMedidas;
-const btnAccion = document.querySelector('#btnAccion');
-const btnNuevo = document.querySelector('#btnNuevo');
+let tblCategorias;
 const form = document.querySelector('#form');
-
 const id = document.querySelector('#id');
 const nombre = document.querySelector('#nombre');
-const abreviatura = document.querySelector('#abreviatura');
-
 const errorNombre = document.querySelector('#errorNombre');
-const errorAbreviatura = document.querySelector('#errorAbreviatura');
+const btnAccion = document.querySelector('#btnAccion');
+const btnNuevo = document.querySelector('#btnNuevo');
 
 document.addEventListener('DOMContentLoaded', function () {
-    tblMedidas = $('#tblMedidas').DataTable({
+    tblCategorias = $('#tblCategorias').DataTable({
         ajax: {
-            url: base_url + 'medidas/listar', //llamando al metodo del controlador medidas
+            url: base_url + 'categorias/listar', //llamando al metodo del controlador categorias
             dataSrc: ''
         },
         columns: [ //campos en la db
-            { data: 'medida' },
-            { data: 'abreviatura' },
-            { data: 'acciones' } //accion en el controlador medidas
+            { data: 'categoria' },
+            {
+                data: 'fecha',
+                render: function (data) {
+                   // Formatear la fecha y hora utilizando moment.js en formato de 12 horas
+                   return moment(data).format('DD-MM-YYYY h:mm:ss a');
+                }
+            },
+            { data: 'acciones' } //accion en el controlador categorias
         ],
         language: {
             url: base_url + 'assets/js/spanish.json'
@@ -29,42 +31,34 @@ document.addEventListener('DOMContentLoaded', function () {
         responsive: true,
         order: [[0, 'asc']]
     });
-
     btnNuevo.addEventListener('click', function()
     {
       id.value = '';
       btnAccion.textContent = 'Registrar';
       form.reset();
     })
-    //enviar datos
+    //registro de categorias
     form.addEventListener('submit', function (e) {
         e.preventDefault();
         errorNombre.textContent = '';
-        errorAbreviatura.textContent = '';
         if (nombre.value == '') {
             errorNombre.textContent = 'NOMBRE REQUERIDO';
-
-        } else if (abreviatura.value == '') {
-            errorAbreviatura.textContent = 'ABREVIATURA REQUERIDA';
         } else {
-            const url = base_url + 'medidas/registrar';
-            insertarRegistros(url, this, tblMedidas, btnAccion, false);
+            const url = base_url + 'categorias/registrar';
+            insertarRegistros(url, this, tblCategorias, btnAccion, false);
         }
     })
 })
 
-// dar de baja a las medidas
-function eliminarMedida(idMedida) {
-    const url = base_url + 'medidas/eliminar/' + idMedida;
-    const titulo = '¿Estás seguro que deseas desactivar esta medida?';
-    const texto = 'La medida cambiará su estado a inactiva';
-    eliminarRegistros(url, tblMedidas, titulo, texto);
+function eliminarCategoria(idCategoria) {
+    const url = base_url + 'categorias/eliminar/' + idCategoria;
+    const titulo = '¿Estás seguro que deseas desactivar esta categoría?';
+    const texto = 'La categoría cambiará su estado a inactiva';
+    eliminarRegistros(url, tblCategorias, titulo, texto);
 }
 
-//editar las medidas
-function editarMedida(idMedida) {
-
-    const url = base_url + 'medidas/editar/' + idMedida;
+function editarCategoria (idCategoria) {
+    const url = base_url + 'categorias/editar/' + idCategoria;
     const http = new XMLHttpRequest();
     http.open('GET', url, true);
     http.send();
@@ -74,8 +68,7 @@ function editarMedida(idMedida) {
             const res = JSON.parse(this.responseText);
             //recuperando datos para editar los usuarios
             id.value = res.id;
-            nombre.value = res.medida;
-            abreviatura.value = res.abreviatura;
+            nombre.value = res.categoria;
             btnAccion.textContent = 'Actualizar';
             firstTab.show()
         }

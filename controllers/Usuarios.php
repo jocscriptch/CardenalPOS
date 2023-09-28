@@ -27,9 +27,9 @@ class Usuarios extends Controller
             }
             $data[$i]['acciones'] =
                 '<div class="text-center">
-                      <button class="btn btn-danger" type="button" onClick="eliminarUsuario(' . $data[$i]['id'] . ')"><i class="fa-solid fa-trash"></i></button>
                       <button class="btn btn-info" type="button" onClick="editarUsuario(' . $data[$i]['id'] . ')"><i class="fa-solid fa-pen text-white"></i></button>
-                 </div>';
+                      <button class="btn btn-danger" type="button" onClick="eliminarUsuario(' . $data[$i]['id'] . ')"><i class="fa-solid fa-trash"></i></button>
+                </div>';
         }
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
@@ -145,9 +145,9 @@ class Usuarios extends Controller
             if (is_numeric($id)) {
                 $data = $this->model->eliminar(0, $id);
                 if ($data == 1) {
-                    $res = array('msg' => 'USUARIO DE BAJA', 'type' => 'success');
+                    $res = array('msg' => 'USUARIO DESACTIVADO', 'type' => 'success');
                 } else {
-                    $res = array('msg' => 'ERROR AL ELIMINAR', 'type' => 'error');
+                    $res = array('msg' => 'ERROR AL DESACTIVAR', 'type' => 'error');
                 }
             } else {
                 $res = array('msg' => 'ERROR DESCONOCIDO', 'type' => 'error');

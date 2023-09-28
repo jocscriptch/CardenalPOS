@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title text-center">Usuarios Inactivos</h5>
+        <h5 class="card-title text-center"><i class="fa-solid fa-users-slash me-2"></i>Lista De Usuarios Inactivos</h5>
         <hr>
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover nowrap" id="tblUsuarios" style="width: 100%;">

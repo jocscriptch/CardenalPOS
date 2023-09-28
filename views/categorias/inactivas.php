@@ -2,14 +2,15 @@
 
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title text-center"><i class="fa-solid fa-rectangle-xmark me-2"></i>Lista De Medidas Inactivas</h5>
+        <h5 class="card-title text-center"><i class="fa-solid fa-rectangle-xmark me-2"></i>Lista De Categorías Inactivas</h5>
         <hr>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover nowrap" id="tblMedidas" style="width: 100%;">
+            <table class="table table-bordered table-striped table-hover nowrap" id="tblCategorias"
+                style="width: 100%;">
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Abreviatura</th>
+                        <th>Fecha</th>
                         <th></th>
                     </tr>
                 </thead>
