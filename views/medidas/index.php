@@ -21,7 +21,7 @@
                 <button class="nav-link active" id="nav-medidas-tab" data-bs-toggle="tab" data-bs-target="#nav-medidas"
                     type="button" role="tab" aria-controls="nav-medidas" aria-selected="true">Medidas</button>
                 <button class="nav-link" id="nav-nuevo-tab" data-bs-toggle="tab" data-bs-target="#nav-nuevo"
-                    type="button" role="tab" aria-controls="nav-nuevo" aria-selected="false">Nueva</button>
+                    type="button" role="tab" aria-controls="nav-nuevo" aria-selected="false">Nueva Medida</button>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">

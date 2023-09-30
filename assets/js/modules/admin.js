@@ -19,20 +19,13 @@ document.addEventListener('DOMContentLoaded', function () {
         .create(document.querySelector('#mensaje'), {
             toolbar: {
                 items: [
-                    'exportPDF', 'exportWord', '|',
-                    'findAndReplace', 'selectAll', '|',
+                    'selectAll', '|',
                     'heading', '|',
-                    'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
-                    'bulletedList', 'numberedList', 'todoList', '|',
+                    'bold', 'italic',
                     'outdent', 'indent', '|',
                     'undo', 'redo',
-                    '-',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
                     'alignment', '|',
-                    'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
-                    'specialCharacters', 'horizontalLine', 'pageBreak', '|',
-                    'textPartLanguage', '|',
-                    'sourceEditing'
+                    'link', 'blockQuote', 'insertTable', 'mediaEmbed'
                 ],
                 shouldNotGroupWhenFull: true
             },

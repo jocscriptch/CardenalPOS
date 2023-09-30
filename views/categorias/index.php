@@ -23,7 +23,7 @@
                     data-bs-target="#nav-categorias" type="button" role="tab" aria-controls="nav-categorias"
                     aria-selected="true">Categorias</button>
                 <button class="nav-link" id="nav-nuevo-tab" data-bs-toggle="tab" data-bs-target="#nav-nuevo"
-                    type="button" role="tab" aria-controls="nav-nuevo" aria-selected="false">Nueva</button>
+                    type="button" role="tab" aria-controls="nav-nuevo" aria-selected="false">Nueva Categoría</button>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">

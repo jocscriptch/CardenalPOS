@@ -23,7 +23,7 @@
                     data-bs-target="#nav-usuarios" type="button" role="tab" aria-controls="nav-usuarios"
                     aria-selected="true">Usuarios</button>
                 <button class="nav-link" id="nav-nuevo-tab" data-bs-toggle="tab" data-bs-target="#nav-nuevo"
-                    type="button" role="tab" aria-controls="nav-nuevo" aria-selected="false">Nuevo</button>
+                    type="button" role="tab" aria-controls="nav-nuevo" aria-selected="false">Nuevo Usuario</button>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
