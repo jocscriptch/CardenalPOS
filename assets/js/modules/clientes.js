@@ -1,24 +1,21 @@
-let tblClientes, editorDireccion;
 const form = document.querySelector('#form');
-const btnAccion = document.querySelector('#btnAccion');
-const btnNuevo = document.querySelector('#btnNuevo');
-
 const identidad = document.querySelector('#identidad');
 const num_identidad = document.querySelector('#num_identidad');
 const nombre = document.querySelector('#nombre');
 const telefono = document.querySelector('#telefono');
-const correo = document.querySelector('#correo');
 const direccion = document.querySelector('#direccion');
 const id = document.querySelector('#id');
-
 const errorIdentidad = document.querySelector('#errorIdentidad');
 const errorNumIdentidad = document.querySelector('#errorNumIdentidad');
 const errorNombre = document.querySelector('#errorNombre');
 const errorTelefono = document.querySelector('#errorTelefono');
 const errorDireccion = document.querySelector('#errorDireccion');
+const btnNuevo = document.querySelector('#btnNuevo');
 
+let tblClientes, editorDireccion;
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Inicializar DataTable y CKEditor
     tblClientes = $('#tblClientes').DataTable({
         ajax: {
             url: base_url + 'clientes/listar', //llamando al metodo del controlador clientes
@@ -64,42 +61,105 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => {
             console.error(error);
         });
-    
-    //limpiar campos
-    btnNuevo.addEventListener('click', function () {
-        id.value = '';
-        btnAccion.textContent = 'Registrar';
-        editorDireccion.setData('');
-        form.reset();
-    })
-    //registrar clientes
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        errorIdentidad.textContent = '';
-        errorNumIdentidad.textContent = '';
-        errorNombre.textContent = '';
-        errorTelefono.textContent = '';
-        errorDireccion.textContent = '';
 
-        if (identidad.value == '') {
-            errorIdentidad.textContent = "IDENTIDAD REQURIDA";
-        } else if (num_identidad.value == '') {
-            errorNumIdentidad.textContent = "NUMERO DE IDENTIDAD REQURIDO";
-        }
-        else if (nombre.value == '') {
-            errorNombre.textContent = "NOMBRE REQURIDO";
-        } else if (telefono.value == '') {
-            errorTelefono.textContent = "TELEFONO REQURIDO";
-        } else if (direccion.value == '') {
-            errorDireccion.textContent = "LA DIRECCION ES REQURIDA";
-        } else {
-            const url = base_url + 'clientes/registrar';
-            insertarRegistros(url, this, tblClientes, btnAccion, false);
-            editorDireccion.setData('');
-        }
-    })
-})
 
+    btnNuevo.addEventListener('click', limpiarCampos);
+    num_identidad.addEventListener('keypress', handleEnterKeyPress);
+    form.addEventListener('submit', handleSubmit);
+});
+
+// Función para limpiar campos
+function limpiarCampos() {
+    id.value = '';
+    btnAccion.textContent = 'Registrar';
+    editorDireccion.setData('');
+    form.reset();
+}
+// Función para validar número de identidad
+function validarNumIdentidad(numIdentidad, tipoIdentidad) {
+    const numIdentidadRegex = /^[0-9]+$/;
+    const esNacional = tipoIdentidad === 'Nacional';
+
+    if (!numIdentidadRegex.test(numIdentidad)) {
+        return "El número de identidad debe contener solo dígitos numéricos.";
+    }
+
+    if ((esNacional && numIdentidad.length !== 9) || (!esNacional && numIdentidad.length !== 12)) {
+        return `La cédula ${esNacional ? 'nacional' : 'extranjera'} debe contener ${esNacional ? '9' : '12'} dígitos numéricos.`;
+    }
+
+    return null;
+}
+
+// lógica cuando se presiona enter para consultar la API
+function handleEnterKeyPress(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+
+        const numIdentidad = num_identidad.value;
+        const apiUrl = `https://apis.gometa.org/cedulas/${numIdentidad}`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.results && data.results.length > 0) {
+                    const nombreCompleto = data.results[0].fullname;
+                    nombre.value = nombreCompleto;
+                } else {
+                    nombre.value = "No se encontraron resultados para la identificación proporcionada";
+                }
+            })
+            .catch(error => {
+                console.error("Error al consultar la API:", error);
+                nombre.value = "Error al consultar la API.";
+            });
+    }
+}
+
+// Función para manejar la lógica cuando se envía el formulario
+function handleSubmit(event) {
+    event.preventDefault();
+    errorIdentidad.textContent = '';
+    errorNumIdentidad.textContent = '';
+    errorNombre.textContent = '';
+    errorTelefono.textContent = '';
+    errorDireccion.textContent = '';
+
+    const tipoIdentidadValue = identidad.value;
+    const numIdentidadValue = num_identidad.value.trim();
+    const numIdentidadError = validarNumIdentidad(numIdentidadValue, tipoIdentidadValue);
+
+    // Validar que se haya seleccionado una identidad
+    if (tipoIdentidadValue === '') {
+        errorIdentidad.textContent = "Debes seleccionar un tipo de identidad.";
+        return;
+    }
+
+    // Validar el número de identidad si hay un error
+    if (numIdentidadError) {
+        errorNumIdentidad.textContent = numIdentidadError;
+        return;
+    }
+
+    // Validar los demás campos
+    if (nombre.value.trim() === '') {
+        errorNombre.textContent = "NOMBRE REQUERIDO";
+        return;
+    } else if (telefono.value.trim() === '') {
+        errorTelefono.textContent = "TELÉFONO REQUERIDO";
+        return;
+    } else if (direccion.value.trim() === '') {
+        errorDireccion.textContent = "LA DIRECCIÓN ES REQUERIDA";
+        return;
+    }
+
+    // Si pasa todas las validaciones, continuar con el envío del formulario
+    const url = base_url + 'clientes/registrar';
+    insertarRegistros(url, form, tblClientes, btnAccion, false);
+    editorDireccion.setData('');
+}
+
+// funciones para eliminar y editar registros de clientes
 function eliminarCliente(idCliente) {
     const url = base_url + 'clientes/eliminar/' + idCliente;
     const titulo = '¿Estás seguro que deseas desactivar el cliente?';

@@ -71,8 +71,8 @@
                             <label for="num_identidad">N° Cédula <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fa-solid fa-hashtag"></i></span>
-                                <input class="form-control" type="number" name="num_identidad" id="num_identidad"
-                                    placeholder="N° Cédula">
+                                <input class="form-control" type="text" name="num_identidad" id="num_identidad" 
+                                placeholder="N° Cédula" inputmode="numeric">
                             </div>
                             <span id="errorNumIdentidad" class="text-danger"></span>
                         </div>

@@ -8,7 +8,7 @@
             <input type="hidden" id="id" name="id" value="<?php echo $data['empresa']['id']; ?>">
             <div class="row">
                 <div class="col-lg-4  col-sm-6 mb-2">
-                    <label>Rut <span class="text-danger">*</span></label>
+                    <label>Identificación de la empresa<span class="text-danger">*</span></label>
                     <div class="input-group ">
                         <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                         <input type="text" id="rut" name="rut" class="form-control" value="<?php echo $data['empresa']['id_empresa']; ?>" placeholder="Rut">
