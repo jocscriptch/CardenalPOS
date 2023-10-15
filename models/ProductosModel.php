@@ -53,5 +53,36 @@ class ProductosModel extends Query
         $array = array($estado, $idProducto);
         return $this->save($sql, $array);
     }
+
+    public function editar($idProducto)
+    {
+        $sql = "SELECT * FROM tbproductos WHERE id = $idProducto";
+        return $this->select($sql);
+    }
+
+    public function actualizar(
+        $codigo,
+        $descripcion,
+        $precio_compra,
+        $precio_venta,
+        $id_medida,
+        $id_categoria,
+        $foto,
+        $id
+    ) {
+        $sql = "UPDATE tbproductos SET codigo=?, descripcion=?, precio_compra=?,
+        precio_venta=?, id_medida=?,id_categoria=?, foto=? WHERE id = ?";
+        $array = array(
+            $codigo,
+            $descripcion,
+            $precio_compra,
+            $precio_venta,
+            $id_medida,
+            $id_categoria,
+            $foto,
+            $id
+        );
+        return $this->save($sql, $array);
+    }
 }
 ?>

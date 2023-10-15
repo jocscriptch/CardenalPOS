@@ -2,6 +2,7 @@ let tblProductos;
 const form = document.querySelector('#form');
 const btnAccion = document.querySelector('#btnAccion');
 
+const id = document.querySelector('#id');
 const codigo = document.querySelector('#codigo');
 const descripcion = document.querySelector('#descripcion');
 const precio_compra = document.querySelector('#precio_compra');
@@ -9,6 +10,7 @@ const precio_venta = document.querySelector('#precio_venta');
 const id_medida = document.querySelector('#id_medida');
 const id_categoria = document.querySelector('#id_categoria');
 const foto = document.querySelector('#foto');
+const foto_actual = document.querySelector('#foto_actual');
 const containerPreview = document.querySelector('#containerPreview');
 
 const errorCodigo = document.querySelector('#errorCodigo');
@@ -46,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //imagen vista previa
     foto.addEventListener('change', function (e) {
+        foto_actual.value = '';
         if (e.target.files[0].type == 'image/png' ||
             e.target.files[0].type == 'image/jpg' ||
             e.target.files[0].type == 'image/jpeg') {
@@ -56,7 +59,8 @@ document.addEventListener('DOMContentLoaded', function () {
             <img class="img-thumbnail img-fluid" src="${tmpUrl}" style="max-width: 200px; max-height: 200px;">
             <button class="btn btn-danger" type="button" onClick="borrarImg()"><i class="fas fa-trash"></i></button>`;
         } else {
-            alertaPersonalizada('Warning', 'SOLO SE PERMITEN IMAGENES PNG, JPG Y JPEG');
+            foto.value = '';
+            alertaPersonalizada('warning', 'SOLO SE PERMITEN IMAGENES PNG, JPG Y JPEG');
         }
     });
    
@@ -93,6 +97,7 @@ function borrarImg()
 {
     foto.value = '';
     containerPreview.innerHTML = '';
+    foto_actual.value = '';
 }
 
 function eliminarProducto(idProducto)
@@ -101,4 +106,32 @@ function eliminarProducto(idProducto)
     const titulo = '¿Estás seguro que deseas desactivar el producto?';
     const texto = 'El producto cambiará su estado a inactivo';
     eliminarRegistros(url, tblProductos, titulo, texto);
+}
+
+function editarProducto(idProducto)
+{
+    const url = base_url + 'productos/editar/' + idProducto;
+    const http = new XMLHttpRequest();
+    http.open('GET', url, true);
+    http.send();
+
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            //recuperando datos para editar los usuarios
+            id.value = res.id;
+            codigo.value = res.codigo;
+            descripcion.value = res.descripcion;
+            precio_compra.value = res.precio_compra;
+            precio_venta.value = res.precio_venta;
+            id_medida.value = res.id_medida;
+            id_categoria.value = res.id_categoria;
+            foto_actual.value = res.foto;
+            containerPreview.innerHTML = `
+            <img class="img-thumbnail img-fluid" src="${base_url + res.foto}" style="max-width: 200px; max-height: 200px;">
+            <button class="btn btn-danger" type="button" onClick="borrarImg()"><i class="fas fa-trash"></i></button>`;
+            btnAccion.textContent = 'Actualizar';
+            firstTab.show()
+        }
+    }
 }

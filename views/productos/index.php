@@ -41,6 +41,7 @@
             <div class="tab-pane fade p-3" id="nav-nuevo" role="tabpanel" aria-labelledby="nav-nuevo-tab">
                 <form id="form" autocomplete="off">
                     <input type="hidden" id="id" name="id">
+                    <input type="text" id="foto_actual" name="foto_actual">
                     <div class="row mb-3">
                         <div class="col-md-3 mb-3">
                             <label for="codigo">Código</label>
