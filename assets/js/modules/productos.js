@@ -1,6 +1,7 @@
 let tblProductos;
 const form = document.querySelector('#form');
 const btnAccion = document.querySelector('#btnAccion');
+const btnNuevo = document.querySelector('#btnNuevo');
 
 const id = document.querySelector('#id');
 const codigo = document.querySelector('#codigo');
@@ -63,7 +64,15 @@ document.addEventListener('DOMContentLoaded', function () {
             alertaPersonalizada('warning', 'SOLO SE PERMITEN IMAGENES PNG, JPG Y JPEG');
         }
     });
-   
+    
+    //limpiar los campos del formulario
+    btnNuevo.addEventListener('click', function () {
+        id.value = '';
+        btnAccion.textContent = 'Registrar';
+        form.reset();
+        borrarImg();
+    });
+
     //registro de productos
     form.addEventListener('submit', function (e) {
         e.preventDefault();

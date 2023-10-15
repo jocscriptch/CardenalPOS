@@ -66,58 +66,58 @@ class Productos extends Controller
                 $res = array('msg' => 'CATEGORIA REQUERIDA', 'type' => 'warning');
             } else {
                 if ($id == '') {
-                $verificar = $this->model->getValidar('codigo', $codigo, 'registrar', 0);
-                if (empty($verificar)) {
-                    $data = $this->model->registrar
-                    (
-                        $codigo,
-                        $descripcion,
-                        $precio_compra,
-                        $precio_venta,
-                        $id_medida,
-                        $id_categoria,
-                        $destino
-                    );
+                    $verificar = $this->model->getValidar('codigo', $codigo, 'registrar', 0);
+                    if (empty($verificar)) {
+                        $data = $this->model->registrar
+                        (
+                            $codigo,
+                            $descripcion,
+                            $precio_compra,
+                            $precio_venta,
+                            $id_medida,
+                            $id_categoria,
+                            $destino
+                        );
 
-                    if ($data > 0) {
-                        if (!empty($name)) {
-                            move_uploaded_file($tmp, $destino);
+                        if ($data > 0) {
+                            if (!empty($name)) {
+                                move_uploaded_file($tmp, $destino);
+                            }
+                            $res = array('msg' => 'PRODUCTO REGISTRADO', 'type' => 'success');
+                        } else {
+                            $res = array('msg' => 'ERROR AL REGISTRAR', 'type' => 'error');
                         }
-                        $res = array('msg' => 'PRODUCTO REGISTRADO', 'type' => 'success');
                     } else {
-                        $res = array('msg' => 'ERROR AL REGISTRAR', 'type' => 'error');
+                        $res = array('msg' => 'EL CODIGO YA EXISTE', 'type' => 'warning');
                     }
                 } else {
-                    $res = array('msg' => 'EL CODIGO YA EXISTE', 'type' => 'warning');
-                }
-                } else {
-                $verificar = $this->model->getValidar('codigo', $codigo, 'actualizar', $id);
-                if (empty($verificar)) {
-                    $data = $this->model->actualizar
-                    (
-                        $codigo,
-                        $descripcion,
-                        $precio_compra,
-                        $precio_venta,
-                        $id_medida,
-                        $id_categoria,
-                        $destino,
-                        $id
-                    );
+                    $verificar = $this->model->getValidar('codigo', $codigo, 'actualizar', $id);
+                    if (empty($verificar)) {
+                        $data = $this->model->actualizar
+                        (
+                            $codigo,
+                            $descripcion,
+                            $precio_compra,
+                            $precio_venta,
+                            $id_medida,
+                            $id_categoria,
+                            $destino,
+                            $id
+                        );
 
-                    if ($data > 0) {
-                        if (!empty($name)) {
-                            move_uploaded_file($tmp, $destino);
+                        if ($data > 0) {
+                            if (!empty($name)) {
+                                move_uploaded_file($tmp, $destino);
+                            }
+                            $res = array('msg' => 'PRODUCTO ACTUALIZADO', 'type' => 'success');
+                        } else {
+                            $res = array('msg' => 'ERROR AL ACTUALIZAR', 'type' => 'error');
                         }
-                        $res = array('msg' => 'PRODUCTO ACTUALIZADO', 'type' => 'success');
                     } else {
-                        $res = array('msg' => 'ERROR AL ACTUALIZAR', 'type' => 'error');
+                        $res = array('msg' => 'EL CODIGO YA EXISTE', 'type' => 'warning');
                     }
-                } else {
-                    $res = array('msg' => 'EL CODIGO YA EXISTE', 'type' => 'warning');
                 }
-                }
-          
+
             }
         } else {
             $res = array('msg' => 'ERROR DESCONOCIDO', 'type' => 'error');
@@ -149,5 +149,45 @@ class Productos extends Controller
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    public function inactivos()
+    {
+        $data['title'] = 'Productos Inactivos';
+        $data['script'] = 'productos_inactivos.js';
+        $this->views->getView('productos', 'inactivos', $data);
+    }
+
+    public function listarInactivos()
+    {
+        $data = $this->model->getProductos(0);
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['imagen'] = '<img class="img-thumbnail" src="' . $data[$i]['foto'] . '" width="100">';
+            $data[$i]['acciones'] =
+                '<div class="text-center">
+                    <button class="btn btn-info" type="button" onClick="restaurarProducto(' . $data[$i]['id'] . ')"><i class="fas fa-check-circle text-white"></i></button>
+            </div>';
+        }
+
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function restaurar($idProducto)
+    {
+        if (isset($_GET) && is_numeric($idProducto)) {
+            $data = $this->model->eliminar(1, $idProducto);
+            if ($data == 1) {
+                $res = array('msg' => 'PRODUCTO RESTAURADO', 'type' => 'success');
+            } else {
+                $res = array('msg' => 'ERROR AL RESTAURAR', 'type' => 'error');
+            }
+        } else {
+            $data = array('msg' => 'ERROR DESCONOCIDO', 'type' => 'error');
+        }
+        echo json_encode($res);
+        die();
+    }
+
 }
 ?>

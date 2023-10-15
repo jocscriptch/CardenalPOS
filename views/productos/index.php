@@ -2,6 +2,21 @@
 
 <div class="card">
     <div class="card-body">
+    <div class="d-flex align-items-center">
+            <div></div>
+            <div class="dropdown ms-auto">
+                <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
+                        class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="<?php echo BASE_URL . 'productos/inactivos'; ?>">
+                            <i class="fas fa-trash text-danger mx-2"></i>Inactivos
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-productos-tab" data-bs-toggle="tab"
@@ -41,7 +56,7 @@
             <div class="tab-pane fade p-3" id="nav-nuevo" role="tabpanel" aria-labelledby="nav-nuevo-tab">
                 <form id="form" autocomplete="off">
                     <input type="hidden" id="id" name="id">
-                    <input type="text" id="foto_actual" name="foto_actual">
+                    <input type="hidden" id="foto_actual" name="foto_actual">
                     <div class="row mb-3">
                         <div class="col-md-3 mb-3">
                             <label for="codigo">Código</label>
@@ -127,7 +142,7 @@
 
                     </div>
                     <div class="text-end">
-                        <button class="btn btn-danger" type="button" id="btnNuevo">Nueva</button>
+                        <button class="btn btn-danger" type="button" id="btnNuevo">Nuevo</button>
                         <button class="btn btn-primary" type="submit" id="btnAccion">Registrar</button>
                     </div>
                 </form>
