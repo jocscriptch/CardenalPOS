@@ -102,3 +102,15 @@ function restaurarRegistros(url, tbl) {
         }
     })
 }
+
+function alertaPersonalizada(type, msg)
+{
+    Swal.fire({
+        toast: true,
+        position: 'top',
+        icon: type,
+        title: msg,
+        showConfirmButton: false,
+        timer: 2000
+    })
+}

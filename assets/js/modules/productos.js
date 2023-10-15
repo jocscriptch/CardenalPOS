@@ -1,0 +1,104 @@
+let tblProductos;
+const form = document.querySelector('#form');
+const btnAccion = document.querySelector('#btnAccion');
+
+const codigo = document.querySelector('#codigo');
+const descripcion = document.querySelector('#descripcion');
+const precio_compra = document.querySelector('#precio_compra');
+const precio_venta = document.querySelector('#precio_venta');
+const id_medida = document.querySelector('#id_medida');
+const id_categoria = document.querySelector('#id_categoria');
+const foto = document.querySelector('#foto');
+const containerPreview = document.querySelector('#containerPreview');
+
+const errorCodigo = document.querySelector('#errorCodigo');
+const errorDescripcion = document.querySelector('#errorDescripcion');
+const errorCompra = document.querySelector('#errorCompra');
+const errorVenta = document.querySelector('#errorVenta');
+const errorMedida = document.querySelector('#errorMedida');
+const errorCategoria = document.querySelector('#errorCategoria');
+
+document.addEventListener('DOMContentLoaded', function () {
+    tblProductos = $('#tblProductos').DataTable({
+        ajax: {
+            url: base_url + 'productos/listar', //llamando al metodo del controlador productos
+            dataSrc: ''
+        },
+        columns: [ //campos en la db
+            { data: 'codigo' },
+            { data: 'descripcion' },
+            { data: 'precio_compra' },
+            { data: 'precio_venta' },
+            { data: 'cantidad' },
+            { data: 'medida' },
+            { data: 'categoria' },
+            { data: 'imagen' },
+            { data: 'acciones' } //accion en el controlador categorias
+        ],
+        language: {
+            url: base_url + 'assets/js/spanish.json'
+        },
+        dom,
+        buttons,
+        responsive: true,
+        order: [[0, 'asc']]
+    });
+
+    //imagen vista previa
+    foto.addEventListener('change', function (e) {
+        if (e.target.files[0].type == 'image/png' ||
+            e.target.files[0].type == 'image/jpg' ||
+            e.target.files[0].type == 'image/jpeg') {
+
+            const url = e.target.files[0];
+            const tmpUrl = URL.createObjectURL(url);
+            containerPreview.innerHTML = `
+            <img class="img-thumbnail img-fluid" src="${tmpUrl}" style="max-width: 200px; max-height: 200px;">
+            <button class="btn btn-danger" type="button" onClick="borrarImg()"><i class="fas fa-trash"></i></button>`;
+        } else {
+            alertaPersonalizada('Warning', 'SOLO SE PERMITEN IMAGENES PNG, JPG Y JPEG');
+        }
+    });
+   
+    //registro de productos
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        errorCodigo.textContent = '';
+        errorDescripcion.textContent = '';
+        errorCompra.textContent = '';
+        errorVenta.textContent = '';
+        errorMedida.textContent = '';
+        errorCategoria.textContent = '';
+
+        if (codigo.value == '') {
+            errorCodigo.textContent = 'CODIGO REQUERIDO';
+        } else if (descripcion.value == '') {
+            errorDescripcion.textContent = 'DESCRIPCION REQUERIDA';
+        } else if (precio_compra.value == '') {
+            errorCompra.textContent = 'PRECIO DE COMPRA REQUERIDO';
+        } else if (precio_venta.value == '') {
+            errorVenta.textContent = 'PRECIO DE VENTA REQUERIDO';
+        } else if (id_medida.value == '') {
+            errorMedida.textContent = 'SELECCIONA LA MEDIDA';
+        } else if (id_categoria.value == '') {
+            errorCategoria.textContent = 'SELECCIONA LA CATEGORIA';
+        } else {
+            const url = base_url + 'productos/registrar';
+            insertarRegistros(url, this, tblProductos, btnAccion, false);
+        }
+    });
+})
+
+function borrarImg()
+{
+    foto.value = '';
+    containerPreview.innerHTML = '';
+}
+
+function eliminarProducto(idProducto)
+{
+    const url = base_url + 'productos/eliminar/' + idProducto;
+    const titulo = '¿Estás seguro que deseas desactivar el producto?';
+    const texto = 'El producto cambiará su estado a inactivo';
+    eliminarRegistros(url, tblProductos, titulo, texto);
+}
