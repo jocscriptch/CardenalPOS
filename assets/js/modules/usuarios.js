@@ -49,21 +49,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //Limpiar campos
     btnNuevo.addEventListener('click', function () {
+        id.value = '';
+        btnAccion.textContent = 'Registrar';
+        clave.removeAttribute('readonly');
+        form.reset();
+        nombres.focus();
         limpiarCampos();
     })
 
     //registrar usuarios
     form.addEventListener('submit', function (e) {
         e.preventDefault();
-
-        errorNombres.textContent = '';
-        errorApellidos.textContent = '';
-        errorEmail.textContent = '';
-        errorTelefono.textContent = '';
-        errorDireccion.textContent = '';
-        errorClave.textContent = '';
-        errorRol.textContent = '';
-
+        limpiarCampos();
         if (nombres.value == '') {
             errorNombres.textContent = 'DEBES INGRESAR EL NOMBRE';
 
@@ -98,24 +95,22 @@ function eliminarUsuario(idUsuario) {
     const url = base_url + 'usuarios/eliminar/' + idUsuario;
     const titulo = '¿Estás seguro que deseas desactivar este usuario?';
     const texto = 'El usuario cambiara su estado a inactivo';
-    eliminarRegistros(url,tblUsuarios, titulo, texto);
+    eliminarRegistros(url, tblUsuarios, titulo, texto);
 }
 
 //funcion editar usuario
 function editarUsuario(idUsuario) {
+    limpiarCampos();
     const url = base_url + 'usuarios/editar/' + idUsuario;
     const http = new XMLHttpRequest();
     http.open('GET', url, true);
     http.send();
-
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const res = JSON.parse(this.responseText);
-
             //recuperando datos para editar los usuarios
             id.value = res.id;
             nombres.value = res.nombre;
-
             apellidos.value = res.apellido;
             email.value = res.correo;
             telefono.value = res.telefono;
@@ -124,17 +119,19 @@ function editarUsuario(idUsuario) {
             clave.value = '0000';
             clave.setAttribute('readonly', 'readonly');
             btnAccion.textContent = 'Actualizar';
-
             var firstTabEl = document.querySelector('#nav-tab button:last-child')
             var firstTab = new bootstrap.Tab(firstTabEl)
             firstTab.show()
         }
     }
 }
-function limpiarCampos() {
-    id.value = '';
-    btnAccion.textContent = 'Registrar';
-    clave.removeAttribute('readonly');
-    form.reset();
-    nombres.focus();
+function limpiarCampos()
+{
+    errorNombres.textContent = '';
+    errorApellidos.textContent = '';
+    errorEmail.textContent = '';
+    errorTelefono.textContent = '';
+    errorDireccion.textContent = '';
+    errorClave.textContent = '';
+    errorRol.textContent = '';
 }

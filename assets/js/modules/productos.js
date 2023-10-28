@@ -71,18 +71,13 @@ document.addEventListener('DOMContentLoaded', function () {
         btnAccion.textContent = 'Registrar';
         form.reset();
         borrarImg();
+        limpiarCampos();
     });
 
     //registro de productos
     form.addEventListener('submit', function (e) {
         e.preventDefault();
-        errorCodigo.textContent = '';
-        errorDescripcion.textContent = '';
-        errorCompra.textContent = '';
-        errorVenta.textContent = '';
-        errorMedida.textContent = '';
-        errorCategoria.textContent = '';
-
+        limpiarCampos();
         if (codigo.value == '') {
             errorCodigo.textContent = 'CODIGO REQUERIDO';
         } else if (descripcion.value == '') {
@@ -119,6 +114,7 @@ function eliminarProducto(idProducto)
 
 function editarProducto(idProducto)
 {
+    limpiarCampos();
     const url = base_url + 'productos/editar/' + idProducto;
     const http = new XMLHttpRequest();
     http.open('GET', url, true);
@@ -143,4 +139,13 @@ function editarProducto(idProducto)
             firstTab.show()
         }
     }
+}
+function limpiarCampos()
+{
+    errorCodigo.textContent = '';
+    errorDescripcion.textContent = '';
+    errorCompra.textContent = '';
+    errorVenta.textContent = '';
+    errorMedida.textContent = '';
+    errorCategoria.textContent = '';
 }

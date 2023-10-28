@@ -33,6 +33,8 @@ document.addEventListener('DOMContentLoaded', function () {
     btnNuevo.addEventListener('click', function()
     {
       id.value = '';
+      errorNombre.textContent = '';
+      errorAbreviatura.textContent = '';
       btnAccion.textContent = 'Registrar';
       form.reset();
     })
@@ -63,12 +65,12 @@ function eliminarMedida(idMedida) {
 
 //editar las medidas
 function editarMedida(idMedida) {
-
+    errorNombre.textContent = '';
+    errorAbreviatura.textContent = '';
     const url = base_url + 'medidas/editar/' + idMedida;
     const http = new XMLHttpRequest();
     http.open('GET', url, true);
     http.send();
-
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const res = JSON.parse(this.responseText);
