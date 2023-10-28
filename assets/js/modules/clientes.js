@@ -9,6 +9,7 @@ const errorIdentidad = document.querySelector('#errorIdentidad');
 const errorNumIdentidad = document.querySelector('#errorNumIdentidad');
 const errorNombre = document.querySelector('#errorNombre');
 const errorTelefono = document.querySelector('#errorTelefono');
+const errorCorreo = document.querySelector('#errorCorreo');
 const errorDireccion = document.querySelector('#errorDireccion');
 const btnNuevo = document.querySelector('#btnNuevo');
 
@@ -62,19 +63,18 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error(error);
         });
 
-
-    btnNuevo.addEventListener('click', limpiarCampos);
+    btnNuevo.addEventListener('click', function () {
+        id.value = '';
+        btnAccion.textContent = 'Registrar';
+        editorDireccion.setData('');
+        form.reset();
+        limpiarCampos();
+    });
     num_identidad.addEventListener('keypress', handleEnterKeyPress);
     form.addEventListener('submit', handleSubmit);
 });
 
-// Función para limpiar campos
-function limpiarCampos() {
-    id.value = '';
-    btnAccion.textContent = 'Registrar';
-    editorDireccion.setData('');
-    form.reset();
-}
+
 // Función para validar número de identidad
 function validarNumIdentidad(numIdentidad, tipoIdentidad) {
     const numIdentidadRegex = /^[0-9]+$/;
@@ -95,10 +95,8 @@ function validarNumIdentidad(numIdentidad, tipoIdentidad) {
 function handleEnterKeyPress(event) {
     if (event.key === 'Enter') {
         event.preventDefault();
-
         const numIdentidad = num_identidad.value;
         const apiUrl = `https://apis.gometa.org/cedulas/${numIdentidad}`;
-
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
@@ -119,12 +117,7 @@ function handleEnterKeyPress(event) {
 // Función para manejar la lógica cuando se envía el formulario
 function handleSubmit(event) {
     event.preventDefault();
-    errorIdentidad.textContent = '';
-    errorNumIdentidad.textContent = '';
-    errorNombre.textContent = '';
-    errorTelefono.textContent = '';
-    errorDireccion.textContent = '';
-
+    limpiarCampos();
     const tipoIdentidadValue = identidad.value;
     const numIdentidadValue = num_identidad.value.trim();
     const numIdentidadError = validarNumIdentidad(numIdentidadValue, tipoIdentidadValue);
@@ -168,11 +161,11 @@ function eliminarCliente(idCliente) {
 }
 
 function editarCliente(idCliente) {
+    limpiarCampos();
     const url = base_url + 'clientes/editar/' + idCliente;
     const http = new XMLHttpRequest();
     http.open('GET', url, true);
     http.send();
-
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const res = JSON.parse(this.responseText);
@@ -188,4 +181,14 @@ function editarCliente(idCliente) {
             firstTab.show()
         }
     }
+}
+
+// Función para limpiar campos
+function limpiarCampos() {
+    errorIdentidad.textContent = '';
+    errorNumIdentidad.textContent = '';
+    errorNombre.textContent = '';
+    errorTelefono.textContent = '';
+    errorCorreo.textContent = '';
+    errorDireccion.textContent = '';
 }

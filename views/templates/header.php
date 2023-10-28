@@ -60,9 +60,11 @@
                         <div class="menu-title">Administración</div>
                     </a>
                     <ul>
-                        <li> <a href="<?php echo BASE_URL . 'usuarios'; ?>"><i class="bx bx-right-arrow-alt"></i>Usuarios</a>
+                        <li> <a href="<?php echo BASE_URL . 'usuarios'; ?>"><i
+                                    class="bx bx-right-arrow-alt"></i>Usuarios</a>
                         </li>
-                        <li> <a href="<?php echo BASE_URL . 'admin/datos'; ?>"><i class="bx bx-right-arrow-alt"></i>Configuración</a>
+                        <li> <a href="<?php echo BASE_URL . 'admin/datos'; ?>"><i
+                                    class="bx bx-right-arrow-alt"></i>Configuración</a>
                         </li>
                     </ul>
                 </li>
@@ -73,11 +75,14 @@
                         <div class="menu-title">Mantenimiento</div>
                     </a>
                     <ul>
-                        <li> <a href="<?php echo BASE_URL . 'medidas'; ?>"><i class="bx bx-right-arrow-alt"></i>Medidas</a>
+                        <li> <a href="<?php echo BASE_URL . 'medidas'; ?>"><i
+                                    class="bx bx-right-arrow-alt"></i>Medidas</a>
                         </li>
-                        <li> <a href="<?php echo BASE_URL . 'categorias'; ?>"><i class="bx bx-right-arrow-alt"></i>Categorias</a>
+                        <li> <a href="<?php echo BASE_URL . 'categorias'; ?>"><i
+                                    class="bx bx-right-arrow-alt"></i>Categorias</a>
                         </li>
-                        <li> <a href="<?php echo BASE_URL . 'productos'; ?>"><i class="bx bx-right-arrow-alt"></i>Productos</a>
+                        <li> <a href="<?php echo BASE_URL . 'productos'; ?>"><i
+                                    class="bx bx-right-arrow-alt"></i>Productos</a>
                         </li>
                     </ul>
                 </li>
@@ -89,17 +94,32 @@
                     </a>
                 </li>
                 <li>
-                    <a href="widgets.html">
+                    <a href="<?php echo BASE_URL . 'proveedor'; ?>">
                         <div class="parent-icon"><i class='fa-solid fa-cart-flatbed-suitcase'></i>
                         </div>
                         <div class="menu-title">Proveedores</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="widgets.html">
+                        <div class="parent-icon"><i class="fa-solid fa-cart-shopping"></i>
+                        </div>
+                        <div class="menu-title">Compras</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="widgets.html">
+                        <div class="parent-icon"><i class="fa-solid fa-sack-dollar"></i>
+                        </div>
+                        <div class="menu-title">Ventas</div>
                     </a>
                 </li>
                 <li>
                     <a href="widgets.html">
                         <div class="parent-icon"><i class='fa-solid fa-cash-register'></i>
                         </div>
-                        <div class="menu-title">Ventas</div>
+                        <div class="menu-title">Cajas</div>
                     </a>
                 </li>
                 <li>

@@ -1,0 +1,168 @@
+<?php
+class Proveedor extends Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        session_start();
+    }
+
+    public function index()
+    {
+        $data['title'] = 'Proveedores';
+        $data['script'] = 'proveedor.js';
+        $this->views->getView('proveedor', 'index', $data);
+    }
+
+    public function listar()
+    {
+        $data = $this->model->getProveedores(1);
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['acciones'] =
+                '<div class="text-center">
+                <button class="btn btn-info" type="button" onclick="editarProveedor(' . $data[$i]['id'] . ')"><i class="fa-solid fa-pen text-white"></i></button>
+                <button class="btn btn-danger" type="button" onClick="eliminarProveedor(' . $data[$i]['id'] . ')"><i class="fas fa-trash"></i></button>
+            </div>';
+        }
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function registrar()
+    {
+        if (isset($_POST['nombre'])) {
+            $id = strClean($_POST['id']);
+            $nombre = strClean($_POST['nombre']);
+            $telefono = strClean($_POST['telefono']);
+            $correo = strClean($_POST['correo']);
+            $direccion = strClean($_POST['direccion']);
+
+            if (empty($nombre)) {
+                $res = array('msg' => 'NOMBRE REQUERIDO', 'type' => 'warning');
+            } else if (empty($telefono)) {
+                $res = array('msg' => 'TELEFONO REQUERIDO', 'type' => 'warning');
+            } else if (empty($correo)) {
+                $res = array('msg' => 'CORREO REQUERIDO', 'type' => 'warning');
+            } else if (empty($direccion)) {
+                $res = array('msg' => 'DIRECCION REQUERIDA', 'type' => 'warning');
+            } else {
+                if ($id == '') {
+                    $verificarTelefono = $this->model->getValidar('telefono', $telefono, 'registrar', 0);
+                    if (empty($verificarTelefono)) {
+                        $verificarCorreo = $this->model->getValidar('correo', $correo, 'registrar', 0);
+                        if (empty($verificarCorreo)) {
+                            $data = $this->model->registrar(
+                                $nombre,
+                                $telefono,
+                                $correo,
+                                $direccion
+                            );
+                            if ($data > 0) {
+                                $res = array('msg' => 'PROVEEDOR REGISTRADO', 'type' => 'success');
+                            } else {
+                                $res = array('msg' => 'ERROR AL REGISTRAR', 'type' => 'error');
+                            }
+                        } else {
+                            $res = array('msg' => 'CORREO DEBE SER UNICO', 'type' => 'warning');
+                        }
+                    } else {
+                        $res = array('msg' => 'TELEFONO DEBE SER UNICO', 'type' => 'warning');
+                    }
+                } else {
+                    $verificarTelefono = $this->model->getValidar('telefono', $telefono, 'actualizar', $id);
+                    if (empty($verificarTelefono)) {
+                        $verificarCorreo = $this->model->getValidar('correo', $correo, 'actualizar', $id);
+                        if (empty($verificarCorreo)) {
+                            $data = $this->model->actualizar(
+                                $nombre,
+                                $telefono,
+                                $correo,
+                                $direccion,
+                                $id
+                            );
+                            if ($data > 0) {
+                                $res = array('msg' => 'PROVEEDOR ACTUALIZADO', 'type' => 'success');
+                            } else {
+                                $res = array('msg' => 'ERROR AL ACTUALIZAR', 'type' => 'error');
+                            }
+                        } else {
+                            $res = array('msg' => 'CORREO DEBE SER UNICO', 'type' => 'warning');
+                        }
+                    } else {
+                        $res = array('msg' => 'TELEFONO DEBE SER UNICO', 'type' => 'warning');
+                    }
+                }
+
+
+            }
+        } else {
+            $res = array('msg' => 'ERROR DESCONOCIDO', 'type' => 'error');
+        }
+        echo json_encode($res);
+        die();
+    }
+
+    public function eliminar($idProveedor)
+    {
+        if (isset($_GET) && is_numeric($idProveedor)) {
+            $data = $this->model->eliminar(0, $idProveedor);
+
+            if ($data == 1) {
+                $res = array('msg' => 'PROVEEDOR DADO DE BAJA', 'type' => 'success');
+            } else {
+                $res = array('msg' => 'ERROR AL DAR DE BAJA', 'type' => 'error');
+            }
+        } else {
+            $res = array('msg' => 'ERROR DESCONOCIDO', 'type' => 'error');
+        }
+        echo json_encode($res);
+        die();
+    }
+
+    public function editar($idProveedor)
+    {
+        $data = $this->model->editar($idProveedor);
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function inactivos()
+    {
+        $data['title'] = 'Proveedores Inactivos';
+        $data['script'] = 'proveedor_inactivos.js';
+        $this->views->getView('proveedor', 'inactivos', $data);
+    }
+
+    public function listarInactivos()
+    {
+        $data = $this->model->getProveedores(0);
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['acciones'] =
+                '<div class="text-center">
+                    <button class="btn btn-info" type="button" onClick="restaurarProveedor(' . $data[$i]['id'] . ')"><i class="fas fa-check-circle text-white"></i></button>
+                 </div>';
+        }
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function restaurar($idProveedor)
+    {
+        if (isset($_GET) && is_numeric($idProveedor)) {
+            $data = $this->model->eliminar(1, $idProveedor);
+
+            if ($data == 1) {
+                $res = array('msg' => 'PROVEEDOR RESTAURADO', 'type' => 'success');
+            } else {
+                $res = array('msg' => 'ERROR AL RESTAURAR', 'type' => 'error');
+            }
+        } else {
+            $res = array('msg' => 'ERROR DESCONOCIDO', 'type' => 'error');
+        }
+        echo json_encode($res);
+        die();
+    }
+
+}
+
+
+?>

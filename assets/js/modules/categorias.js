@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
     btnNuevo.addEventListener('click', function()
     {
       id.value = '';
+      errorNombre.textContent = '';
       btnAccion.textContent = 'Registrar';
       form.reset();
     })
@@ -58,11 +59,11 @@ function eliminarCategoria(idCategoria) {
 }
 
 function editarCategoria (idCategoria) {
+    errorNombre.textContent = '';
     const url = base_url + 'categorias/editar/' + idCategoria;
     const http = new XMLHttpRequest();
     http.open('GET', url, true);
     http.send();
-
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const res = JSON.parse(this.responseText);
