@@ -49,5 +49,12 @@ class ProveedorModel extends Query
         $data = array($nombre, $telefono, $correo, $direccion, $id);
         return $this->save($sql, $data);
     }
+
+    public function buscarPorNombre($valor)
+    {
+        $sql = "SELECT id, nombre, telefono, direccion FROM tbproveedor
+        WHERE nombre LIKE '%".$valor."%' AND estado = 1 LIMIT 10";
+        return $this->selectAll($sql);
+    }
 }
 ?>

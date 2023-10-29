@@ -25,6 +25,7 @@ class Home extends Controller
                 if (empty($data) || !password_verify($password, $data['clave'])) {
                     $res = array('msg' => 'Correo y Contraseña inválidos', 'type' => 'warning');
                 } else {
+                    $_SESSION['id_usuario'] = $data['id'];
                     $_SESSION['nombre_usuario'] = $data['nombre'];
                     $_SESSION['correo'] = $data['correo'];
                     $res = array('msg' => '¡Inicio Sesión Exitoso!', 'type' => 'success');
