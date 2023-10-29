@@ -84,5 +84,19 @@ class ProductosModel extends Query
         );
         return $this->save($sql, $array);
     }
+
+    public function buscarPorCodigo($valor)
+    {
+        $sql = "SELECT * FROM tbproductos WHERE codigo = '$valor'";
+        return $this->select($sql);
+    }
+
+    public function buscarPorNombre($valor)
+    {
+        $sql = "SELECT id, descripcion FROM tbproductos WHERE descripcion
+        LIKE '%".$valor."%' AND estado = 1 LIMIT 10";
+        return $this->selectAll($sql);
+    }
+
 }
 ?>

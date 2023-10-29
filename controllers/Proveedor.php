@@ -162,6 +162,23 @@ class Proveedor extends Controller
         die();
     }
 
+    // buscar proveedor para la compra
+    public function buscar()
+    {
+        $array = array();
+        $valor = $_GET['term'];
+        $data = $this->model->buscarPorNombre($valor);
+        foreach ($data as $row) {
+            $result['id'] = $row['id'];
+            $result['label'] = $row['nombre'];
+            $result['telefono'] = $row['telefono'];
+            $result['direccion'] = $row['direccion'];
+            array_push($array, $result);
+        }
+        echo json_encode($array, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
 }
 
 

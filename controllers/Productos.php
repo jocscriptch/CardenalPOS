@@ -4,6 +4,7 @@ class Productos extends Controller
     public function __construct()
     {
         parent::__construct();
+        session_start();
     }
     public function index()
     {
@@ -189,5 +190,52 @@ class Productos extends Controller
         die();
     }
 
+    //buscar producto por codigo
+    public function buscarPorCodigo($valor)
+    {
+        $data = $this->model->buscarPorCodigo($valor);
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function buscarPorNombre()
+    {
+        $array = array();
+        $valor = $_GET['term'];
+        $data = $this->model->buscarPorNombre($valor);
+        foreach ($data as $row) {
+            $result['id'] = $row['id'];
+            $result['label'] = $row['descripcion'];
+            array_push($array, $result);
+        }
+        echo json_encode($array, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    //mostrar productos desde localstorage
+
+    public function mostrarDatos()
+    {
+        $json = file_get_contents('php://input');
+        $datos = json_decode($json, true);
+        $array['productos'] = array();
+        $total = 0;
+        if (!empty($datos)) {
+            foreach ($datos as $producto) {
+                $result = $this->model->editar($producto['id']);
+                $data['id'] = $result['id'];
+                $data['nombre'] = $result['descripcion'];
+                $data['precio_compra'] = $result['precio_compra'];
+                $data['cantidad'] = $producto['cantidad'];
+                $subTotal = $result['precio_compra'] * $producto['cantidad'];
+                $data['subTotal'] = number_format($subTotal, 2);
+                array_push($array['productos'], $data);
+                $total += $subTotal;
+            }
+        }
+        $array['total'] = number_format($total, 2);
+        echo json_encode($array, JSON_UNESCAPED_UNICODE);
+        die();
+    }
 }
 ?>

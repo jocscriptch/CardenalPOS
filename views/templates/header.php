@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/semi-dark.css" />
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/header-colors.css" />
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/DataTables/datatables.min.css" />
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/jquery-ui.min.css">
     <title>
         <?php echo TITLE . ' - ' . $data['title']; ?>
     </title>
@@ -47,7 +48,7 @@
             <!--navigation-->
             <ul class="metismenu" id="menu">
                 <li>
-                    <a href="javascript:;">
+                    <a href="<?php echo BASE_URL . 'admin'; ?>">
                         <div class="parent-icon"><i class='fa-solid fa-house-user'></i>
                         </div>
                         <div class="menu-title">Principal</div>
@@ -101,8 +102,7 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="widgets.html">
+                <li> <a href="<?php echo BASE_URL . 'compras'; ?>">
                         <div class="parent-icon"><i class="fa-solid fa-cart-shopping"></i>
                         </div>
                         <div class="menu-title">Compras</div>
@@ -173,8 +173,12 @@
                             <img src="<?php echo BASE_URL; ?>assets/images/avatars/avatar-1.png" class="user-img"
                                 alt="user avatar">
                             <div class="user-info ps-3">
-                                <p class="user-name mb-0">Jimmy Huff</p>
-                                <p class="designattion mb-0">Software Engineer</p>
+                                <p class="user-name mb-0">
+                                    <?php echo $_SESSION['nombre_usuario']; ?>
+                                </p>
+                                <p class="designattion mb-0">
+                                    <?php echo $_SESSION['correo']; ?>
+                                </p>
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
