@@ -198,6 +198,7 @@ class Productos extends Controller
         die();
     }
 
+    //buscar productos por nombre
     public function buscarPorNombre()
     {
         $array = array();
@@ -213,7 +214,6 @@ class Productos extends Controller
     }
 
     //mostrar productos desde localstorage
-
     public function mostrarDatos()
     {
         $json = file_get_contents('php://input');

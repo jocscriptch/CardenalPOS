@@ -25,18 +25,15 @@ class Compras extends Controller
         $datos = json_decode($json, true);
         $array['productos'] = array();
         $subtotal = 0;
+    
         if (!empty($datos['productos'])) {
-            // $indice = $datos['serie'];
-            // $numSerie = $this->generate_numbers($indice, 1, 10);
+            $serie = str_pad(rand(1, 9999999999), 10, '0', STR_PAD_LEFT);
             $fecha = date('Y-m-d');
             $hora = date('H:i:s');
-            // $serie = $numSerie[0];
-            $serie = $datos['serie'];
+            
             $idProveedor = $datos['idProveedor'];
             if (empty($idProveedor)) {
                 $res = array('msg' => 'PROVEEDOR REQUERIDO', 'type' => 'warning');
-            } else if (empty($serie)) {
-                $res = array('msg' => 'SERIE REQUERIDA', 'type' => 'warning');
             } else {
                 foreach ($datos['productos'] as $producto) {
                     $result = $this->model->getProducto($producto['id']);
@@ -46,18 +43,14 @@ class Compras extends Controller
                     $data['cantidad'] = $producto['cantidad'];
                     $subTotalProducto = $result['precio_compra'] * $producto['cantidad'];
                     $subtotal += $subTotalProducto;
+                    $iva = $subtotal * 0.13;
+                    $granTotal = $subtotal + $iva;
                     array_push($array['productos'], $data);
 
                     // Actualizar stock
                     $nuevaCantidad = $result['cantidad'] + $producto['cantidad'];
                     $this->model->actualizarStock($nuevaCantidad, $result['id']);
                 }
-                // Calcula el IVA 13%
-                $iva = $subtotal * 0.13;
-
-                // Calcula el gran total sumando el subtotal y el IVA
-                $granTotal = $subtotal + $iva;
-
                 $datosProductos = json_encode($array['productos']);
                 $compra = $this->model->registrarCompra(
                     $datosProductos,
@@ -72,8 +65,11 @@ class Compras extends Controller
                 );
 
                 if ($compra > 0) {
-
-                    $res = array('msg' => 'COMPRA REGISTRADA', 'type' => 'success', 'idCompra' => $compra);
+                    $res = array(
+                        'msg' => 'COMPRA REGISTRADA',
+                        'type' => 'success',
+                        'idCompra' => $compra
+                    );
                 } else {
                     $res = array('msg' => 'ERROR AL CREAR COMPRA', 'type' => 'error');
                 }
@@ -84,6 +80,7 @@ class Compras extends Controller
         echo json_encode($res);
         die();
     }
+
 
     public function reporte($datos)
     {
@@ -164,23 +161,5 @@ class Compras extends Controller
         echo json_encode($res);
         die();
     }
-
-    function generate_numbers($start, $count, $digits)
-    {
-        $result = array();
-        for ($n = $start; $n < $start + $count; $n++) {
-            $result[] = str_pad($n, $digits, "0", STR_PAD_LEFT);
-        }
-        return $result;
-    }
-
-    // function generate_numbers($start, $count, $digits)
-    // {
-    //     $result = array();
-    //     for ($n = $start; $n < $start + $count; $n++) {
-    //         $result[] = str_pad($n, $digits, "0", STR_PAD_LEFT);
-    //     }
-    //     return $result;
-    // }
 }
 ?>

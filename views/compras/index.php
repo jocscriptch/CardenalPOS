@@ -1,4 +1,5 @@
 <?php include_once 'views/templates/header.php'; ?>
+
 <div class="card">
     <div class="card-body">
         <nav>
@@ -12,25 +13,25 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active p-3" id="nav-compras" role="tabpanel"
                 aria-labelledby="nav-compras-tab" tabindex="0">
-                <h5 class="card-title text-center"><i class="fas fa-truck"></i> Nueva Compra</h5>
+                <h5 class="card-title text-center"><i class="fas fa-truck me-2"></i> Nueva Compra</h5>
                 <hr>
                 <div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
                     <label class="btn btn-primary">
-                        <input type="radio" id="barcode" checked name="buscarProducto" class="me-2"><i
-                            class="fas fa-barcode"></i>
-                        Código Cabys
+                        <input type="radio" id="barcode" checked name="buscarProducto" class="text-center me-2"><i
+                            class="fas fa-barcode"></i> Barcode
                     </label>
                     <label class="btn btn-info">
-                        <input type="radio" id="nombre" name="buscarProducto" class="me-2"><i class="fas fa-list"></i>
-                        Nombre
+                        <input type="radio" id="nombre" name="buscarProducto" class="text-center me-2"><i
+                            class="fas fa-list"></i> Nombre
                     </label>
                 </div>
-                <!-- input para buscar codigo cabys -->
+                <!-- input para buscar codigo -->
                 <div class="input-group mb-2" id="containerCodigo">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
                     <input class="form-control" type="text" id="buscarProductoCodigo"
-                        placeholder="Ingrese codigo - Enter">
+                        placeholder="Ingrese Barcode - Enter">
                 </div>
+
                 <!-- input para buscar nombre -->
                 <div class="input-group d-none mb-2" id="containerNombre">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -54,6 +55,7 @@
                         </tbody>
                     </table>
                 </div>
+
                 <hr>
                 <div class="d-flex justify-content-between">
                     <div class="col-md-4">
@@ -85,16 +87,16 @@
                                 placeholder="Comprador" disabled>
                         </div>
 
-                        <label>Total a Pagar</label>
+                        <label>Subtotal</label>
                         <div class="input-group mb-2">
-                            <span class="input-group-text"><i class="fa-solid fa-colon-sign"></i></span>
-                            <input class="form-control" type="text" id="totalPagar" placeholder="Total Pagar" disabled>
+                            <span class="input-group-text"><i class="fas fa-colon-sign"></i></span>
+                            <input class="form-control" type="text" id="subtotalPagar" placeholder="Subtotal" disabled>
                         </div>
 
-                        <label>Serie</label>
+                        <label>Total Pagado</label>
                         <div class="input-group mb-2">
-                            <span class="input-group-text"><i class="fas fa-spinner"></i></span>
-                            <input class="form-control" type="text" id="serie" placeholder="Serie Compra">
+                            <span class="input-group-text"><i class="fas fa-colon-sign"></i></span>
+                            <input class="form-control" type="text" id="totalPagar" placeholder="Total Pagado" disabled>
                         </div>
                         <div class="d-grid">
                             <button class="btn btn-primary" type="button" id="btnAccion">Completar</button>
@@ -123,10 +125,11 @@
                                 <th>Hora</th>
                                 <th>Total</th>
                                 <th>Proveedor</th>
-                                <th>Serie Factura</th>
+                                <th>Serie</th>
                                 <th></th>
                             </tr>
                         </thead>
+
                         <tbody>
                         </tbody>
                     </table>
@@ -136,4 +139,5 @@
         </div>
     </div>
 </div>
+
 <?php include_once 'views/templates/footer.php'; ?>

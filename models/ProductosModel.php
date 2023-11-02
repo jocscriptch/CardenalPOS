@@ -87,7 +87,7 @@ class ProductosModel extends Query
 
     public function buscarPorCodigo($valor)
     {
-        $sql = "SELECT * FROM tbproductos WHERE codigo = '$valor'";
+        $sql = "SELECT id FROM tbproductos WHERE codigo = '$valor'";
         return $this->select($sql);
     }
 
