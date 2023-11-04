@@ -86,6 +86,7 @@ class Compras extends Controller
 
     public function reporte($datos)
     {
+        ob_start();
         $array = explode(',', $datos);
         $tipo = $array[0];
         $idCompra = $array[1];
@@ -96,12 +97,8 @@ class Compras extends Controller
             echo 'Pagina No Encontrada';
             exit;
         }
-
-
-        ob_start();
         $this->views->getView('compras', $tipo, $data);
         $html = ob_get_clean();
-
 
         $dompdf = new Dompdf();
         $options = $dompdf->getOptions();

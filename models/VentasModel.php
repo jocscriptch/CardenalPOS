@@ -69,10 +69,10 @@ class VentasModel extends Query
         return $this->select($sql);
     }
 
-    public function registrarCredito($monto, $idVenta)
+    public function registrarCredito($monto, $fecha, $hora, $idVenta)
     {
-        $sql = "INSERT INTO tbcreditos (monto, id_venta) VALUES (?,?)";
-        $array = array($monto, $idVenta);
+        $sql = "INSERT INTO tbcreditos (monto, fecha, hora, id_venta) VALUES (?,?,?,?)";
+        $array = array($monto, $fecha, $hora, $idVenta);
         return $this->insertar($sql, $array);
     }
 

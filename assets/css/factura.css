@@ -96,3 +96,8 @@ table, th, td{
     font-size: 13px;
     text-align: center;
 }
+
+
+.text-center{
+    text-align: center;
+}

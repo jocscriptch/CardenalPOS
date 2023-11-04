@@ -195,7 +195,7 @@ class Clientes extends Controller
     public function buscar()
     {
         $array = array();
-        $valor = $_GET['term'];
+        $valor = strClean($_GET['term']);
         $data = $this->model->buscarPorNombre($valor);
         foreach ($data as $row) {
             $result['id'] = $row['id'];
