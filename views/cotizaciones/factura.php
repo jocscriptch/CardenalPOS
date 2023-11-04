@@ -30,13 +30,13 @@
             </td>
             <td class="info-compra">
                 <div class="container-factura">
-                    <span class="factura">Factura</span>
-                    <p>N°: <strong><?php echo $data['venta']['serie']; ?></strong></p>
+                    <span class="factura">Cotización</span>
+                    <p>N°: <strong><?php echo $data['cotizacion']['id']; ?></strong></p>
                     <p>Fecha:
-                        <?php echo $data['venta']['fecha']; ?>
+                        <?php echo $data['cotizacion']['fecha']; ?>
                     </p>
                     <p>Hora:
-                        <?php echo $data['venta']['hora']; ?>
+                        <?php echo $data['cotizacion']['hora']; ?>
                     </p>
                 </div>
             </td>
@@ -49,10 +49,10 @@
         <tr>
             <td>
                 <strong>
-                    <?php echo $data['venta']['identidad'] ?>
+                    <?php echo $data['cotizacion']['identidad'] ?>
                 </strong>
                 <p>
-                    <?php echo $data['venta']['num_identidad'] ?>
+                    <?php echo $data['cotizacion']['num_identidad'] ?>
                 </p>
             </td>
         </tr>
@@ -60,19 +60,19 @@
             <td>
                 <strong>Nombre: </strong>
                 <p>
-                    <?php echo $data['venta']['nombre'] ?>
+                    <?php echo $data['cotizacion']['nombre'] ?>
                 </p>
             </td>
             <td>
                 <strong>Teléfono: </strong>
                 <p>
-                    <?php echo $data['venta']['telefono'] ?>
+                    <?php echo $data['cotizacion']['telefono'] ?>
                 </p>
             </td>
             <td>
                 <strong>Dirección: </strong>
                 <p>
-                    <?php echo $data['venta']['direccion'] ?>
+                    <?php echo $data['cotizacion']['direccion'] ?>
                 </p>
             </td>
         </tr>
@@ -89,7 +89,8 @@
         </thead>
         <tbody>
             <?php
-            $productos = json_decode($data['venta']['productos'], true);
+            $productos = json_decode($data['cotizacion']['productos'], true);
+
             foreach ($productos as $producto) { ?>
                 <tr>
                     <td>
@@ -109,31 +110,27 @@
             <tr class="total">
                 <td class="text-right" colspan="3">SubTotal</td>
                 <td class="text-right">
-                    <?php echo number_format($data['venta']['subtotal'], 2); ?>
+                    <?php echo number_format($data['cotizacion']['subtotal'], 2); ?>
                 </td>
             </tr>
             <tr class="total">
                 <td class="text-right" colspan="3">IVA 13%</td>
                 <td class="text-right">
-                    <?php echo number_format($data['venta']['iva'], 2); ?>
+                    <?php echo number_format($data['cotizacion']['iva'], 2); ?>
                 </td>
             </tr>
             <tr class="total">
                 <td class="text-right" colspan="3">Gran Total</td>
                 <td class="text-right">
-                    <?php echo number_format($data['venta']['total'], 2); ?>
+                    <?php echo number_format($data['cotizacion']['total'], 2); ?>
                 </td>
             </tr>
         </tbody>
     </table>
     <div class="mensaje">
-        <h4>
-            <?php echo $data['venta']['metodo'] ?>
-        </h4>
-        <?php echo $data['empresa']['mensaje']; ?>
-        <?php if ($data['venta']['estado'] == 0) { ?>
-            <h1>Venta Anulada</h1>
-        <?php } ?>
+        <h4>Validez: <?php echo $data['cotizacion']['validez'] ?></h4>
+        <h4>Metodo: <?php echo $data['cotizacion']['metodo'] ?></h4>
+        <?php echo $data['empresa']['mensaje']?>
     </div>
 
 </body>

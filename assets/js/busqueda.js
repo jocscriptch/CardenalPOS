@@ -132,7 +132,7 @@ function agregarProducto(idProducto, cantidad, stockActual) {
         }
         for (let i = 0; i < listaCarrito.length; i++) {
             if (listaCarrito[i]['id'] == idProducto) {
-                listaCarrito[i]['cantidad'] = parseInt(listaCarrito[i]['cantidad'] + 1);
+                listaCarrito[i]['cantidad'] = parseInt(listaCarrito[i]['cantidad']) + 1;
                 localStorage.setItem(nombreKey, JSON.stringify(listaCarrito));
                 alertaPersonalizada('success', 'PRODUCTO AGREGADO');
                 mostrarProducto();

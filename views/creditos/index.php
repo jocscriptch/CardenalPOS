@@ -30,7 +30,7 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active mt-2" id="nav-creditos" role="tabpanel"
                 aria-labelledby="nav-creditos-tab">
-                <h5 class="card-title text-center "><i class="fas fa-credit-card me-2"></i></i>Lista De Créditos Activos
+                <h5 class="card-title text-center "><i class="fas fa-credit-card me-2"></i></i>Lista De Créditos
                 </h5>
                 <hr>
                 <div class="d-flex justify-content-center mb-3">
