@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-11-2023 a las 17:58:21
+-- Tiempo de generación: 04-11-2023 a las 14:59:17
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -33,6 +33,14 @@ CREATE TABLE `tbabonos` (
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `id_credito` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbabonos`
+--
+
+INSERT INTO `tbabonos` (`id`, `abono`, `fecha`, `id_credito`) VALUES
+(1, 5000.00, '2023-11-02 06:23:23', 1),
+(2, 3362.00, '2023-11-04 06:28:30', 1);
 
 -- --------------------------------------------------------
 
@@ -116,7 +124,8 @@ CREATE TABLE `tbclientes` (
 --
 
 INSERT INTO `tbclientes` (`id`, `identidad`, `num_identidad`, `nombre`, `telefono`, `correo`, `direccion`, `fecha`, `estado`) VALUES
-(1, 'Nacional', '602070058', 'FLORES HERRERA ALEXANDER', '88774422', NULL, '<p>NO DIR</p>', '2023-11-03 23:52:18', 1);
+(1, 'Nacional', '602070058', 'FLORES HERRERA ALEXANDER', '88774422', NULL, '<p>NO DIR</p>', '2023-11-03 23:52:18', 1),
+(2, 'Nacional', '604650775', 'ROJAS ORTIZ ANGEL DAVID', '60551122', NULL, '<p>PUNTARENAS</p>', '2023-11-04 04:29:37', 1);
 
 -- --------------------------------------------------------
 
@@ -143,7 +152,7 @@ CREATE TABLE `tbcompras` (
 --
 
 INSERT INTO `tbcompras` (`id`, `productos`, `subtotal`, `iva`, `total`, `fecha`, `hora`, `serie`, `estado`, `id_proveedor`, `id_usuario`) VALUES
-(1, '[{\"id\":1,\"nombre\":\"CABLE VELOC. YBR125ED DISCO VINI\",\"precio\":\"950.00\",\"cantidad\":3},{\"id\":2,\"nombre\":\"SWITCH LUCES IZQ. NXR\\/XL200\\/CARGO KGA VINI\",\"precio\":\"2245.00\",\"cantidad\":4},{\"id\":3,\"nombre\":\"STOP.U PIRAMIDAL XR200 UNIVER. TW\",\"precio\":\"2280.00\",\"cantidad\":2},{\"id\":4,\"nombre\":\"LL.17 80\\/80x17 K-6309 41P TL\",\"precio\":\"12970.00\",\"cantidad\":2},{\"id\":5,\"nombre\":\"LL.17 90\\/90x17 K-6309 49P TL\",\"precio\":\"23180.00\",\"cantidad\":1},{\"id\":6,\"nombre\":\"LL.18 120\\/80x18 K-6309 62P TL\",\"precio\":\"24800.00\",\"cantidad\":1},{\"id\":7,\"nombre\":\"LL.21 90\\/90x21 K-6309 54P\",\"precio\":\"15900.00\",\"cantidad\":1},{\"id\":8,\"nombre\":\"LL.19 90\\/90x19 K-669 52P\",\"precio\":\"18720.00\",\"cantidad\":2}]', 143650.00, 18674.50, 162324.50, '2023-11-03', '17:53:39', '5822375668', 1, 2, 1);
+(1, '[{\"id\":1,\"nombre\":\"CABLE VELOC. YBR125ED DISCO VINI\",\"precio\":\"950.00\",\"cantidad\":10},{\"id\":2,\"nombre\":\"SWITCH LUCES IZQ. NXR\\/XL200\\/CARGO KGA VINI\",\"precio\":\"2245.00\",\"cantidad\":9}]', 29705.00, 3861.65, 33566.65, '2023-11-03', '22:34:19', '1744820040', 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -178,12 +187,24 @@ INSERT INTO `tbconfiguracion` (`id`, `id_empresa`, `nombre`, `telefono`, `correo
 CREATE TABLE `tbcotizaciones` (
   `id` int(11) NOT NULL,
   `productos` longtext NOT NULL,
+  `subtotal` decimal(10,2) NOT NULL,
+  `iva` decimal(10,2) NOT NULL,
   `total` decimal(10,2) NOT NULL,
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
-  `validez` int(11) NOT NULL,
+  `metodo` varchar(20) NOT NULL,
+  `validez` varchar(30) NOT NULL,
   `id_cliente` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbcotizaciones`
+--
+
+INSERT INTO `tbcotizaciones` (`id`, `productos`, `subtotal`, `iva`, `total`, `fecha`, `hora`, `metodo`, `validez`, `id_cliente`) VALUES
+(1, '[{\"id\":1,\"nombre\":\"CABLE VELOC. YBR125ED DISCO VINI\",\"precio\":\"1200.00\",\"cantidad\":1},{\"id\":3,\"nombre\":\"STOP.U PIRAMIDAL XR200 UNIVER. TW\",\"precio\":\"2500.00\",\"cantidad\":1}]', 3700.00, 481.00, 4181.00, '2023-11-04', '14:29:18', 'CONTADO', '15 DIAS', 2),
+(2, '[{\"id\":1,\"nombre\":\"CABLE VELOC. YBR125ED DISCO VINI\",\"precio\":\"1200.00\",\"cantidad\":6}]', 7200.00, 936.00, 8136.00, '2023-11-04', '14:52:30', 'CONTADO', '5 DIAS', 2),
+(3, '[{\"id\":3,\"nombre\":\"STOP.U PIRAMIDAL XR200 UNIVER. TW\",\"precio\":\"2500.00\",\"cantidad\":4}]', 10000.00, 1300.00, 11300.00, '2023-11-04', '14:55:08', 'CREDITO', '20 DIAS', 1);
 
 -- --------------------------------------------------------
 
@@ -194,7 +215,8 @@ CREATE TABLE `tbcotizaciones` (
 CREATE TABLE `tbcreditos` (
   `id` int(11) NOT NULL,
   `monto` decimal(10,2) NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `fecha` date NOT NULL,
+  `hora` time NOT NULL,
   `estado` int(11) NOT NULL DEFAULT 1,
   `id_venta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -203,8 +225,8 @@ CREATE TABLE `tbcreditos` (
 -- Volcado de datos para la tabla `tbcreditos`
 --
 
-INSERT INTO `tbcreditos` (`id`, `monto`, `fecha`, `estado`, `id_venta`) VALUES
-(1, 5650.00, '2023-11-03 23:57:17', 1, 2);
+INSERT INTO `tbcreditos` (`id`, `monto`, `fecha`, `hora`, `estado`, `id_venta`) VALUES
+(1, 8362.00, '2023-11-04', '00:22:24', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -287,12 +309,12 @@ CREATE TABLE `tbproductos` (
 --
 
 INSERT INTO `tbproductos` (`id`, `codigo`, `descripcion`, `precio_compra`, `precio_venta`, `cantidad`, `foto`, `estado`, `fecha`, `ventas`, `id_medida`, `id_categoria`) VALUES
-(1, '8433332', 'CABLE VELOC. YBR125ED DISCO VINI', 950.00, 1200.00, 1, NULL, 1, '2023-11-03 23:55:15', 0, 2, 2),
-(2, '8462370', 'SWITCH LUCES IZQ. NXR/XL200/CARGO KGA VINI', 2245.00, 2500.00, 2, NULL, 1, '2023-11-03 23:57:17', 0, 2, 1),
+(1, '8433332', 'CABLE VELOC. YBR125ED DISCO VINI', 950.00, 1200.00, 6, NULL, 1, '2023-11-04 06:22:24', 0, 2, 2),
+(2, '8462370', 'SWITCH LUCES IZQ. NXR/XL200/CARGO KGA VINI', 2245.00, 2500.00, 6, NULL, 1, '2023-11-04 06:22:24', 0, 2, 1),
 (3, '8468266', 'STOP.U PIRAMIDAL XR200 UNIVER. TW', 2280.00, 2500.00, 2, NULL, 1, '2023-11-03 23:53:39', 0, 2, 1),
 (4, '5420181', 'LL.17 80/80x17 K-6309 41P TL', 12970.00, 13550.00, 2, NULL, 1, '2023-11-03 23:53:39', 0, 2, 1),
 (5, '5420596', 'LL.17 90/90x17 K-6309 49P TL', 23180.00, 25000.00, 1, NULL, 1, '2023-11-03 23:53:39', 0, 2, 1),
-(6, '5420166', 'LL.18 120/80x18 K-6309 62P TL', 24800.00, 26000.00, 1, NULL, 1, '2023-11-03 23:53:39', 0, 2, 1),
+(6, '5420166', 'LL.18 120/80x18 K-6309 62P TL', 24800.00, 26000.00, 1, NULL, 1, '2023-11-04 00:16:22', 0, 2, 2),
 (7, '5420191', 'LL.21 90/90x21 K-6309 54P', 15900.00, 16500.00, 1, NULL, 1, '2023-11-03 23:53:39', 0, 2, 1),
 (8, '5420526', 'LL.19 90/90x19 K-669 52P', 18720.00, 19500.00, 2, NULL, 1, '2023-11-03 23:53:39', 0, 2, 2);
 
@@ -377,8 +399,7 @@ CREATE TABLE `tbventas` (
 --
 
 INSERT INTO `tbventas` (`id`, `productos`, `subtotal`, `iva`, `total`, `fecha`, `hora`, `metodo`, `serie`, `estado`, `apertura`, `id_cliente`, `id_usuario`) VALUES
-(1, '[{\"id\":1,\"nombre\":\"CABLE VELOC. YBR125ED DISCO VINI\",\"precio\":\"1200.00\",\"cantidad\":2}]', 2400.00, 312.00, 2712.00, '2023-11-03', '17:55:15', 'CONTADO', '00000001', 1, 1, 1, 1),
-(2, '[{\"id\":2,\"nombre\":\"SWITCH LUCES IZQ. NXR\\/XL200\\/CARGO KGA VINI\",\"precio\":\"2500.00\",\"cantidad\":2}]', 5000.00, 650.00, 5650.00, '2023-11-03', '17:57:17', 'CREDITO', '00000002', 1, 1, 1, 1);
+(1, '[{\"id\":1,\"nombre\":\"CABLE VELOC. YBR125ED DISCO VINI\",\"precio\":\"1200.00\",\"cantidad\":2},{\"id\":2,\"nombre\":\"SWITCH LUCES IZQ. NXR\\/XL200\\/CARGO KGA VINI\",\"precio\":\"2500.00\",\"cantidad\":2}]', 7400.00, 962.00, 8362.00, '2023-11-04', '00:22:24', 'CREDITO', '00000001', 1, 1, 2, 1);
 
 --
 -- Índices para tablas volcadas
@@ -502,7 +523,7 @@ ALTER TABLE `tbventas`
 -- AUTO_INCREMENT de la tabla `tbabonos`
 --
 ALTER TABLE `tbabonos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbapartados`
@@ -526,7 +547,7 @@ ALTER TABLE `tbcategorias`
 -- AUTO_INCREMENT de la tabla `tbclientes`
 --
 ALTER TABLE `tbclientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbcompras`
@@ -544,7 +565,7 @@ ALTER TABLE `tbconfiguracion`
 -- AUTO_INCREMENT de la tabla `tbcotizaciones`
 --
 ALTER TABLE `tbcotizaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbcreditos`
@@ -592,7 +613,7 @@ ALTER TABLE `tbusuarios`
 -- AUTO_INCREMENT de la tabla `tbventas`
 --
 ALTER TABLE `tbventas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas

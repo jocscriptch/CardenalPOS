@@ -120,6 +120,7 @@
                         <div class="form-group mb-2">
                             <label for="metodo">Metodo</label>
                             <select id="metodo" class="form-control">
+                                <option value="">SELECCIONE</option>
                                 <option value="CONTADO">CONTADO</option>
                                 <option value="CREDITO">CREDITO</option>
                             </select>
@@ -128,6 +129,7 @@
                         <div class="form-group mb-2">
                             <label for="validez">Validez De Cotización</label>
                             <select id="validez" class="form-control">
+                                <option value="">SELECCIONE</option>
                                 <option value="5 DIAS">5 DIAS</option>
                                 <option value="10 DIAS">10 DIAS</option>
                                 <option value="15 DIAS">15 DIAS</option>
