@@ -14,6 +14,7 @@ class ComposerStaticInitac2d307f4ed514763a8119f3523066bb
         ),
         'M' => 
         array (
+            'Mike42\\' => 7,
             'Masterminds\\' => 12,
         ),
         'F' => 
@@ -34,6 +35,10 @@ class ComposerStaticInitac2d307f4ed514763a8119f3523066bb
         'Sabberworm\\CSS\\' => 
         array (
             0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
+        ),
+        'Mike42\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mike42/escpos-php/src/Mike42',
         ),
         'Masterminds\\' => 
         array (

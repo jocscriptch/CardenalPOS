@@ -29,17 +29,28 @@ document.addEventListener("DOMContentLoaded", function () {
             url: base_url + "productos/listar", //llamando al metodo del controlador productos
             dataSrc: "",
         },
-        columns: [
-            //campos en la db
-            { data: "codigo" },
-            { data: "descripcion" },
-            { data: "precio_compra" },
-            { data: "precio_venta" },
-            { data: "cantidad" },
-            { data: "medida" },
-            { data: "categoria" },
-            { data: "imagen" },
-            { data: "acciones" }, //accion en el controlador categorias
+        columns: [ //campos en la db
+            { data: 'codigo' },
+            { data: 'descripcion' },
+
+            {
+                data: 'precio_compra',
+                render: function (data, type, row) {
+                    return '₡ ' + parseFloat(data).toFixed(2);
+                }
+            },
+            {
+                data: 'precio_venta',
+                render: function (data, type, row) {
+                    return '₡ ' + parseFloat(data).toFixed(2);
+                }
+            },
+            { data: 'cantidad' },
+            { data: 'medida' },
+            { data: 'categoria' },
+            { data: 'imagen' },
+            { data: 'acciones' } //accion en el controlador categorias
+
         ],
         language: {
             url: base_url + "assets/js/spanish.json",

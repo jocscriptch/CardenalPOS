@@ -1,74 +1,10 @@
-const inputBuscarCodigo = document.querySelector('#buscarProductoCodigo');
-const inputBuscarNombre = document.querySelector('#buscarProductoNombre');
-const barcode = document.querySelector('#barcode');
-const nombre = document.querySelector('#nombre');
-const containerCodigo = document.querySelector('#containerCodigo');
-const containerNombre = document.querySelector('#containerNombre');
-
 const tblNuevaCompra = document.querySelector('#tblNuevaCompra tbody');
-const totalPagar = document.querySelector('#totalPagar');
-const serie = document.querySelector('#serie');
-
 //provedores
 const telefonoProveedor = document.querySelector('#telefonoProveedor');
 const direccionProveedor = document.querySelector('#proveedorDireccion');
 const idProveedor = document.querySelector('#idProveedor');
 
-const btnAccion = document.querySelector('#btnAccion');
-const desde = document.querySelector('#desde');
-const hasta = document.querySelector('#hasta');
-
-let listaCarrito, tblHistorial;
-
 document.addEventListener('DOMContentLoaded', function () {
-    //comprobar si ya hay productos en localStorage
-    if (localStorage.getItem('posCompra') != null) {
-        listaCarrito = JSON.parse(localStorage.getItem('posCompra'));
-    }
-    //mostrar input para la busqueda por nombre
-    nombre.addEventListener('click', function () {
-        containerCodigo.classList.add('d-none');
-        containerNombre.classList.remove('d-none');
-        inputBuscarNombre.value = '';
-        inputBuscarNombre.focus();
-    })
-    //mostrar input para la busqueda por codigo
-    barcode.addEventListener('click', function () {
-        containerNombre.classList.add('d-none');
-        containerCodigo.classList.remove('d-none');
-        inputBuscarCodigo.value = '';
-        inputBuscarCodigo.focus();
-    })
-
-    inputBuscarCodigo.addEventListener('keyup', function (e) {
-        if (e.keyCode === 13) {
-            buscarProducto(e.target.value);
-        }
-        return;
-    })
-    //autocomplete productos
-    $("#buscarProductoNombre").autocomplete({
-        source: function (request, response) {
-            $.ajax({
-                url: base_url + 'productos/buscarPorNombre',
-                dataType: "json",
-                data: {
-                    term: request.term
-                },
-                success: function (data) {
-                    response(data);
-                }
-            });
-        },
-        minLength: 2,
-        select: function (event, ui) {
-            agregarProducto(ui.item.id, 1);
-            inputBuscarNombre.value = '';
-            inputBuscarNombre.focus();
-            return false;
-        }
-    });
-
     //autocomplete proveedores
     $("#buscarProveedor").autocomplete({
         source: function (request, response) {
@@ -88,11 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
             telefonoProveedor.value = ui.item.telefono;
             direccionProveedor.innerHTML = ui.item.direccion;
             idProveedor.value = ui.item.id;
-            serie.focus();
+            //serie.focus();
         }
     });
 
-    // cargar datos
+    //cargar datos
     mostrarProducto();
 
     //completar compra
@@ -101,11 +37,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (filas < 2) {
             alertaPersonalizada('warning', 'CARRITO VACIO');
             return;
-        } else if (idProveedor.value == '' && telefonoProveedor.value == '') {
+        } else if (idProveedor.value == ''
+            && telefonoProveedor.value == '') {
             alertaPersonalizada('warning', 'PROVEEDOR REQUERIDO');
-            return;
-        } else if (serie.value == '') {
-            alertaPersonalizada('warning', 'SERIE REQUERIDA');
             return;
         } else {
             const url = base_url + 'compras/registrarCompra';
@@ -117,18 +51,19 @@ document.addEventListener('DOMContentLoaded', function () {
             http.send(JSON.stringify({
                 productos: listaCarrito,
                 idProveedor: idProveedor.value,
-                serie: serie.value,
+                //serie: serie.value,
             }));
             //verificar estados
             http.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     const res = JSON.parse(this.responseText);
+                    console.log(this.responseText);
                     alertaPersonalizada(res.type, res.msg);
                     if (res.type == 'success') {
-                        localStorage.removeItem('posCompra');
+                        localStorage.removeItem(nombreKey);
                         setTimeout(() => {
                             Swal.fire({
-                                title: '¿Desea generar reporte?',
+                                title: '¿Desea Generar Reporte?',
                                 showDenyButton: true,
                                 showCancelButton: true,
                                 confirmButtonText: 'Ticked',
@@ -143,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 }
                                 window.location.reload();
                             })
-                        }, 1000);
+                        }, 2000);
                     }
                 }
             }
@@ -159,8 +94,20 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         columns: [
             { data: 'fecha' },
-            { data: 'hora' },
-            { data: 'total' },
+            {
+                data: 'hora',
+                render: function (data) {
+                    // Formatear la hora utilizando moment.js en formato de 12 horas
+                    return moment(data, 'HH:mm:ss').format('hh:mm A');
+                }
+            },
+
+            {
+                data: 'total',
+                render: function (data, type, row) {
+                    return '₡' + parseFloat(data).toFixed(2);
+                }
+            },
             { data: 'nombre' },
             { data: 'serie' },
             { data: 'acciones' },
@@ -199,79 +146,42 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 })
 
-function buscarProducto(valor) {
-    const url = base_url + 'productos/buscarPorCodigo/' + valor;
-    //hacer una instancia del objeto XMLHttpRequest
-    const http = new XMLHttpRequest();
-    //Abrir una Conexion - POST - GET
-    http.open('GET', url, true);
-    //Enviar Datos
-    http.send();
-    //verificar estados
-    http.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            const res = JSON.parse(this.responseText);
-            agregarProducto(res.id, 1);
-            inputBuscarCodigo.value = '';
-            inputBuscarCodigo.focus();
-        }
-    }
-}
-
-// //agregar productos a localStorage
-function agregarProducto(idProducto, cantidad) {
-    if (localStorage.getItem('posCompra') == null) {
-        listaCarrito = [];
-    } else {
-        for (let i = 0; i < listaCarrito.length; i++) {
-            if (listaCarrito[i]['id'] == idProducto) {
-                listaCarrito[i]['cantidad'] = parseInt(listaCarrito[i]['cantidad'] + 1);
-                localStorage.setItem('posCompra', JSON.stringify(listaCarrito));
-                alertaPersonalizada('success', 'PRODUCTO AGREGADO');
-                mostrarProducto();
-                return;
-            }
-
-        }
-    }
-    listaCarrito.push({
-        id: idProducto,
-        cantidad: cantidad
-    })
-    localStorage.setItem('posCompra', JSON.stringify(listaCarrito));
-    alertaPersonalizada('success', 'PRODUCTO AGREGADO');
-    mostrarProducto();
-}
-
-// //cargar productos
+//cargar productos
 function mostrarProducto() {
-    if (localStorage.getItem('posCompra') != null) {
+    let subtotal = 0;
+    if (localStorage.getItem(nombreKey) != null) {
         const url = base_url + 'productos/mostrarDatos';
-        //hacer una instancia del objeto XMLHttpRequest
         const http = new XMLHttpRequest();
-        //Abrir una Conexion - POST - GET
         http.open('POST', url, true);
-        //Enviar Datos
         http.send(JSON.stringify(listaCarrito));
-        //verificar estados
         http.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 const res = JSON.parse(this.responseText);
                 let html = '';
                 if (res.productos.length > 0) {
                     res.productos.forEach(producto => {
+                        const precioCompra = parseFloat(producto.precio_compra);
+                        const cantidad = parseInt(producto.cantidad);
+                        const subTotalProducto = precioCompra * cantidad;
+
                         html += `<tr>
                             <td>${producto.nombre}</td>
-                            <td>${producto.precio_compra}</td>
+                            <td>₡ ${precioCompra.toFixed(2)}</td>
                             <td width="100">
-                            <input type="number" class="form-control inputCantidad" data-id="${producto.id}" value="${producto.cantidad}" placeholder="Cantidad">
+                                <input type="number" class="form-control inputCantidad" data-id="${producto.id}" value="${cantidad}" placeholder="Cantidad">
                             </td>
-                            <td>${producto.subTotal}</td>
-                            <td><button class="btn btn-danger btnEliminar" data-id="${producto.id}" type="button"><i class="fas fa-trash"></i></button></td>
+                            <td>₡ ${subTotalProducto.toFixed(2)}</td>
+                            <td class="text-center"><button class="btn btn-danger btnEliminar" data-id="${producto.id}" type="button"><i class="fas fa-trash"></i></button></td>
                         </tr>`;
+                        subtotal += subTotalProducto;
                     });
+
+                    const iva = subtotal * 0.13;
+                    const total = subtotal + iva;
                     tblNuevaCompra.innerHTML = html;
-                    totalPagar.value = res.total;
+                    subtotalPagar.value = subtotal.toFixed(2);
+                    totalPagar.value = total.toFixed(2);
+
                     btnEliminarProducto();
                     agregarCantidad();
                 } else {
@@ -284,60 +194,19 @@ function mostrarProducto() {
             <td colspan="4" class="text-center">CARRITO VACIO</td>
         </tr>`;
     }
-}
-// //agregar evento click para eliminar
-function btnEliminarProducto() {
-    let lista = document.querySelectorAll('.btnEliminar');
-    for (let i = 0; i < lista.length; i++) {
-        lista[i].addEventListener('click', function () {
-            let idProducto = lista[i].getAttribute('data-id');
-            eliminarProducto(idProducto);
-        });
-    }
-}
-
-// eliminar productos del table
-function eliminarProducto(idProducto) {
-    for (let i = 0; i < listaCarrito.length; i++) {
-        if (listaCarrito[i]['id'] == idProducto) {
-            listaCarrito.splice(i, 1);
-        }
-    }
-    localStorage.setItem('posCompra', JSON.stringify(listaCarrito));
-    alertaPersonalizada('success', 'PRODUCTO ELIMINADO');
-    mostrarProducto();
-}
-
-//para cambiar la cantidad con evento change
-function agregarCantidad() {
-    let lista = document.querySelectorAll('.inputCantidad');
-    for (let i = 0; i < lista.length; i++) {
-        lista[i].addEventListener('change', function () {
-            let idProducto = lista[i].getAttribute('data-id');
-            let cantidad = lista[i].value;
-            cambiarCantidad(idProducto, cantidad);
-        });
-    }
-}
-
-function cambiarCantidad(idProducto, cantidad) {
-    for (let i = 0; i < listaCarrito.length; i++) {
-        if (listaCarrito[i]['id'] == idProducto) {
-            listaCarrito[i]['cantidad'] = cantidad;
-        }
-    }
-    localStorage.setItem('posCompra', JSON.stringify(listaCarrito));
-    mostrarProducto();
+    subtotalPagar.value = '0.00';
+    totalPagar.value = '0.00';
 }
 
 function verReporte(idCompra) {
     Swal.fire({
-        title: '¿Desea generar reporte?',
+        title: '¿Desea Generar Reporte?',
         showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: 'Ticked',
         denyButtonText: `Factura`,
     }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
             const ruta = base_url + 'compras/reporte/ticked/' + idCompra;
             window.open(ruta, '_blank');

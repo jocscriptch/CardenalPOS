@@ -50,6 +50,14 @@ class ClientesModel extends Query
         $array = array($identidad, $num_identidad, $nombre, $telefono, $correo, $direccion, $id);
         return $this->save($sql, $array);
     }
+
+    
+    public function buscarPorNombre($valor)
+    {
+        $sql = "SELECT id, nombre, telefono, direccion FROM tbclientes
+        WHERE nombre LIKE '%".$valor."%' AND estado = 1 LIMIT 10";
+        return $this->selectAll($sql);
+    }
 }
 
 ?>

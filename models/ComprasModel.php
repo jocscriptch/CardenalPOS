@@ -12,14 +12,24 @@ class ComprasModel extends Query
         return $this->select($sql);
     }
 
-    public function registrarCompra($productos, $total, $iva, $subtotal, $fecha, $hora, $serie, $idProveedor, $idUsuario)
-    {
-        $sql = "INSERT INTO tbcompras(productos, total, iva, subtotal, fecha, hora, serie, id_proveedor, id_usuario)
-        VALUES (?,?,?,?,?,?,?,?,?)";
+    public function registrarCompra(
+        $productos,
+        $subtotal,
+        $iva,
+        $total,
+        $fecha,
+        $hora,
+        $serie,
+        $idProveedor,
+        $idUsuario
+    ) {
+        $sql = "INSERT INTO tbcompras(productos, subtotal, iva, total, fecha, hora, serie, id_proveedor, id_usuario)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $array = array($productos, $total, $iva, $subtotal, $fecha, $hora, $serie, $idProveedor, $idUsuario);
+        $array = array($productos, $subtotal, $iva, $total, $fecha, $hora, $serie, $idProveedor, $idUsuario);
         return $this->insertar($sql, $array);
     }
+
     public function getEmpresa()
     {
         $sql = "SELECT * FROM tbconfiguracion";
