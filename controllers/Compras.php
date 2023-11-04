@@ -16,6 +16,8 @@ class Compras extends Controller
     {
         $data['title'] = 'Compras';
         $data['script'] = 'compras.js';
+        $data['busqueda'] = 'busqueda.js';
+        $data['carrito'] = 'posCompra';
         $this->views->getView('compras', 'index', $data);
     }
 

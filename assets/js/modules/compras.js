@@ -1,75 +1,10 @@
-const inputBuscarCodigo = document.querySelector('#buscarProductoCodigo');
-const inputBuscarNombre = document.querySelector('#buscarProductoNombre');
-const barcode = document.querySelector('#barcode');
-const nombre = document.querySelector('#nombre');
-const containerCodigo = document.querySelector('#containerCodigo');
-const containerNombre = document.querySelector('#containerNombre');
-
 const tblNuevaCompra = document.querySelector('#tblNuevaCompra tbody');
-const subtotalPagar = document.querySelector('#subtotalPagar');
-const totalPagar = document.querySelector('#totalPagar');
-
 //provedores
 const telefonoProveedor = document.querySelector('#telefonoProveedor');
 const direccionProveedor = document.querySelector('#proveedorDireccion');
 const idProveedor = document.querySelector('#idProveedor');
 
-const btnAccion = document.querySelector('#btnAccion');
-const desde = document.querySelector('#desde');
-const hasta = document.querySelector('#hasta');
-
-let listaCarrito, tblHistorial;
-
 document.addEventListener('DOMContentLoaded', function () {
-    //comprobar productos en localStorage
-    if (localStorage.getItem('posCompra') != null) {
-        listaCarrito = JSON.parse(localStorage.getItem('posCompra'));
-    }
-    //mostrar input para la busqueda por nombre
-    nombre.addEventListener('click', function () {
-        containerCodigo.classList.add('d-none');
-        containerNombre.classList.remove('d-none');
-        inputBuscarNombre.value = '';
-        inputBuscarNombre.focus();
-    })
-    //mostrar input para la busqueda por codigo
-    barcode.addEventListener('click', function () {
-        containerNombre.classList.add('d-none');
-        containerCodigo.classList.remove('d-none');
-        inputBuscarCodigo.value = '';
-        inputBuscarCodigo.focus();
-    })
-
-    inputBuscarCodigo.addEventListener('keyup', function (e) {
-        if (e.keyCode === 13) {
-            buscarProducto(e.target.value);
-        }
-        return;
-    })
-    //autocomplete productos
-    $("#buscarProductoNombre").autocomplete({
-        source: function (request, response) {
-            $.ajax({
-                url: base_url + 'productos/buscarPorNombre',
-                dataType: "json",
-                data: {
-                    term: request.term
-                },
-                success: function (data) {
-                    response(data);
-                }
-            });
-        },
-        minLength: 2,
-        select: function (event, ui) {
-            console.log(ui.item);
-            agregarProducto(ui.item.id, 1);
-            inputBuscarNombre.value = '';
-            inputBuscarNombre.focus();
-            return false;
-        }
-    });
-
     //autocomplete proveedores
     $("#buscarProveedor").autocomplete({
         source: function (request, response) {
@@ -106,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
             && telefonoProveedor.value == '') {
             alertaPersonalizada('warning', 'PROVEEDOR REQUERIDO');
             return;
-        }else {
+        } else {
             const url = base_url + 'compras/registrarCompra';
             //hacer una instancia del objeto XMLHttpRequest
             const http = new XMLHttpRequest();
@@ -125,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log(this.responseText);
                     alertaPersonalizada(res.type, res.msg);
                     if (res.type == 'success') {
-                        localStorage.removeItem('posCompra');
+                        localStorage.removeItem(nombreKey);
                         setTimeout(() => {
                             Swal.fire({
                                 title: '¿Desea Generar Reporte?',
@@ -159,8 +94,20 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         columns: [
             { data: 'fecha' },
-            { data: 'hora' },
-            { data: 'total' },
+            {
+                data: 'hora',
+                render: function (data) {
+                    // Formatear la hora utilizando moment.js en formato de 12 horas
+                    return moment(data, 'HH:mm:ss').format('hh:mm A');
+                }
+            },
+
+            {
+                data: 'total',
+                render: function (data, type, row) {
+                    return '₡' + parseFloat(data).toFixed(2);
+                }
+            },
             { data: 'nombre' },
             { data: 'serie' },
             { data: 'acciones' },
@@ -199,63 +146,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 })
 
-function buscarProducto(valor) {
-    const url = base_url + 'productos/buscarPorCodigo/' + valor;
-    //hacer una instancia del objeto XMLHttpRequest
-    const http = new XMLHttpRequest();
-    //Abrir una Conexion - POST - GET
-    http.open('GET', url, true);
-    //Enviar Datos
-    http.send();
-    //verificar estados
-    http.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            if (this.status == 200) {
-                const res = JSON.parse(this.responseText);
-                if (res.id) {
-                    agregarProducto(res.id, 1);
-                } else {
-                    alertaPersonalizada('warning', 'PRODUCTO NO ENCONTRADO');
-                }
-            } else {
-                alertaPersonalizada('error', 'ERROR AL BUSCAR PRODUCTO');
-            }
-            inputBuscarCodigo.value = '';
-            inputBuscarCodigo.focus();
-        }
-    }
-}
-
-
-//agregar productos a localStorage
-function agregarProducto(idProducto, cantidad) {
-    if (localStorage.getItem('posCompra') == null) {
-        listaCarrito = [];
-    } else {
-        for (let i = 0; i < listaCarrito.length; i++) {
-            if (listaCarrito[i]['id'] == idProducto) {
-                listaCarrito[i]['cantidad'] = parseInt(listaCarrito[i]['cantidad'] + 1);
-                localStorage.setItem('posCompra', JSON.stringify(listaCarrito));
-                alertaPersonalizada('success', 'PRODUCTO AGREGADO');
-                mostrarProducto();
-                return;
-            }
-
-        }
-    }
-    listaCarrito.push({
-        id: idProducto,
-        cantidad: cantidad
-    })
-    localStorage.setItem('posCompra', JSON.stringify(listaCarrito));
-    alertaPersonalizada('success', 'PRODUCTO AGREGADO');
-    mostrarProducto();
-}
-
 //cargar productos
 function mostrarProducto() {
     let subtotal = 0;
-    if (localStorage.getItem('posCompra') != null) {
+    if (localStorage.getItem(nombreKey) != null) {
         const url = base_url + 'productos/mostrarDatos';
         const http = new XMLHttpRequest();
         http.open('POST', url, true);
@@ -269,14 +163,14 @@ function mostrarProducto() {
                         const precioCompra = parseFloat(producto.precio_compra);
                         const cantidad = parseInt(producto.cantidad);
                         const subTotalProducto = precioCompra * cantidad;
-                        
+
                         html += `<tr>
                             <td>${producto.nombre}</td>
-                            <td>${precioCompra.toFixed(2)}</td>
+                            <td>₡ ${precioCompra.toFixed(2)}</td>
                             <td width="100">
                                 <input type="number" class="form-control inputCantidad" data-id="${producto.id}" value="${cantidad}" placeholder="Cantidad">
                             </td>
-                            <td>${subTotalProducto.toFixed(2)}</td>
+                            <td>₡ ${subTotalProducto.toFixed(2)}</td>
                             <td class="text-center"><button class="btn btn-danger btnEliminar" data-id="${producto.id}" type="button"><i class="fas fa-trash"></i></button></td>
                         </tr>`;
                         subtotal += subTotalProducto;
@@ -302,60 +196,6 @@ function mostrarProducto() {
     }
     subtotalPagar.value = '0.00';
     totalPagar.value = '0.00';
-}
-
-//agregar evento click para eliminar
-function btnEliminarProducto() {
-    let lista = document.querySelectorAll('.btnEliminar');
-    for (let i = 0; i < lista.length; i++) {
-        lista[i].addEventListener('click', function () {
-            let idProducto = lista[i].getAttribute('data-id');
-            console.log(idProducto);
-            eliminarProducto(idProducto);
-        });
-    }
-}
-
-//eliminar productos del table
-function eliminarProducto(idProducto) {
-    for (let i = 0; i < listaCarrito.length; i++) {
-        if (listaCarrito[i]['id'] == idProducto) {
-            listaCarrito.splice(i, 1);
-        }
-    }
-    localStorage.setItem('posCompra', JSON.stringify(listaCarrito));
-    alertaPersonalizada('success', 'PRODUCTO ELIMINADO');
-    mostrarProducto();
-}
-
-//agregar eventa change para cambiar la cantidad
-function agregarCantidad() {
-    let lista = document.querySelectorAll('.inputCantidad');
-    for (let i = 0; i < lista.length; i++) {
-        lista[i].addEventListener('change', function () {
-            let idProducto = lista[i].getAttribute('data-id');
-            let cantidad = parseInt(lista[i].value);
-            if (cantidad > 0) {
-                cambiarCantidad(idProducto, cantidad);
-                mostrarProducto();
-            } else {
-                alertaPersonalizada('warning', 'LA CANTIDAD DEBE SER MAYOR A 0');
-                // Restaura la cantidad en el input a su valor anterior
-                lista[i].value = listaCarrito.find(item => item.id == idProducto).cantidad;
-            }
-        });
-    }
-}
-
-
-function cambiarCantidad(idProducto, cantidad) {
-    for (let i = 0; i < listaCarrito.length; i++) {
-        if (listaCarrito[i]['id'] == idProducto) {
-            listaCarrito[i]['cantidad'] = cantidad;
-        }
-    }
-    localStorage.setItem('posCompra', JSON.stringify(listaCarrito));
-    mostrarProducto();
 }
 
 function verReporte(idCompra) {

@@ -30,8 +30,19 @@ document.addEventListener('DOMContentLoaded', function () {
         columns: [ //campos en la db
             { data: 'codigo' },
             { data: 'descripcion' },
-            { data: 'precio_compra' },
-            { data: 'precio_venta' },
+
+            {
+                data: 'precio_compra',
+                render: function (data, type, row) {
+                    return '₡ ' + parseFloat(data).toFixed(2);
+                }
+            },
+            {
+                data: 'precio_venta',
+                render: function (data, type, row) {
+                    return '₡ ' + parseFloat(data).toFixed(2);
+                }
+            },
             { data: 'cantidad' },
             { data: 'medida' },
             { data: 'categoria' },

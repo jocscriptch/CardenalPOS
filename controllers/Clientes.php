@@ -81,7 +81,7 @@ class Clientes extends Controller
                         } else {
                             $res = array('msg' => 'TELEFONO DEBE SER UNICO', 'type' => 'warning');
                         }
-    
+
                     } else {
                         $res = array('msg' => 'N° IDENTIDAD DEBE SER UNICO', 'type' => 'warning');
                     }
@@ -115,13 +115,13 @@ class Clientes extends Controller
                         } else {
                             $res = array('msg' => 'TELEFONO DEBE SER UNICO', 'type' => 'warning');
                         }
-    
+
                     } else {
                         $res = array('msg' => 'N° IDENTIDAD DEBE SER UNICO', 'type' => 'warning');
                     }
                 }
-                
-               
+
+
             }
         } else {
             $res = array('msg' => 'ERROR DESCONOCIDO', 'type' => 'error');
@@ -189,6 +189,22 @@ class Clientes extends Controller
         }
         echo json_encode($res, JSON_UNESCAPED_UNICODE);
         die();
+    }
+
+    // buscar proveedor para las ventas
+    public function buscar()
+    {
+        $array = array();
+        $valor = $_GET['term'];
+        $data = $this->model->buscarPorNombre($valor);
+        foreach ($data as $row) {
+            $result['id'] = $row['id'];
+            $result['label'] = $row['nombre'];
+            $result['telefono'] = $row['telefono'];
+            $result['direccion'] = $row['direccion'];
+            array_push($array, $result);
+        }
+        echo json_encode($array, JSON_UNESCAPED_UNICODE);
     }
 }
 

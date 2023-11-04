@@ -193,8 +193,13 @@ class Productos extends Controller
     //buscar producto por codigo
     public function buscarPorCodigo($valor)
     {
+        $array = array('estado' => false, 'datos' => '');
         $data = $this->model->buscarPorCodigo($valor);
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        if (!empty($data)) {
+            $array['estado'] = true;
+            $array['datos'] = $data;
+        }
+        echo json_encode($array, JSON_UNESCAPED_UNICODE);
         die();
     }
 
@@ -207,6 +212,7 @@ class Productos extends Controller
         foreach ($data as $row) {
             $result['id'] = $row['id'];
             $result['label'] = $row['descripcion'];
+            $result['stock'] = $row['cantidad'];
             array_push($array, $result);
         }
         echo json_encode($array, JSON_UNESCAPED_UNICODE);
@@ -219,21 +225,27 @@ class Productos extends Controller
         $json = file_get_contents('php://input');
         $datos = json_decode($json, true);
         $array['productos'] = array();
-        $total = 0;
+        $totalCompra = 0;
+        $totalVenta = 0;
         if (!empty($datos)) {
             foreach ($datos as $producto) {
                 $result = $this->model->editar($producto['id']);
                 $data['id'] = $result['id'];
                 $data['nombre'] = $result['descripcion'];
                 $data['precio_compra'] = $result['precio_compra'];
+                $data['precio_venta'] = $result['precio_venta'];
                 $data['cantidad'] = $producto['cantidad'];
-                $subTotal = $result['precio_compra'] * $producto['cantidad'];
-                $data['subTotal'] = number_format($subTotal, 2);
+                $subTotalCompra = $result['precio_compra'] * $producto['cantidad'];
+                $subTotalVenta = $result['precio_venta'] * $producto['cantidad'];
+                $data['subTotalCompra'] = number_format($subTotalCompra, 2);
+                $data['subTotalVenta'] = number_format($subTotalVenta, 2);
                 array_push($array['productos'], $data);
-                $total += $subTotal;
+                $totalCompra += $subTotalCompra;
+                $totalVenta += $subTotalVenta;
             }
         }
-        $array['total'] = number_format($total, 2);
+        $array['totalCompra'] = number_format($totalCompra, 2);
+        $array['totalVenta'] = number_format($totalVenta, 2);
         echo json_encode($array, JSON_UNESCAPED_UNICODE);
         die();
     }

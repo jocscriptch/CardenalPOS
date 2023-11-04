@@ -133,6 +133,13 @@
     const base_url = '<?php echo BASE_URL; ?>';
 </script>
 
+<?php if (!empty($data['busqueda'])) { ?>
+    <script>
+        const nombreKey = '<?php echo $data['carrito']; ?>'
+    </script>
+    <script src="<?php echo BASE_URL . 'assets/js/' . $data['busqueda']; ?>"></script>
+<?php } ?>
+
 <?php if (!empty($data['script'])) { ?>
     <script src="<?php echo BASE_URL . 'assets/js/modules/' . $data['script']; ?>"></script>
 <?php } ?>

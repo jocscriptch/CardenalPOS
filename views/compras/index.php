@@ -29,13 +29,14 @@
                 <div class="input-group mb-2" id="containerCodigo">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
                     <input class="form-control" type="text" id="buscarProductoCodigo"
-                        placeholder="Ingrese Barcode - Enter">
+                        placeholder="Ingrese Barcode - Enter" autocomplete="off">
                 </div>
 
                 <!-- input para buscar nombre -->
                 <div class="input-group d-none mb-2" id="containerNombre">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
-                    <input class="form-control" type="text" id="buscarProductoNombre" placeholder="Buscar Producto">
+                    <input class="form-control" type="text" id="buscarProductoNombre" autocomplete="off"
+                    placeholder="Buscar Producto" autocomplete="off">
                 </div>
 
                 <!-- table productos -->
@@ -57,7 +58,7 @@
                 </div>
 
                 <hr>
-                <div class="d-flex justify-content-between">
+                <div class="row justify-content-between">
                     <div class="col-md-4">
                         <label>Buscar Proveedor</label>
                         <div class="input-group mb-2">
@@ -125,15 +126,13 @@
                                 <th>Hora</th>
                                 <th>Total</th>
                                 <th>Proveedor</th>
-                                <th>Serie</th>
+                                <th>N° Serie</th>
                                 <th></th>
                             </tr>
                         </thead>
-
                         <tbody>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
