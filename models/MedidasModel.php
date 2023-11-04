@@ -11,6 +11,18 @@ class MedidasModel extends Query{
         return $this->selectAll($sql);
     }
 
+    public function getOnlyMedidas($estado)
+    {
+        $sql = "SELECT medida FROM tbmedidas WHERE estado = $estado";
+        return $this->selectAll($sql);
+    }
+
+    public function getIdByNombre($medida)
+    {
+        $sql = "SELECT id FROM tbmedidas WHERE medida = '$medida'";
+        return $this->select($sql);
+    }
+
     public function registrar($nombre, $abreviatura)
     {
         $sql = "INSERT INTO tbmedidas (medida, abreviatura) VALUES (?,?)";

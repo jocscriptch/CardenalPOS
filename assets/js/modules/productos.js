@@ -2,6 +2,11 @@ let tblProductos;
 const form = document.querySelector("#form");
 const btnAccion = document.querySelector("#btnAccion");
 const btnNuevo = document.querySelector("#btnNuevo");
+const xmlForm = document.querySelector("#xmlForm");
+const btnCargarXML = document.querySelector("#btnCargarXML");
+const btnRegistrar = document.querySelector("#btnRegistrar");
+var firstTab = new bootstrap.Tab(document.getElementById("nav-nuevo-tab"));
+
 
 const id = document.querySelector("#id");
 const codigo = document.querySelector("#codigo");
@@ -154,6 +159,95 @@ function editarProducto(idProducto) {
         }
     };
 }
+
+document.getElementById('btnRegistrar').addEventListener('click', function () {
+    var tableBody = document.getElementById('tblProductosXML').getElementsByTagName('tbody')[0];
+    var rows = tableBody.getElementsByTagName('tr');
+
+    for (var i = 0; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName('td');
+
+        var codigo = cells[0].innerText;
+        var descripcion = cells[1].innerText;
+        var precioCompra = cells[2].innerText;
+        var precioVenta = cells[3].getElementsByTagName('input')[0].value;
+        var medida = cells[4].getElementsByTagName('select')[0].value;
+        var categoria = cells[5].getElementsByTagName('select')[0].value;
+
+        // Crear un objeto FormData para enviar los datos
+        var form = new FormData();
+        form.append('codigo', codigo);
+        form.append('descripcion', descripcion);
+        form.append('precio_compra', precioCompra);
+        form.append('precio_venta', precioVenta);
+        form.append('id_medida', medida);
+        form.append('id_categoria', categoria);
+
+        // Enviar los datos al servidor
+        $.ajax({
+            url: base_url + "productos/insertarProducto",
+            type: "post",
+            data: form,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                alert(data);
+            }
+        });
+    }
+});
+
+
+
+document.getElementById('btnCargarXML').addEventListener('click', function () {
+    var form = new FormData($('#xmlForm')[0]);
+    $.ajax({
+        url: base_url + "productos/cargarXML",
+        type: "post",
+        data: form,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            var response = JSON.parse(data);
+            var productos = response.productos;
+            var tableBody = $('#tblProductosXML tbody');
+            tableBody.empty();
+
+            productos.forEach(function (producto) {
+                // Crear un input para el precio de venta
+                var precioVentaInput = '<input type="text" value="' + producto.PrecioUnitario + '">';
+
+                // Crear un select para la medida
+                var medidaSelect = '<select>';
+                producto.Medidas.forEach(function (medida) {
+                    medidaSelect += '<option value="' + medida + '">' + medida + '</option>';
+                });
+                medidaSelect += '</select>';
+
+                // Crear un select para la categoría
+                var categoriaSelect = '<select>';
+                producto.Categorias.forEach(function (categoria) {
+                    categoriaSelect += '<option value="' + categoria + '">' + categoria + '</option>';
+                });
+                categoriaSelect += '</select>';
+
+                tableBody.append('<tr>' +
+                    '<td>' + producto.Codigo + '</td>' +
+                    '<td>' + producto.Detalle + '</td>' +
+                    '<td>' + producto.PrecioUnitario + '</td>' +
+                    '<td>' + precioVentaInput + '</td>' +
+                    '<td>' + medidaSelect + '</td>' +
+                    '<td>' + categoriaSelect + '</td>' +
+                    '</tr>');
+            });
+        }
+    });
+});
+
+
+
+
+
 function limpiarCampos() {
     errorCodigo.textContent = "";
     errorDescripcion.textContent = "";

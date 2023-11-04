@@ -1,10 +1,16 @@
 <?php
+require_once 'models/MedidasModel.php';
+require_once 'models/CategoriasModel.php';
 class Productos extends Controller
 {
+    private $medidasModel;
+    private $categoriasModel;
     public function __construct()
     {
         parent::__construct();
         session_start();
+        $this->medidasModel = new MedidasModel();
+        $this->categoriasModel = new CategoriasModel();
     }
     public function index()
     {
@@ -249,5 +255,64 @@ class Productos extends Controller
         echo json_encode($array, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    public function insertarProducto() {
+        // Obtén los datos del producto de la solicitud
+        $codigo = strClean($_POST['codigo']);
+        $descripcion =strClean($_POST['descripcion']);
+        $precio_compra = strClean($_POST['precio_compra']);
+        $precio_venta =strClean($_POST['precio_venta']);
+        $medida_nombre = strClean($_POST['id_medida']);
+        $categoria_nombre = strClean($_POST['id_categoria']);
+
+        // Obtén el ID de la medida y la categoría de la base de datos
+        $id_medida = $this->medidasModel->getIdByNombre($medida_nombre);
+        $id_categoria = $this->categoriasModel->getIdByNombre($categoria_nombre);
+
+        // Inserta el producto en la base de datos
+        $this->model->registrarXML($codigo, $descripcion, $precio_compra, $precio_venta, implode($id_medida), implode($id_categoria));
+    }
+    
+    // cargar xml
+    public function cargarXML()
+    {
+        if (isset($_FILES['archivo_xml']['tmp_name'])) {
+            $xml_file = $_FILES['archivo_xml']['tmp_name'];
+            $xml = simplexml_load_file($xml_file);
+
+            foreach($xml->DetalleServicio->LineaDetalle as $item){
+            $codigo = (string)$item->CodigoComercial->Codigo;
+            $detalle = (string)$item->Detalle;
+            $precioUnitario = (int)$item->PrecioUnitario;
+
+            $medidas = $this->medidasModel->getOnlyMedidas(1);
+            $categorias = $this->categoriasModel->getOnlyCategorias(1);
+
+
+            $nombresMedidas = array_map(function($medida) {
+                return $medida['medida'];
+            }, $medidas);
+            $nombresCategorias = array_map(function($categoria) {
+                return $categoria['categoria'];
+            }, $categorias);
+            // Crea un arreglo con los datos
+            $datos[] = [
+                'Codigo' => $codigo,
+                'Detalle' => $detalle,
+                'PrecioUnitario' => $precioUnitario,
+                'Medidas' => $nombresMedidas,
+                'Categorias' => $nombresCategorias
+            ];
+        }
+        $response = array('msg' => 'Productos obtenidos correctamente desde el archivo XML.', 'type' => 'success', 'productos' => $datos);
+        echo json_encode($response);
+        die();
+    } else {
+        $response = array('msg' => 'Error: Archivo XML no encontrado.', 'type' => 'error');
+        echo json_encode($response);
+        die();
+    }
+}
+
 }
 ?>

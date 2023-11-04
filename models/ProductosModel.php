@@ -36,6 +36,20 @@ class ProductosModel extends Query
         return $this->insertar($sql, $array);
     }
 
+    public function registrarXML(
+        $codigo,
+        $descripcion,
+        $precio_compra,
+        $precio_venta,
+        $id_medida,
+        $id_categoria
+    ) {
+        $sql = "INSERT INTO tbproductos(codigo, descripcion, precio_compra, precio_venta, id_medida,
+         id_categoria) VALUES (?, ?, ?, ?, ?, ?)";
+        $array = array($codigo, $descripcion, $precio_compra, $precio_venta, $id_medida, $id_categoria);
+        return $this->insertar($sql, $array);
+    }
+
     public function getValidar($campo, $valor, $accion, $id)
     {
         if ($accion == 'registrar' && $id == 0) {

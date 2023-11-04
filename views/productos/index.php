@@ -23,6 +23,8 @@
                     aria-selected="true">Productos</button>
                 <button class="nav-link" id="nav-nuevo-tab" data-bs-toggle="tab" data-bs-target="#nav-nuevo"
                     type="button" role="tab" aria-controls="nav-nuevo" aria-selected="false">Nuevo Producto</button>
+                <button class="nav-link" id="nav-xml-tab" data-bs-toggle="tab" data-bs-target="#nav-xml"
+                    type="button" role="tab" aria-controls="nav-xml" aria-selected="false">Cargar XML</button>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -145,6 +147,40 @@
                         <button class="btn btn-primary" type="submit" id="btnAccion">Registrar</button>
                     </div>
                 </form>
+            </div>
+            <div class="tab-pane fade p-3" id="nav-xml" role="tabpanel" aria-labelledby="nav-xml">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover nowrap" id="tblProductosXML"
+                        style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Descripcion</th>
+                                <th>Prec.Compra</th>
+                                <th>Prec.Venta</th>
+                                <th>Medida</th>
+                                <th>Categoria</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                    <form id="xmlForm" autocomplete="off" method="post" enctype="multipart/form-data">
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="archivo_xml">Cargar XML</label>
+                                    <input id="archivo_xml" class="form-control" type="file" name="archivo_xml" required>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <button class="btn btn-primary" type="button" id="btnCargarXML">Cargar XML</button>
+                                <button class="btn btn-primary" type="submit" id="btnRegistrar">Registrar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -12,6 +12,18 @@ class CategoriasModel extends Query
         return $this->selectAll($sql);
     }
 
+    public function getOnlyCategorias($estado)
+    {
+        $sql = "SELECT categoria FROM tbcategorias WHERE estado = $estado";
+        return $this->selectAll($sql);
+    }
+    
+    public function getIdByNombre($categoria)
+    {
+        $sql = "SELECT id FROM tbcategorias WHERE categoria = '$categoria'";
+        return $this->select($sql);
+    }
+
     public function registrar($categoria)
     {
         $sql = "INSERT INTO tbcategorias (categoria) VALUES (?)";
