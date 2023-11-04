@@ -1,9 +1,7 @@
 let tblProductos;
-let tblProductosXML;
 const form = document.querySelector("#form");
 const btnAccion = document.querySelector("#btnAccion");
 const btnNuevo = document.querySelector("#btnNuevo");
-const btnCargarXML = document.querySelector("#btnCargarXML");
 
 const id = document.querySelector("#id");
 const codigo = document.querySelector("#codigo");
@@ -164,71 +162,3 @@ function limpiarCampos() {
     errorMedida.textContent = "";
     errorCategoria.textContent = "";
 }
-
-
-// Cargar XML
-document.getElementById('btnCargarXML').addEventListener('click', function () {
-    const fileInput = document.getElementById('archivo_xml');
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-    // Primero, cargar medidas
-    fetch(base_url + "medidas/listar")
-        .then(response => response.json())
-        .then(medidas => {
-            // Luego, cargar categorías
-            fetch(base_url + "categorias/listar")
-                .then(response => response.json())
-                .then(categorias => {
-                    // Después de cargar medidas y categorías, puedes procesar el archivo XML
-                    const fileInput = document.getElementById('archivo_xml');
-                    const file = fileInput.files[0];
-                    const reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        const xmlContent = e.target.result;
-                        const parser = new DOMParser();
-                        const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
-                        const items = xmlDoc.querySelectorAll('LineaDetalle');
-
-                        items.forEach(function (item) {
-                            const codigo = item.querySelector('Codigo').textContent;
-                            const detalle = item.querySelector('Detalle').textContent;
-                            const precioUnitario = parseFloat(item.querySelector('PrecioUnitario').textContent);
-
-                            // Crear una nueva fila para la tabla tblProductosXML
-                            const newRow = document.createElement('tr');
-                            newRow.innerHTML = `
-                                    <td>${codigo}</td>
-                                    <td>${detalle}</td>
-                                    <td>${precioUnitario.toFixed(2)}</td>
-                                    <td><input type="number" step="0.01" class="precio-venta-input" value="${precioUnitario.toFixed(2)}"></td>
-                                    <td>
-                                        <div class="form-group">
-                                            <select class="medida-select form-control" name="id_medida">
-                                                <option value="">Seleccionar</option>
-                                                ${medidas.map(medida => `<option value="${medida.id}">${medida.medida}</option>`).join('')}
-                                            </select>
-                                        </div>
-                                        <span class="text-danger errorMedida"></span>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <select class="categoria-select form-control">
-                                                <option value="">Seleccionar</option>
-                                                ${categorias.map(categoria => `<option value="${categoria.id}">${categoria.categoria}</option>`).join('')}
-                                            </select>
-                                        </div>
-                                        <span class="text-danger errorMedida"></span>
-                                    </td>
-                                `;
-                            document.querySelector('#tblProductosXML tbody').appendChild(newRow);
-                        });
-                    };
-
-                    reader.readAsText(file);
-                })
-                .catch(error => console.error("Error al cargar categorías:", error));
-        })
-        .catch(error => console.error("Error al cargar medidas:", error));
-});
-
