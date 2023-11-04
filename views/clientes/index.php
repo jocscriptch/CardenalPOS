@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class="card-body">
-    <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center">
             <div></div>
             <div class="dropdown ms-auto">
                 <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
@@ -71,8 +71,8 @@
                             <label for="num_identidad">N° Cédula <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fa-solid fa-hashtag"></i></span>
-                                <input class="form-control" type="text" name="num_identidad" id="num_identidad" 
-                                placeholder="N° Cédula" inputmode="numeric">
+                                <input class="form-control" type="text" name="num_identidad" id="num_identidad"
+                                    placeholder="N° Cédula" inputmode="numeric">
                             </div>
                             <span id="errorNumIdentidad" class="text-danger"></span>
                         </div>
@@ -81,8 +81,7 @@
                             <label for="nombre">Nombre <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-list"></i></span>
-                                <input class="form-control" type="text" name="nombre" id="nombre"
-                                    placeholder="Nombre">
+                                <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombre">
                             </div>
                             <span id="errorNombre" class="text-danger"></span>
                         </div>

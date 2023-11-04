@@ -2595,3 +2595,7 @@ input.search-control-2::placeholder {
 		display: none
 	}
 }
+
+.ui-autocomplete{
+	z-index: 10000;
+}

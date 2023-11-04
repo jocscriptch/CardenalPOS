@@ -13,6 +13,7 @@
     <!-- loader-->
     <link href="<?php echo BASE_URL; ?>assets/css/pace.min.css" rel="stylesheet" />
     <script src="<?php echo BASE_URL; ?>assets/js/pace.min.js"></script>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/jquery-ui.min.css">
     <!-- Bootstrap CSS -->
     <link href="<?php echo BASE_URL; ?>assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo BASE_URL; ?>assets/css/bootstrap-extended.css" rel="stylesheet">
@@ -24,7 +25,6 @@
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/semi-dark.css" />
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/header-colors.css" />
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/DataTables/datatables.min.css" />
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/jquery-ui.min.css">
     <title>
         <?php echo TITLE . ' - ' . $data['title']; ?>
     </title>
@@ -101,7 +101,13 @@
                         <div class="menu-title">Proveedores</div>
                     </a>
                 </li>
-
+                <li>
+                    <a href="widgets.html">
+                        <div class="parent-icon"><i class='fa-solid fa-cash-register'></i>
+                        </div>
+                        <div class="menu-title">Cajas</div>
+                    </a>
+                </li>
                 <li> <a href="<?php echo BASE_URL . 'compras'; ?>">
                         <div class="parent-icon"><i class="fa-solid fa-cart-shopping"></i>
                         </div>
@@ -115,18 +121,12 @@
                         <div class="menu-title">Ventas</div>
                     </a>
                 </li>
+
                 <li>
-                    <a href="widgets.html">
-                        <div class="parent-icon"><i class='fa-solid fa-cash-register'></i>
-                        </div>
-                        <div class="menu-title">Cajas</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="widgets.html">
+                    <a href="<?php echo BASE_URL . 'creditos'; ?>">
                         <div class="parent-icon"><i class='fa-solid fa-credit-card'></i>
                         </div>
-                        <div class="menu-title">Créditos</div>
+                        <div class="menu-title">Administrar Créditos</div>
                     </a>
                 </li>
                 <li>

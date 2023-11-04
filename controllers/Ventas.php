@@ -84,7 +84,7 @@ class Ventas extends Controller
                 if ($venta > 0) {
                     if ($metodo == 'CREDITO') {
                         $monto = $granTotal;
-                        $this->model->registrarCredito($monto, $venta);
+                        $this->model->registrarCredito($monto,$fecha, $hora, $venta);
                     }
                     // if($datos['impresion']){
                     //     $this->impresionDirecta($venta);
@@ -105,6 +105,7 @@ class Ventas extends Controller
 
     public function reporte($datos)
     {
+        ob_start();
         $array = explode(',', $datos);
         $tipo = $array[0];
         $idVenta = $array[1];
@@ -115,7 +116,6 @@ class Ventas extends Controller
             echo 'Pagina No Encontrada';
             exit;
         }
-        ob_start();
         $this->views->getView('ventas', $tipo, $data);
         $html = ob_get_clean();
 
