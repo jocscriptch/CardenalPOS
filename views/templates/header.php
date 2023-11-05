@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/semi-dark.css" />
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/header-colors.css" />
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/DataTables/datatables.min.css" />
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/plugins/fullcalendar/css/main.min.css" />
     <title>
         <?php echo TITLE . ' - ' . $data['title']; ?>
     </title>
@@ -137,7 +138,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="widgets.html">
+                    <a href="<?php echo BASE_URL . 'apartados'; ?>">
                         <div class="parent-icon"><i class='fa-solid fa-people-arrows'></i>
                         </div>
                         <div class="menu-title">Apartados</div>
