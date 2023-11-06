@@ -160,9 +160,16 @@ function editarProducto(idProducto) {
     };
 }
 
-document.getElementById('btnRegistrar').addEventListener('click', function () {
+document.getElementById('btnRegistrar').addEventListener('click', function (e) {
     var tableBody = document.getElementById('tblProductosXML').getElementsByTagName('tbody')[0];
     var rows = tableBody.getElementsByTagName('tr');
+
+    if (rows.length === 0) {
+        e.preventDefault();
+        alertaPersonalizada('warning', 'No hay datos para enviar.');
+        return;
+    }
+
 
     for (var i = 0; i < rows.length; i++) {
         var cells = rows[i].getElementsByTagName('td');
@@ -198,7 +205,6 @@ document.getElementById('btnRegistrar').addEventListener('click', function () {
 });
 
 
-
 document.getElementById('btnCargarXML').addEventListener('click', function () {
     var form = new FormData($('#xmlForm')[0]);
     $.ajax({
@@ -210,10 +216,17 @@ document.getElementById('btnCargarXML').addEventListener('click', function () {
         success: function (data) {
             var response = JSON.parse(data);
             var productos = response.productos;
+            if (!response || !productos) {
+                console.error('Invalid server response:', response);
+                return; // Exit the function
+            }
             var tableBody = $('#tblProductosXML tbody');
             tableBody.empty();
-
             productos.forEach(function (producto) {
+                if (!producto.Codigo || !producto.Detalle || !producto.PrecioUnitario || !producto.Medidas || !producto.Categorias) {
+                    console.error('Invalid product data:', producto);
+                    return; // Skip this product
+                }
                 // Crear un input para el precio de venta
                 var precioVentaInput = '<input type="text" value="' + producto.PrecioUnitario + '">';
 
@@ -243,9 +256,6 @@ document.getElementById('btnCargarXML').addEventListener('click', function () {
         }
     });
 });
-
-
-
 
 
 function limpiarCampos() {

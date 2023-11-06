@@ -171,7 +171,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="archivo_xml">Cargar XML</label>
-                                    <input id="archivo_xml" class="form-control" type="file" name="archivo_xml" required>
+                                    <input id="archivo_xml" class="form-control" type="file" name="archivo_xml" accept=".xml" required>
                                 </div>
                             </div>
                             <div class="text-end">

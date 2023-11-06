@@ -36,6 +36,13 @@ class ProductosModel extends Query
         return $this->insertar($sql, $array);
     }
 
+    public function productExist($codigo)
+    {
+        $sql = "SELECT id FROM tbproductos WHERE codigo = '$codigo'";
+        $result = $this->select($sql);
+        return !empty($result);
+    }
+
     public function registrarXML(
         $codigo,
         $descripcion,
@@ -101,7 +108,7 @@ class ProductosModel extends Query
 
     public function buscarPorCodigo($valor)
     {
-        $sql = "SELECT id, cantidad FROM tbproductos WHERE codigo = '$valor'";
+        $sql = "SELECT id, descripcion, cantidad FROM tbproductos WHERE codigo = '$valor'";
         return $this->select($sql);
     }
 
