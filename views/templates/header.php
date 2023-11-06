@@ -145,10 +145,10 @@
                     </a>
                 </li>
                 <li>
-                    <a href="widgets.html">
+                    <a href="<?php echo BASE_URL . 'inventarios'; ?>">
                         <div class="parent-icon"><i class='fa-solid fa-file-lines'></i>
                         </div>
-                        <div class="menu-title">Inventario</div>
+                        <div class="menu-title">Inventario & Kardex</div>
                     </a>
                 </li>
             </ul>

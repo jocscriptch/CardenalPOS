@@ -4,10 +4,12 @@ use Dompdf\Dompdf;
 
 class Apartados extends Controller
 {
+    private $idUsuario;
     public function __construct()
     {
         parent::__construct();
         session_start();
+        $this->idUsuario = $_SESSION["id_usuario"];
     }
     public function index()
     {
@@ -64,8 +66,24 @@ class Apartados extends Controller
                     $color,
                     $idCliente
                 );
-
                 if ($apartado > 0) {
+                    foreach($datos['productos'] as $producto){
+                        $result = $this->model->getProducto($producto['id']);
+                        // Actualizar stock
+                        $nuevaCantidad = $result['cantidad'] + $producto['cantidad'];
+                        $this->model->actualizarStock($nuevaCantidad, $result['id']);
+
+                        //movimientos
+                        $movimiento = 'Apartado N°: ' . $apartado;
+                        $this->model->registrarMovimiento(
+                            $movimiento,
+                            'salida',
+                            $producto['cantidad'],
+                            $nuevaCantidad,
+                            $producto['id'],
+                            $this->idUsuario
+                        );
+                    }
                     $res = array('msg' => 'PRODUCTOS APARTADOS', 'type' => 'success', 'idApartado' => $apartado);
                 } else {
                     $res = array('msg' => 'ERROR AL APARTAR PRODUCTOS', 'type' => 'error');
