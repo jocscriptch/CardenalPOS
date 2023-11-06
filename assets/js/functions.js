@@ -103,8 +103,7 @@ function restaurarRegistros(url, tbl) {
     })
 }
 
-function alertaPersonalizada(type, msg)
-{
+function alertaPersonalizada(type, msg) {
     Swal.fire({
         toast: true,
         position: 'top',

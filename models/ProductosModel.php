@@ -36,6 +36,13 @@ class ProductosModel extends Query
         return $this->insertar($sql, $array);
     }
 
+    public function productExist($codigo)
+    {
+        $sql = "SELECT id FROM tbproductos WHERE codigo = '$codigo'";
+        $result = $this->select($sql);
+        return !empty($result);
+    }
+
     public function registrarXML(
         $codigo,
         $descripcion,
