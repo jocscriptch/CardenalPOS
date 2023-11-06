@@ -52,6 +52,23 @@ class ApartadosModel extends Query
         $array = array($abono, $estado, $idApartado);
         return $this->save($sql, $array);
     }
+
+    
+    //actualizar stock
+    public function actualizarStock($nuevaCantidad, $idProducto)
+    {
+        $sql = "UPDATE tbproductos SET cantidad = ? WHERE id = ?";
+        $array = array($nuevaCantidad, $idProducto);
+        return $this->save($sql, $array);
+    }
+
+    public function registrarMovimiento($movimiento, $accion, $cantidad, $stockActual, $idProducto, $idUsuario)
+    {
+        $sql = "INSERT INTO tbinventario (movimiento, accion, cantidad, stock_actual, id_producto, id_usuario)
+        VALUES (?, ?, ?, ?, ?, ?)";
+        $array = array($movimiento, $accion, $cantidad, $stockActual, $idProducto, $idUsuario);
+        return $this->insertar($sql, $array);
+    }
 }
 
 ?>

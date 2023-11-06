@@ -95,6 +95,12 @@ class VentasModel extends Query
         $array = array(2, $idVenta);
         return $this->save($sql, $array);
     }
-
+    public function registrarMovimiento($movimiento, $accion, $cantidad, $stockActual, $idProducto, $idUsuario)
+    {
+        $sql = "INSERT INTO tbinventario (movimiento, accion, cantidad, stock_actual, id_producto, id_usuario)
+        VALUES (?, ?, ?, ?, ?, ?)";
+        $array = array($movimiento, $accion, $cantidad, $stockActual, $idProducto, $idUsuario);
+        return $this->insertar($sql, $array);
+    }
 }
 ?>

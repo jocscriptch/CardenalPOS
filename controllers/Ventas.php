@@ -63,9 +63,7 @@ class Ventas extends Controller
                     $granTotal = $subtotal + $iva;
                     array_push($array['productos'], $data);
 
-                    // // Actualizar stock
-                    $nuevaCantidad = $result['cantidad'] - $producto['cantidad'];
-                    $this->model->actualizarStock($nuevaCantidad, $result['id']);
+
                 }
                 $datosProductos = json_encode($array['productos']);
                 $venta = $this->model->registrarVenta(
@@ -82,9 +80,27 @@ class Ventas extends Controller
                 );
 
                 if ($venta > 0) {
+                    foreach ($datos['productos'] as $producto) {
+                        $result = $this->model->getProducto($producto['id']);
+                        // Actualizar stock
+                        $nuevaCantidad = $result['cantidad'] - $producto['cantidad'];
+                        $this->model->actualizarStock($nuevaCantidad, $result['id']);
+
+                        //movimientos
+                        $movimiento = 'Venta N°: ' . $venta;
+                        $cantidad = $producto['cantidad'];
+                        $this->model->registrarMovimiento(
+                            $movimiento,
+                            'salida',
+                            $cantidad,
+                            $nuevaCantidad,
+                            $producto['id'],
+                            $this->idUsuario
+                        );
+                    }
                     if ($metodo == 'CREDITO') {
                         $monto = $granTotal;
-                        $this->model->registrarCredito($monto,$fecha, $hora, $venta);
+                        $this->model->registrarCredito($monto, $fecha, $hora, $venta);
                     }
                     // if($datos['impresion']){
                     //     $this->impresionDirecta($venta);
@@ -170,6 +186,17 @@ class Ventas extends Controller
                     $result = $this->model->getProducto($producto['id']);
                     $nuevaCantidad = $result['cantidad'] + $producto['cantidad'];
                     $this->model->actualizarStock($nuevaCantidad, $producto['id']);
+
+                    //movimientos
+                    $movimiento = 'Devolucion Venta N°: ' . $idVenta;
+                    $this->model->registrarMovimiento(
+                        $movimiento,
+                        'entrada',
+                        $producto['cantidad'],
+                        $nuevaCantidad,
+                        $producto['id'],
+                        $this->idUsuario
+                    );
                 }
                 if ($resultVenta['metodo'] == 'CREDITO') {
                     $this->model->anularCredito($idVenta);
@@ -230,7 +257,7 @@ class Ventas extends Controller
     //     $printer->text('--------------------' . "\n");
     //     $productos = json_decode($venta['productos'], true);
     //     foreach ($productos as $producto) {
-           
+
     //         $printer->setJustification(Printer::JUSTIFY_LEFT);
     //         $printer->text($producto['cantidad'] . "x" . $producto['nombre'] . "\n");
 

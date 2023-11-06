@@ -27,12 +27,12 @@ class Compras extends Controller
         $datos = json_decode($json, true);
         $array['productos'] = array();
         $subtotal = 0;
-    
+
         if (!empty($datos['productos'])) {
             $serie = str_pad(rand(1, 9999999999), 10, '0', STR_PAD_LEFT);
             $fecha = date('Y-m-d');
             $hora = date('H:i:s');
-            
+
             $idProveedor = $datos['idProveedor'];
             if (empty($idProveedor)) {
                 $res = array('msg' => 'PROVEEDOR REQUERIDO', 'type' => 'warning');
@@ -48,10 +48,6 @@ class Compras extends Controller
                     $iva = $subtotal * 0.13;
                     $granTotal = $subtotal + $iva;
                     array_push($array['productos'], $data);
-
-                    // Actualizar stock
-                    $nuevaCantidad = $result['cantidad'] + $producto['cantidad'];
-                    $this->model->actualizarStock($nuevaCantidad, $result['id']);
                 }
                 $datosProductos = json_encode($array['productos']);
                 $compra = $this->model->registrarCompra(
@@ -67,6 +63,22 @@ class Compras extends Controller
                 );
 
                 if ($compra > 0) {
+                    foreach ($datos['productos'] as $producto) {
+                        $result = $this->model->getProducto($producto['id']);
+                        // Actualizar stock
+                        $nuevaCantidad = $result['cantidad'] + $producto['cantidad'];
+                        $this->model->actualizarStock($nuevaCantidad, $result['id']);
+                        // movimientos
+                        $movimiento = 'Compra N°: ' . $compra;
+                        $this->model->registrarMovimiento(
+                            $movimiento,
+                            'entrada',
+                            $producto['cantidad'],
+                            $nuevaCantidad,
+                            $producto['id'],
+                            $this->idUsuario
+                        );
+                    }
                     $res = array(
                         'msg' => 'COMPRA REGISTRADA',
                         'type' => 'success',
@@ -149,6 +161,17 @@ class Compras extends Controller
                     $result = $this->model->getProducto($producto['id']);
                     $nuevaCantidad = $result['cantidad'] - $producto['cantidad'];
                     $this->model->actualizarStock($nuevaCantidad, $producto['id']);
+
+                    //movimientos
+                    $movimiento = 'Devolucion Compra N°: ' . $idCompra;
+                    $this->model->registrarMovimiento(
+                        $movimiento,
+                        'salida',
+                        $producto['cantidad'],
+                        $nuevaCantidad,
+                        $producto['id'],
+                        $this->idUsuario
+                    );
                 }
                 $res = array('msg' => 'COMPRA ANULADA', 'type' => 'success');
             } else {
