@@ -197,9 +197,6 @@ document.getElementById('btnRegistrar').addEventListener('click', function (e) {
             data: form,
             processData: false,
             contentType: false,
-            success: function (data) {
-                alert(data);
-            }
         });
     }
 });
@@ -228,17 +225,17 @@ document.getElementById('btnCargarXML').addEventListener('click', function () {
                     return; // Skip this product
                 }
                 // Crear un input para el precio de venta
-                var precioVentaInput = '<input type="text" value="' + producto.PrecioUnitario + '">';
+                var precioVentaInput = '<input class="form-control" type="text" value="' + producto.PrecioUnitario + '">';
 
                 // Crear un select para la medida
-                var medidaSelect = '<select>';
+                var medidaSelect = '<select class="form-control">';
                 producto.Medidas.forEach(function (medida) {
                     medidaSelect += '<option value="' + medida + '">' + medida + '</option>';
                 });
                 medidaSelect += '</select>';
 
                 // Crear un select para la categoría
-                var categoriaSelect = '<select>';
+                var categoriaSelect = '<select class="form-control">';
                 producto.Categorias.forEach(function (categoria) {
                     categoriaSelect += '<option value="' + categoria + '">' + categoria + '</option>';
                 });
