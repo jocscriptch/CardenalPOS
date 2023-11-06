@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-11-2023 a las 14:59:17
+-- Tiempo de generación: 05-11-2023 a las 21:10:18
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -34,14 +34,6 @@ CREATE TABLE `tbabonos` (
   `id_credito` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `tbabonos`
---
-
-INSERT INTO `tbabonos` (`id`, `abono`, `fecha`, `id_credito`) VALUES
-(1, 5000.00, '2023-11-02 06:23:23', 1),
-(2, 3362.00, '2023-11-04 06:28:30', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -51,7 +43,8 @@ INSERT INTO `tbabonos` (`id`, `abono`, `fecha`, `id_credito`) VALUES
 CREATE TABLE `tbapartados` (
   `id` int(11) NOT NULL,
   `productos` longtext NOT NULL,
-  `fecha_apartado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `fecha_creado` date NOT NULL,
+  `fecha_apartado` datetime NOT NULL,
   `fecha_retiro` datetime NOT NULL,
   `abono` decimal(10,2) NOT NULL,
   `total` decimal(10,2) NOT NULL,
@@ -147,13 +140,6 @@ CREATE TABLE `tbcompras` (
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `tbcompras`
---
-
-INSERT INTO `tbcompras` (`id`, `productos`, `subtotal`, `iva`, `total`, `fecha`, `hora`, `serie`, `estado`, `id_proveedor`, `id_usuario`) VALUES
-(1, '[{\"id\":1,\"nombre\":\"CABLE VELOC. YBR125ED DISCO VINI\",\"precio\":\"950.00\",\"cantidad\":10},{\"id\":2,\"nombre\":\"SWITCH LUCES IZQ. NXR\\/XL200\\/CARGO KGA VINI\",\"precio\":\"2245.00\",\"cantidad\":9}]', 29705.00, 3861.65, 33566.65, '2023-11-03', '22:34:19', '1744820040', 1, 2, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -197,15 +183,6 @@ CREATE TABLE `tbcotizaciones` (
   `id_cliente` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `tbcotizaciones`
---
-
-INSERT INTO `tbcotizaciones` (`id`, `productos`, `subtotal`, `iva`, `total`, `fecha`, `hora`, `metodo`, `validez`, `id_cliente`) VALUES
-(1, '[{\"id\":1,\"nombre\":\"CABLE VELOC. YBR125ED DISCO VINI\",\"precio\":\"1200.00\",\"cantidad\":1},{\"id\":3,\"nombre\":\"STOP.U PIRAMIDAL XR200 UNIVER. TW\",\"precio\":\"2500.00\",\"cantidad\":1}]', 3700.00, 481.00, 4181.00, '2023-11-04', '14:29:18', 'CONTADO', '15 DIAS', 2),
-(2, '[{\"id\":1,\"nombre\":\"CABLE VELOC. YBR125ED DISCO VINI\",\"precio\":\"1200.00\",\"cantidad\":6}]', 7200.00, 936.00, 8136.00, '2023-11-04', '14:52:30', 'CONTADO', '5 DIAS', 2),
-(3, '[{\"id\":3,\"nombre\":\"STOP.U PIRAMIDAL XR200 UNIVER. TW\",\"precio\":\"2500.00\",\"cantidad\":4}]', 10000.00, 1300.00, 11300.00, '2023-11-04', '14:55:08', 'CREDITO', '20 DIAS', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -220,13 +197,6 @@ CREATE TABLE `tbcreditos` (
   `estado` int(11) NOT NULL DEFAULT 1,
   `id_venta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tbcreditos`
---
-
-INSERT INTO `tbcreditos` (`id`, `monto`, `fecha`, `hora`, `estado`, `id_venta`) VALUES
-(1, 8362.00, '2023-11-04', '00:22:24', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -250,9 +220,11 @@ CREATE TABLE `tbgastos` (
 
 CREATE TABLE `tbinventario` (
   `id` int(11) NOT NULL,
-  `entradas` int(11) NOT NULL DEFAULT 0,
-  `salidas` int(11) NOT NULL DEFAULT 0,
-  `fecha` date NOT NULL,
+  `movimiento` varchar(100) NOT NULL,
+  `accion` varchar(20) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `stock_actual` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `id_producto` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -309,14 +281,14 @@ CREATE TABLE `tbproductos` (
 --
 
 INSERT INTO `tbproductos` (`id`, `codigo`, `descripcion`, `precio_compra`, `precio_venta`, `cantidad`, `foto`, `estado`, `fecha`, `ventas`, `id_medida`, `id_categoria`) VALUES
-(1, '8433332', 'CABLE VELOC. YBR125ED DISCO VINI', 950.00, 1200.00, 6, NULL, 1, '2023-11-04 06:22:24', 0, 2, 2),
-(2, '8462370', 'SWITCH LUCES IZQ. NXR/XL200/CARGO KGA VINI', 2245.00, 2500.00, 6, NULL, 1, '2023-11-04 06:22:24', 0, 2, 1),
-(3, '8468266', 'STOP.U PIRAMIDAL XR200 UNIVER. TW', 2280.00, 2500.00, 2, NULL, 1, '2023-11-03 23:53:39', 0, 2, 1),
-(4, '5420181', 'LL.17 80/80x17 K-6309 41P TL', 12970.00, 13550.00, 2, NULL, 1, '2023-11-03 23:53:39', 0, 2, 1),
-(5, '5420596', 'LL.17 90/90x17 K-6309 49P TL', 23180.00, 25000.00, 1, NULL, 1, '2023-11-03 23:53:39', 0, 2, 1),
-(6, '5420166', 'LL.18 120/80x18 K-6309 62P TL', 24800.00, 26000.00, 1, NULL, 1, '2023-11-04 00:16:22', 0, 2, 2),
-(7, '5420191', 'LL.21 90/90x21 K-6309 54P', 15900.00, 16500.00, 1, NULL, 1, '2023-11-03 23:53:39', 0, 2, 1),
-(8, '5420526', 'LL.19 90/90x19 K-669 52P', 18720.00, 19500.00, 2, NULL, 1, '2023-11-03 23:53:39', 0, 2, 2);
+(1, '8462370', 'SWITCH LUCES IZQ. NXR/XL200/CARGO KGA VINI', 2245.00, 3000.00, 10, NULL, 1, '2023-11-06 01:32:26', 0, 2, 1),
+(2, '5420191', 'LL.21 90/90x21 K-6309 54P', 15900.00, 17000.00, 1, NULL, 1, '2023-11-06 01:06:08', 0, 2, 1),
+(3, '8468266', 'STOP.U PIRAMIDAL XR200 UNIVER. TW', 2280.00, 3000.00, 10, NULL, 1, '2023-11-06 01:42:37', 0, 2, 1),
+(4, '5420181', 'LL.17 80/80x17 K-6309 41P TL', 12970.00, 15000.00, 2, NULL, 1, '2023-11-06 01:06:08', 0, 2, 1),
+(5, '8433332', 'CABLE VELOC. YBR125ED DISCO VINI', 950.00, 1200.00, 4, NULL, 1, '2023-11-06 01:28:18', 0, 2, 1),
+(6, '5420526', 'LL.19 90/90x19 K-669 52P', 18720.00, 20000.00, 2, NULL, 1, '2023-11-06 01:06:08', 0, 2, 1),
+(7, '5420166', 'LL.18 120/80x18 K-6309 62P TL', 24800.00, 26000.00, 1, NULL, 1, '2023-11-06 01:06:08', 0, 2, 1),
+(8, '5420596', 'LL.17 90/90x17 K-6309 49P TL', 23180.00, 25000.00, 1, NULL, 1, '2023-11-06 01:06:08', 0, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -393,13 +365,6 @@ CREATE TABLE `tbventas` (
   `id_cliente` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tbventas`
---
-
-INSERT INTO `tbventas` (`id`, `productos`, `subtotal`, `iva`, `total`, `fecha`, `hora`, `metodo`, `serie`, `estado`, `apertura`, `id_cliente`, `id_usuario`) VALUES
-(1, '[{\"id\":1,\"nombre\":\"CABLE VELOC. YBR125ED DISCO VINI\",\"precio\":\"1200.00\",\"cantidad\":2},{\"id\":2,\"nombre\":\"SWITCH LUCES IZQ. NXR\\/XL200\\/CARGO KGA VINI\",\"precio\":\"2500.00\",\"cantidad\":2}]', 7400.00, 962.00, 8362.00, '2023-11-04', '00:22:24', 'CREDITO', '00000001', 1, 1, 2, 1);
 
 --
 -- Índices para tablas volcadas
@@ -523,7 +488,7 @@ ALTER TABLE `tbventas`
 -- AUTO_INCREMENT de la tabla `tbabonos`
 --
 ALTER TABLE `tbabonos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tbapartados`
@@ -553,7 +518,7 @@ ALTER TABLE `tbclientes`
 -- AUTO_INCREMENT de la tabla `tbcompras`
 --
 ALTER TABLE `tbcompras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tbconfiguracion`
@@ -565,13 +530,13 @@ ALTER TABLE `tbconfiguracion`
 -- AUTO_INCREMENT de la tabla `tbcotizaciones`
 --
 ALTER TABLE `tbcotizaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tbcreditos`
 --
 ALTER TABLE `tbcreditos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tbgastos`
@@ -613,7 +578,7 @@ ALTER TABLE `tbusuarios`
 -- AUTO_INCREMENT de la tabla `tbventas`
 --
 ALTER TABLE `tbventas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
