@@ -18,12 +18,13 @@ class ApartadosModel extends Query
         $abono,
         $total,
         $color,
-        $idCliente
+        $idCliente,
+        $idUsuario
     ) {
         $sql = "INSERT INTO tbapartados (productos, fecha_creado, fecha_apartado,
-        fecha_retiro, abono, total, color, id_cliente) VALUES (?,?,?,?,?,?,?,?)";
+        fecha_retiro, abono, total, color, id_cliente, id_usuario) VALUES (?,?,?,?,?,?,?,?,?)";
         $array = array($productos, $fecha_creado, $fecha_apartado,
-        $fecha_retiro, $abono, $total, $color, $idCliente);
+        $fecha_retiro, $abono, $total, $color, $idCliente, $idUsuario);
         return $this->insertar($sql, $array);
     }
 

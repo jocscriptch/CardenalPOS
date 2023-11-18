@@ -64,7 +64,8 @@ class Apartados extends Controller
                     $abono,
                     $granTotal,
                     $color,
-                    $idCliente
+                    $idCliente,
+                    $this->idUsuario
                 );
                 if ($apartado > 0) {
                     foreach($datos['productos'] as $producto){

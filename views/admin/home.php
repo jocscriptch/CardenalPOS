@@ -6,12 +6,14 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
-                        <p class="mb-0 text-secondary">Total Orders</p>
-                        <h4 class="my-1 text-info">4805</h4>
-                        <p class="mb-0 font-13">+2.5% from last week</p>
+                        <p class="mb-0 text-secondary">Total Usuarios</p>
+                        <h4 class="my-1 text-info">
+                            <?php echo $data['usuarios']['total']; ?>
+                        </h4>
+                        <a class="mb-0 font-13" href="<?php echo BASE_URL . 'usuarios'; ?>">Detalle</a>
                     </div>
                     <div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto">
-                        <i class='bx bxs-cart'></i>
+                        <i class="fa-solid fa-users"></i>
                     </div>
                 </div>
             </div>
@@ -22,12 +24,14 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
-                        <p class="mb-0 text-secondary">Total Revenue</p>
-                        <h4 class="my-1 text-danger">$84,245</h4>
-                        <p class="mb-0 font-13">+5.4% from last week</p>
+                        <p class="mb-0 text-secondary">Total Clientes</p>
+                        <h4 class="my-1 text-info">
+                            <?php echo $data['clientes']['total']; ?>
+                        </h4>
+                        <a class="mb-0 font-13" href="<?php echo BASE_URL . 'clientes'; ?>">Detalle</a>
                     </div>
-                    <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto"><i
-                            class='bx bxs-wallet'></i>
+                    <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto">
+                        <i class="fa-solid fa-users"></i>
                     </div>
                 </div>
             </div>
@@ -38,12 +42,14 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
-                        <p class="mb-0 text-secondary">Bounce Rate</p>
-                        <h4 class="my-1 text-success">34.6%</h4>
-                        <p class="mb-0 font-13">-4.5% from last week</p>
+                        <p class="mb-0 text-secondary">Total Proveedores</p>
+                        <h4 class="my-1 text-info">
+                            <?php echo $data['proveedores']['total']; ?>
+                        </h4>
+                        <a class="mb-0 font-13" href="<?php echo BASE_URL . 'proveedores'; ?>">Detalle</a>
                     </div>
                     <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
-                        <i class='bx bxs-bar-chart-alt-2'></i>
+                        <i class='fa-solid fa-users'></i>
                     </div>
                 </div>
             </div>
@@ -54,12 +60,14 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
-                        <p class="mb-0 text-secondary">Total Customers</p>
-                        <h4 class="my-1 text-warning">8.4K</h4>
-                        <p class="mb-0 font-13">+8.4% from last week</p>
+                        <p class="mb-0 text-secondary">Total Productos</p>
+                        <h4 class="my-1 text-info">
+                            <?php echo $data['productos']['total']; ?>
+                        </h4>
+                        <a class="mb-0 font-13" href="<?php echo BASE_URL . 'productos'; ?>">Detalle</a>
                     </div>
                     <div class="widgets-icons-2 rounded-circle bg-gradient-blooker text-white ms-auto">
-                        <i class='bx bxs-group'></i>
+                        <i class='fas fa-list'></i>
                     </div>
                 </div>
             </div>
@@ -72,57 +80,45 @@
     <div class="col-12 col-lg-8">
         <div class="card radius-10">
             <div class="card-body">
-                <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h6 class="mb-0">Resumen de ventas</h6>
+                        <h6 class="mb-0">Compras y Ventas</h6>
                     </div>
-                    <div class="dropdown ms-auto">
-                        <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
-                                class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:;">Action</a>
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Another action</a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Something else here</a>
-                            </li>
-                        </ul>
+                    <div class="form-group">
+                        <label for="anio">Año</label>
+                        <select id="anio" onchange="comparacion()">
+                            <?php
+                            $fecha = date('Y');
+                            for ($i = 2023; $i <= $fecha; $i++) { ?>
+                                <option value="<?php echo $i; ?>" <?php echo ($fecha == $i) ? 'selected' : ''; ?>>
+                                    <?php echo $i; ?>
+                                </option>
+
+                            <?php } ?>
+                        </select>
                     </div>
                 </div>
                 <div class="d-flex align-items-center ms-auto font-13 gap-2 my-3">
                     <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1"
-                            style="color: #14abef"></i>Sales</span>
+                            style="color: #14abef"></i>Ventas</span>
                     <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1"
-                            style="color: #ffc107"></i>Visits</span>
+                            style="color: #ffc107"></i>Compras</span>
                 </div>
                 <div class="chart-container-1">
-                    <canvas id="chart1"></canvas>
+                    <canvas id="comparacion"></canvas>
                 </div>
             </div>
-            <div class="row row-cols-1 row-cols-md-3 row-cols-xl-3 g-0 row-group text-center border-top">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 g-0 row-group text-center border-top">
                 <div class="col">
                     <div class="p-3">
-                        <h5 class="mb-0">24.15M</h5>
-                        <small class="mb-0">Overall Visitor <span> <i class="bx bx-up-arrow-alt align-middle"></i>
-                                2.43%</span></small>
+                        <h5 class="mb-0" id="totalVentas">00</h5>
+                        <small class="mb-0">Total De Ventas</small>
                     </div>
                 </div>
                 <div class="col">
                     <div class="p-3">
-                        <h5 class="mb-0">12:38</h5>
-                        <small class="mb-0">Visitor Duration <span> <i class="bx bx-up-arrow-alt align-middle"></i>
-                                12.65%</span></small>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="p-3">
-                        <h5 class="mb-0">639.82</h5>
-                        <small class="mb-0">Pages/Visit <span> <i class="bx bx-up-arrow-alt align-middle"></i>
-                                5.62%</span></small>
+                        <h5 class="mb-0" id="totalCompras">00</h5>
+                        <small class="mb-0">Total De Compras</small>
                     </div>
                 </div>
             </div>
@@ -133,42 +129,34 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
-                        <h6 class="mb-0">Repuestos mas vendidos</h6>
+                        <h6 class="mb-0">🔥Top 3 Productos</h6>
                     </div>
                     <div class="dropdown ms-auto">
                         <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
                                 class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:;">Action</a>
+                            <li><a class="dropdown-item" href="<?php echo BASE_URL . 'admin/topProductosPdf'; ?>"
+                                    target="_blank"><i class="fas fa-file-pdf text-danger"></i> Reporte PDF</a>
                             </li>
-                            <li><a class="dropdown-item" href="javascript:;">Another action</a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Something else here</a>
-                            </li>
+                            <!-- <li><a class="dropdown-item" href="<?php echo BASE_URL . 'admin/topProductosExcel'; ?>"><i
+                                        class="fas fa-file-excel text-success"></i> Reporte Excel</a>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
                 <div class="chart-container-2 mt-4">
-                    <canvas id="chart2"></canvas>
+                    <canvas id="topProductos"></canvas>
                 </div>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
-                    Cadena <span class="badge bg-success rounded-pill">25</span>
-                </li>
-                <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
-                    Aceite<span class="badge bg-danger rounded-pill">10</span>
-                </li>
-                <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
-                    Llanta <span class="badge bg-primary rounded-pill">65</span>
-                </li>
-                <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
-                    Luces <span class="badge bg-warning text-dark rounded-pill">14</span>
-                </li>
+                <?php foreach ($data['top'] as $top) { ?>
+                    <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
+                        <?php echo $top['descripcion']; ?> <span class="badge bg-info rounded-pill">
+                            <?php echo $top['ventas']; ?>
+                        </span>
+                    </li>
+                <?php } ?>
             </ul>
         </div>
     </div>
@@ -179,22 +167,19 @@
     <div class="card-body">
         <div class="d-flex align-items-center">
             <div>
-                <h6 class="mb-0">Recent Orders</h6>
+                <h6 class="mb-0">Productos Recientes</h6>
             </div>
             <div class="dropdown ms-auto">
                 <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
                         class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="javascript:;">Action</a>
+                    <li><a class="dropdown-item" href="<?php echo BASE_URL . 'admin/recientesPdf'; ?>"
+                            target="_blank"><i class="fas fa-file-pdf text-danger"></i> Reporte PDF</a>
                     </li>
-                    <li><a class="dropdown-item" href="javascript:;">Another action</a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="javascript:;">Something else here</a>
-                    </li>
+                    <!-- <li><a class="dropdown-item" href="<?php echo BASE_URL . 'admin/stockMinimoExcel'; ?>"><i
+                                        class="fas fa-file-excel text-success"></i> Reporte Excel</a>
+                            </li> -->
                 </ul>
             </div>
         </div>
@@ -202,115 +187,42 @@
             <table class="table align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th>Product</th>
-                        <th>Photo</th>
-                        <th>Product ID</th>
-                        <th>Status</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Shipping</th>
+                        <th>Producto</th>
+                        <th>Foto</th>
+                        <th>Precio Compra</th>
+                        <th>Precio Venta</th>
+                        <th>Fecha</th>
+                        <th>Categoria</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Iphone 5</td>
-                        <td><img src="<?php echo BASE_URL; ?>assets/images/products/01.png" class="product-img-2"
-                                alt="product img"></td>
-                        <td>#9405822</td>
-                        <td><span class="badge bg-gradient-quepal text-white shadow-sm w-100">Paid</span>
-                        </td>
-                        <td>$1250.00</td>
-                        <td>03 Feb 2020</td>
-                        <td>
-                            <div class="progress" style="height: 6px;">
-                                <div class="progress-bar bg-gradient-quepal" role="progressbar" style="width: 100%">
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Earphone GL</td>
-                        <td><img src="<?php echo BASE_URL; ?>assets/images/products/02.png" class="product-img-2"
-                                alt="product img"></td>
-                        <td>#8304620</td>
-                        <td><span class="badge bg-gradient-blooker text-white shadow-sm w-100">Pending</span>
-                        </td>
-                        <td>$1500.00</td>
-                        <td>05 Feb 2020</td>
-                        <td>
-                            <div class="progress" style="height: 6px;">
-                                <div class="progress-bar bg-gradient-blooker" role="progressbar" style="width: 60%">
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>HD Hand Camera</td>
-                        <td><img src="<?php echo BASE_URL; ?>assets/images/products/03.png" class="product-img-2"
-                                alt="product img"></td>
-                        <td>#4736890</td>
-                        <td><span class="badge bg-gradient-bloody text-white shadow-sm w-100">Failed</span>
-                        </td>
-                        <td>$1400.00</td>
-                        <td>06 Feb 2020</td>
-                        <td>
-                            <div class="progress" style="height: 6px;">
-                                <div class="progress-bar bg-gradient-bloody" role="progressbar" style="width: 70%">
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Clasic Shoes</td>
-                        <td><img src="<?php echo BASE_URL; ?>assets/images/products/04.png" class="product-img-2"
-                                alt="product img"></td>
-                        <td>#8543765</td>
-                        <td><span class="badge bg-gradient-quepal text-white shadow-sm w-100">Paid</span>
-                        </td>
-                        <td>$1200.00</td>
-                        <td>14 Feb 2020</td>
-                        <td>
-                            <div class="progress" style="height: 6px;">
-                                <div class="progress-bar bg-gradient-quepal" role="progressbar" style="width: 100%">
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Sitting Chair</td>
-                        <td><img src="<?php echo BASE_URL; ?>assets/images/products/06.png" class="product-img-2"
-                                alt="product img"></td>
-                        <td>#9629240</td>
-                        <td><span class="badge bg-gradient-blooker text-white shadow-sm w-100">Pending</span>
-                        </td>
-                        <td>$1500.00</td>
-                        <td>18 Feb 2020</td>
-                        <td>
-                            <div class="progress" style="height: 6px;">
-                                <div class="progress-bar bg-gradient-blooker" role="progressbar" style="width: 60%">
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Hand Watch</td>
-                        <td><img src="<?php echo BASE_URL; ?>assets/images/products/05.png" class="product-img-2"
-                                alt="product img"></td>
-                        <td>#8506790</td>
-                        <td><span class="badge bg-gradient-bloody text-white shadow-sm w-100">Failed</span>
-                        </td>
-                        <td>$1800.00</td>
-                        <td>21 Feb 2020</td>
-                        <td>
-                            <div class="progress" style="height: 6px;">
-                                <div class="progress-bar bg-gradient-bloody" role="progressbar" style="width: 40%">
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                    <?php foreach ($data['nuevos'] as $nuevo) {
+                        if ($nuevo['foto'] == null) {
+                            $foto = BASE_URL . 'assets/images/productos/default.png';
+                        } else {
+                            $foto = BASE_URL . $nuevo['foto'];
+                        }
+                        ?>
+                        <tr>
+                            <td>
+                                <?php echo $nuevo['descripcion']; ?>
+                            </td>
+                            <td><img src="<?php echo $foto; ?>" class="product-img-2" alt="product img"></td>
+                            <td><span class="badge bg-primary text-white shadow-sm w-100">
+                                    <?php echo $nuevo['precio_compra']; ?>
+                                </span>
+                            </td>
+                            <td><span class="badge bg-success text-white shadow-sm w-100">
+                                    <?php echo $nuevo['precio_venta']; ?>
+                                </span></td>
+                            <td>
+                                <?php echo $nuevo['fecha']; ?>
+                            </td>
+                            <td>
+                                <?php echo $nuevo['categoria']; ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -319,23 +231,28 @@
 
 <!--end row-->
 
-<div class="row row-cols-1 row-cols-lg-3">
+<div class="row row-cols-1 row-cols-lg-2">
     <div class="col d-flex">
         <div class="card radius-10 w-100">
             <div class="card-body">
-                <p class="font-weight-bold mb-1 text-secondary">Weekly Revenue</p>
-                <div class="d-flex align-items-center mb-4">
-                    <div>
-                        <h4 class="mb-0">$89,540</h4>
-                    </div>
-                    <div class="">
-                        <p class="mb-0 align-self-center font-weight-bold text-success ms-2">4.4% <i
-                                class="bx bxs-up-arrow-alt mr-2"></i>
-                        </p>
+                <div class="d-flex justify-content-between">
+                    <p class="font-weight-bold mb-1 text-secondary">Ventas por Mes</p>
+                    <div class="form-group">
+                        <label for="anioVenta">Año</label>
+                        <select id="anioVenta" onchange="reporteVentas()">
+                            <?php
+                            $fecha = date('Y');
+                            for ($i = 2023; $i <= $fecha; $i++) { ?>
+                                <option value="<?php echo $i; ?>" <?php echo ($fecha == $i) ? 'selected' : ''; ?>>
+                                    <?php echo $i; ?>
+                                </option>
+
+                            <?php } ?>
+                        </select>
                     </div>
                 </div>
                 <div class="chart-container-0">
-                    <canvas id="chart3"></canvas>
+                    <canvas id="ventas"></canvas>
                 </div>
             </div>
         </div>
@@ -345,89 +262,28 @@
             <div class="card-header bg-transparent">
                 <div class="d-flex align-items-center">
                     <div>
-                        <h6 class="mb-0">Orders Summary</h6>
+                        <h6 class="mb-0">Productos con Stock Mínimo</h6>
                     </div>
                     <div class="dropdown ms-auto">
                         <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
                                 class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:;">Action</a>
+                            <li><a class="dropdown-item" href="<?php echo BASE_URL . 'admin/stockMinimoPdf'; ?>"
+                                    target="_blank"><i class="fas fa-file-pdf text-danger"></i> Reporte PDF</a>
                             </li>
-                            <li><a class="dropdown-item" href="javascript:;">Another action</a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Something else here</a>
-                            </li>
+                            <!-- <li><a class="dropdown-item" href="<?php echo BASE_URL . 'admin/stockMinimoExcel'; ?>"><i
+                                        class="fas fa-file-excel text-success"></i> Reporte Excel</a>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="card-body">
                 <div class="chart-container-1">
-                    <canvas id="chart4"></canvas>
+                    <canvas id="stockMinimo"></canvas>
                 </div>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
-                    Completed <span class="badge bg-gradient-quepal rounded-pill">25</span>
-                </li>
-                <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
-                    Pending <span class="badge bg-gradient-ibiza rounded-pill">10</span>
-                </li>
-                <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
-                    Process <span class="badge bg-gradient-deepblue rounded-pill">65</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="col d-flex">
-        <div class="card radius-10 w-100">
-            <div class="card-header bg-transparent">
-                <div class="d-flex align-items-center">
-                    <div>
-                        <h6 class="mb-0">Top Selling Categories</h6>
-                    </div>
-                    <div class="dropdown ms-auto">
-                        <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
-                                class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:;">Action</a>
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Another action</a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="javascript:;">Something else here</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="chart-container-0">
-                    <canvas id="chart5"></canvas>
-                </div>
-            </div>
-            <div class="row row-group border-top g-0">
-                <div class="col">
-                    <div class="p-3 text-center">
-                        <h4 class="mb-0 text-danger">$45,216</h4>
-                        <p class="mb-0">Clothing</p>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="p-3 text-center">
-                        <h4 class="mb-0 text-success">$68,154</h4>
-                        <p class="mb-0">Electronic</p>
-                    </div>
-                </div>
-            </div>
-            <!--end row-->
         </div>
     </div>
 </div>

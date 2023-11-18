@@ -102,13 +102,13 @@
                         <div class="menu-title">Proveedores</div>
                     </a>
                 </li>
-                <li>
-                    <a href="widgets.html">
+                <!-- <li>
+                    <a href="<?php echo BASE_URL . 'cajas'; ?>">
                         <div class="parent-icon"><i class='fa-solid fa-cash-register'></i>
                         </div>
                         <div class="menu-title">Cajas</div>
                     </a>
-                </li>
+                </li> -->
                 <li> <a href="<?php echo BASE_URL . 'compras'; ?>">
                         <div class="parent-icon"><i class="fa-solid fa-cart-shopping"></i>
                         </div>

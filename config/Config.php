@@ -7,5 +7,5 @@ define('PASS', '');
 define('DBNAME', 'cardenalpos');
 define('CHARSET', 'utf8mb4');
 define('TITLE', 'CARDENAL POS');
-//define('MONEDA', 'S/ ');
+//define('MONEDA', '₡/ ');
 ?>

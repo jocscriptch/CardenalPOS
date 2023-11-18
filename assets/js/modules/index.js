@@ -1,26 +1,61 @@
-$(function() {
-    "use strict";
+$(function () {
+  "use strict";
 
-	
-// chart 1
 
-  var ctx = document.getElementById("chart1").getContext('2d');
-   
-  var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 300);
-      gradientStroke1.addColorStop(0, '#6078ea');  
-      gradientStroke1.addColorStop(1, '#17c5ea'); 
-   
-  var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
+
+});
+
+let myChart, myChartVenta;
+comparacion();
+topProductos();
+reporteVentas();
+stockMinimo();
+
+
+
+comparacion();
+topProductos();
+
+function comparacion() {
+  if (myChart) {
+    myChart.destroy();
+  }
+  const anio = document.querySelector('#anio').value;
+  const url = base_url + 'admin/comparacion/' + anio;
+  //hacer una instancia del objeto XMLHttpRequest
+  const http = new XMLHttpRequest();
+  //Abrir una Conexion - POST - GET
+  http.open('GET', url, true);
+  //Enviar Datos
+  http.send();
+  //verificar estados
+  http.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = JSON.parse(this.responseText);
+
+      document.querySelector('#totalVentas').textContent = res.totalVentas.total;
+      document.querySelector('#totalCompras').textContent = res.totalCompras.total;
+
+      var ctx = document.getElementById("comparacion").getContext('2d');
+
+      var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 300);
+      gradientStroke1.addColorStop(0, '#6078ea');
+      gradientStroke1.addColorStop(1, '#17c5ea');
+
+      var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
       gradientStroke2.addColorStop(0, '#ff8359');
       gradientStroke2.addColorStop(1, '#ffdf40');
 
-      var myChart = new Chart(ctx, {
+      myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
           datasets: [{
-            label: 'Laptops',
-            data: [65, 59, 80, 81,65, 59, 80, 81,59, 80, 81,65],
+            label: 'Ventas',
+            data: [res.venta.ene, res.venta.feb, res.venta.mar,
+            res.venta.abr, res.venta.may, res.venta.jun,
+            res.venta.jul, res.venta.ago, res.venta.sep,
+            res.venta.oct, res.venta.nov, res.venta.dic],
             borderColor: gradientStroke1,
             backgroundColor: gradientStroke1,
             hoverBackgroundColor: gradientStroke1,
@@ -28,8 +63,11 @@ $(function() {
             fill: false,
             borderWidth: 0
           }, {
-            label: 'Mobiles',
-            data: [28, 48, 40, 19,28, 48, 40, 19,40, 19,28, 48],
+            label: 'Compras',
+            data: [res.compra.ene, res.compra.feb, res.compra.mar,
+            res.compra.abr, res.compra.may, res.compra.jun,
+            res.compra.jul, res.compra.ago, res.compra.sep,
+            res.compra.oct, res.compra.nov, res.compra.dic],
             borderColor: gradientStroke2,
             backgroundColor: gradientStroke2,
             hoverBackgroundColor: gradientStroke2,
@@ -38,53 +76,72 @@ $(function() {
             borderWidth: 0
           }]
         },
-		
-		options:{
-		  maintainAspectRatio: false,
-		  legend: {
-			  position: 'bottom',
-              display: false,
-			  labels: {
-                boxWidth:8
-              }
-            },
-			tooltips: {
-			  displayColors:false,
-			},	
-		  scales: {
-			  xAxes: [{
-				barPercentage: .5
-			  }]
-		     }
-		}
+
+        options: {
+          maintainAspectRatio: false,
+          legend: {
+            position: 'bottom',
+            display: false,
+            labels: {
+              boxWidth: 8
+            }
+          },
+          tooltips: {
+            displayColors: false,
+          },
+          scales: {
+            xAxes: [{
+              barPercentage: .5
+            }]
+          }
+        }
       });
-	  
-	 
-// chart 2
+    }
+  }
+}
 
- var ctx = document.getElementById("chart2").getContext('2d');
+function topProductos() {
+  const url = base_url + 'admin/topProductos';
+  //hacer una instancia del objeto XMLHttpRequest
+  const http = new XMLHttpRequest();
+  //Abrir una Conexion - POST - GET
+  http.open('GET', url, true);
+  //Enviar Datos
+  http.send();
+  //verificar estados
+  http.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = JSON.parse(this.responseText);
 
-  var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 300);
+      var ctx = document.getElementById("topProductos").getContext('2d');
+
+      var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 300);
       gradientStroke1.addColorStop(0, '#fc4a1a');
       gradientStroke1.addColorStop(1, '#f7b733');
 
-  var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
+      var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
       gradientStroke2.addColorStop(0, '#4776e6');
       gradientStroke2.addColorStop(1, '#8e54e9');
 
 
-  var gradientStroke3 = ctx.createLinearGradient(0, 0, 0, 300);
+      var gradientStroke3 = ctx.createLinearGradient(0, 0, 0, 300);
       gradientStroke3.addColorStop(0, '#ee0979');
       gradientStroke3.addColorStop(1, '#ff6a00');
-	  
-	var gradientStroke4 = ctx.createLinearGradient(0, 0, 0, 300);
+
+      var gradientStroke4 = ctx.createLinearGradient(0, 0, 0, 300);
       gradientStroke4.addColorStop(0, '#42e695');
       gradientStroke4.addColorStop(1, '#3bb2b8');
+      let nombre = [];
+      let cantidad = [];
+      for (let i = 0; i < res.length; i++) {
+        nombre.push(res[i].descripcion);
+        cantidad.push(res[i].ventas);
+      }
 
-      var myChart = new Chart(ctx, {
+      var myChart1 = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: ["Jeans", "T-Shirts", "Shoes", "Lingerie"],
+          labels: nombre,
           datasets: [{
             backgroundColor: [
               gradientStroke1,
@@ -98,42 +155,63 @@ $(function() {
               gradientStroke3,
               gradientStroke4
             ],
-            data: [25, 80, 25, 25],
-			borderWidth: [1, 1, 1, 1]
+            data: cantidad,
+            borderWidth: [1, 1, 1, 1]
           }]
         },
         options: {
-			maintainAspectRatio: false,
-			cutoutPercentage: 75,
-            legend: {
-			  position: 'bottom',
-              display: false,
-			  labels: {
-                boxWidth:8
-              }
-            },
-			tooltips: {
-			  displayColors:false,
-			}
+          maintainAspectRatio: false,
+          cutoutPercentage: 75,
+          legend: {
+            position: 'bottom',
+            display: true,
+            labels: {
+              boxWidth: 8
+            }
+          },
+          tooltips: {
+            displayColors: false,
+          }
         }
       });
+    }
+  }
+}
 
+function reporteVentas() {
 
-// chart 3
+  if (myChartVenta) {
+    myChartVenta.destroy();
+  }
+  const anio = document.querySelector('#anioVenta').value;
+  const url = base_url + 'admin/ventas/' + anio;
+  //hacer una instancia del objeto XMLHttpRequest
+  const http = new XMLHttpRequest();
+  //Abrir una Conexion - POST - GET
+  http.open('GET', url, true);
+  //Enviar Datos
+  http.send();
+  //verificar estados
+  http.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = JSON.parse(this.responseText);
 
- var ctx = document.getElementById('chart3').getContext('2d');
+      var ctx = document.getElementById('ventas').getContext('2d');
 
-  var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 300);
+      var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 300);
       gradientStroke1.addColorStop(0, '#008cff');
       gradientStroke1.addColorStop(1, 'rgba(22, 195, 233, 0.1)');
 
-      var myChart = new Chart(ctx, {
+      myChartVenta = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
           datasets: [{
-            label: 'Revenue',
-            data: [3, 30, 10, 10, 22, 12, 5],
+            label: 'Monto',
+            data: [res.ene, res.feb, res.mar,
+              res.abr, res.may, res.jun,
+              res.jul, res.ago, res.sep,
+              res.oct, res.nov, res.dic],
             pointBorderWidth: 2,
             pointHoverBackgroundColor: gradientStroke1,
             backgroundColor: gradientStroke1,
@@ -142,137 +220,88 @@ $(function() {
           }]
         },
         options: {
-			maintainAspectRatio: false,
-            legend: {
-			  position: 'bottom',
-              display:false
-            },
-            tooltips: {
-			  displayColors:false,	
-              mode: 'nearest',
-              intersect: false,
-              position: 'nearest',
-              xPadding: 10,
-              yPadding: 10,
-              caretPadding: 10
-            }
-         }
+          maintainAspectRatio: false,
+          legend: {
+            position: 'bottom',
+            display: false
+          },
+          tooltips: {
+            displayColors: false,
+            mode: 'nearest',
+            intersect: false,
+            position: 'nearest',
+            xPadding: 10,
+            yPadding: 10,
+            caretPadding: 10
+          }
+        }
       });
+    }
+  }
 
+}
 
+function stockMinimo() {
+  const url = base_url + 'admin/minimosProductos';
+  //hacer una instancia del objeto XMLHttpRequest
+  const http = new XMLHttpRequest();
+  //Abrir una Conexion - POST - GET
+  http.open('GET', url, true);
+  //Enviar Datos
+  http.send();
+  //verificar estados
+  http.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = JSON.parse(this.responseText);
+      console.log(res);
 
-// chart 4
+      var ctx = document.getElementById("stockMinimo").getContext('2d');
 
-var ctx = document.getElementById("chart4").getContext('2d');
-
-  var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 300);
-      gradientStroke1.addColorStop(0, '#ee0979');
-      gradientStroke1.addColorStop(1, '#ff6a00');
-    
-  var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
-      gradientStroke2.addColorStop(0, '#283c86');
-      gradientStroke2.addColorStop(1, '#39bd3c');
-
-  var gradientStroke3 = ctx.createLinearGradient(0, 0, 0, 300);
-      gradientStroke3.addColorStop(0, '#7f00ff');
-      gradientStroke3.addColorStop(1, '#e100ff');
-
+      let nombre = [];
+      let cantidad = [];
+      for (let i = 0; i < res.length; i++) {
+        nombre.push(res[i].descripcion);
+        cantidad.push(res[i].cantidad);
+      }
+      
       var myChart = new Chart(ctx, {
         type: 'pie',
         data: {
-          labels: ["Completed", "Pending", "Process"],
+          labels: nombre,
           datasets: [{
             backgroundColor: [
-              gradientStroke1,
-              gradientStroke2,
-              gradientStroke3
+              '#0c62e0', //azul
+              '#515a62', //gris
+              '#e4ad07', //amarillo
+              '#ff0000', //rojo
             ],
 
-             hoverBackgroundColor: [
-              gradientStroke1,
-              gradientStroke2,
-              gradientStroke3
+            hoverBackgroundColor: [
+              '#0c62e0',
+              '#515a62',
+              '#e4ad07',
+              '#ff0000',
             ],
 
-            data: [50, 50, 50],
-      borderWidth: [1, 1, 1]
+            data: cantidad,
+            borderWidth: [1, 1, 1]
           }]
         },
         options: {
-		 maintainAspectRatio: false,
+          maintainAspectRatio: false,
           cutoutPercentage: 0,
-            legend: {
-              position: 'bottom',
-              display: false,
+          legend: {
+            position: 'bottom',
+            display: true,
             labels: {
-                boxWidth:8
-              }
-            },
-			tooltips: {
-			  displayColors:false,
-			},
+              boxWidth: 8
+            }
+          },
+          tooltips: {
+            displayColors: false,
+          },
         }
       });
-
-	  
-  // chart 5
-
-    var ctx = document.getElementById("chart5").getContext('2d');
-   
-      var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 300);
-      gradientStroke1.addColorStop(0, '#f54ea2');
-      gradientStroke1.addColorStop(1, '#ff7676');
-
-      var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
-      gradientStroke2.addColorStop(0, '#42e695');
-      gradientStroke2.addColorStop(1, '#3bb2b8');
-
-      var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: [1, 2, 3, 4, 5, 6, 7, 8],
-          datasets: [{
-            label: 'Clothing',
-            data: [40, 30, 60, 35, 60, 25, 50, 40],
-            borderColor: gradientStroke1,
-            backgroundColor: gradientStroke1,
-            hoverBackgroundColor: gradientStroke1,
-            pointRadius: 0,
-            fill: false,
-            borderWidth: 1
-          }, {
-            label: 'Electronic',
-            data: [50, 60, 40, 70, 35, 75, 30, 20],
-            borderColor: gradientStroke2,
-            backgroundColor: gradientStroke2,
-            hoverBackgroundColor: gradientStroke2,
-            pointRadius: 0,
-            fill: false,
-            borderWidth: 1
-          }]
-        },
-		options:{
-		  maintainAspectRatio: false,
-		  legend: {
-			  position: 'bottom',
-              display: false,
-			  labels: {
-                boxWidth:8
-              }
-            },	
-		  scales: {
-			  xAxes: [{
-				barPercentage: .5
-			  }]
-		     },
-			tooltips: {
-			  displayColors:false,
-			}
-		}
-      });
-
-
-
-
-   });	 
-   
+    }
+  }
+}

@@ -43,10 +43,10 @@ class VentasModel extends Query
         return $this->insertar($sql, $array);
     }
 
-    public function actualizarStock($cantidad, $idProducto)
+    public function actualizarStock($cantidad, $ventas, $idProducto)
     {
-        $sql = "UPDATE tbproductos SET cantidad = ? WHERE id = ?";
-        $array = array($cantidad, $idProducto);
+        $sql = "UPDATE tbproductos SET cantidad = ?, ventas = ? WHERE id = ?";
+        $array = array($cantidad, $ventas, $idProducto);
         return $this->save($sql, $array);
     }
 

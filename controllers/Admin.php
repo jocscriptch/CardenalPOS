@@ -1,10 +1,15 @@
 <?php
+
+require 'vendor/autoload.php';
+use Dompdf\Dompdf;
 class Admin extends Controller
 {
+    private $idUsuario;
     public function __construct()
     {
         parent::__construct();
         session_start();
+        $this->idUsuario = $_SESSION['id_usuario'];
     }
 
     //reportes graficos
@@ -12,6 +17,12 @@ class Admin extends Controller
     {
         $data['title'] = 'Panel Administrativo';
         $data['script'] = 'index.js';
+        $data['usuarios'] = $this->model->getTotales('tbusuarios');
+        $data['clientes'] = $this->model->getTotales('tbclientes');
+        $data['proveedores'] = $this->model->getTotales('tbproveedor');
+        $data['productos'] = $this->model->getTotales('tbproductos');
+        $data['top'] = $this->model->topProductos(3);
+        $data['nuevos'] = $this->model->nuevosProductos(6);
         $this->views->getView('admin', 'home', $data);
     }
 
@@ -75,5 +86,118 @@ class Admin extends Controller
         echo json_encode($res, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    //reporte graficos
+    public function comparacion($anio)
+    {
+        $desde = $anio . '-01-01';
+        $hasta = $anio . '-12-31';
+
+        $data['venta'] = $this->model->calcularVentasCompras('tbventas', $desde, $hasta, $this->idUsuario);
+        $data['compra'] = $this->model->calcularVentasCompras('tbcompras', $desde, $hasta, $this->idUsuario);
+
+        $data['totalVentas'] = $this->model->totalVentasCompras('tbventas', $desde, $hasta, $this->idUsuario);
+        $data['totalCompras'] = $this->model->totalVentasCompras('tbcompras', $desde, $hasta, $this->idUsuario);
+
+        echo json_encode($data);
+        die();
+    }
+    public function topProductos()
+    {
+        $data = $this->model->topProductos(3);
+        echo json_encode($data);
+        die();
+    }
+
+    public function ventas($anio)
+    {
+        $desde = $anio . '-01-01';
+        $hasta = $anio . '-12-31';
+
+        $data = $this->model->calcularVentas($desde, $hasta, $this->idUsuario);
+        echo json_encode($data);
+        die();
+    }
+
+    public function minimosProductos()
+    {
+        $data = $this->model->minimosProductos();
+        echo json_encode($data);
+        die();
+    }
+
+    //reporte pdf
+    public function topProductosPdf()
+    {
+        ob_start();
+        $data['title'] = 'Reporte de Top Productos';
+        $data['empresa'] = $this->model->getEmpresa();
+        $data['productos'] = $this->model->topProductos(20);
+        $this->views->getView('reportes', 'topProductos', $data);
+        $html = ob_get_clean();
+        $dompdf = new Dompdf();
+        $options = $dompdf->getOptions();
+        $options->set('isJavascriptEnabled', true);
+        $options->set('isRemoteEnabled', true);
+        $dompdf->setOptions($options);
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper('A4', 'vertical');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        $dompdf->stream('reporte.pdf', array('Attachment' => false));
+    }
+
+    public function stockMinimoPdf()
+    {
+        ob_start();
+        $data['title'] = 'Reporte de StockMinimo';
+        $data['empresa'] = $this->model->getEmpresa();
+        $data['productos'] = $this->model->minimosProductosPDF();
+        $this->views->getView('reportes', 'stockMinimo', $data);
+        $html = ob_get_clean();
+        $dompdf = new Dompdf();
+        $options = $dompdf->getOptions();
+        $options->set('isJavascriptEnabled', true);
+        $options->set('isRemoteEnabled', true);
+        $dompdf->setOptions($options);
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper('A4', 'vertical');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        $dompdf->stream('reporte.pdf', array('Attachment' => false));
+    }
+    public function recientesPdf()
+    {
+        ob_start();
+        $data['title'] = 'Reporte de StockMinimo';
+        $data['empresa'] = $this->model->getEmpresa();
+        $data['productos'] = $this->model->nuevosProductos(20);
+        $this->views->getView('reportes', 'recientes', $data);
+        $html = ob_get_clean();
+        $dompdf = new Dompdf();
+        $options = $dompdf->getOptions();
+        $options->set('isJavascriptEnabled', true);
+        $options->set('isRemoteEnabled', true);
+        $dompdf->setOptions($options);
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper('A4', 'vertical');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        $dompdf->stream('reporte.pdf', array('Attachment' => false));
+    }
+
+
 }
 ?>
