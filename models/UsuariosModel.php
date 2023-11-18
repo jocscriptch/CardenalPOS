@@ -37,7 +37,7 @@ class UsuariosModel extends Query{
 
     public function editar($id)
     {
-        $sql = "SELECT id, nombre, apellido, correo, telefono, direccion, rol FROM tbusuarios WHERE id = $id";
+        $sql = "SELECT id, nombre, apellido, correo, telefono, direccion, perfil, clave, fecha, rol FROM tbusuarios WHERE id = $id";
         return $this->select($sql);
     }
 
@@ -48,5 +48,20 @@ class UsuariosModel extends Query{
         $array = array($nombres, $apellidos, $email, $telefono, $direccion, $rol, $id);
         return $this->save($sql, $array);
     }
+    public function modificarDatos($nombre, $apellidos, $correo,
+    $telefono, $direccion, $clave, $perfil, $id)
+    {
+        $sql = "UPDATE tbusuarios SET nombre=?, apellido=?, correo=?, telefono=?, direccion=?, clave=?, perfil=? WHERE id=?";
+        $array = array($nombre, $apellidos, $correo, $telefono, $direccion, $clave, $perfil, $id);
+        return $this->save($sql, $array);
+    }
+
+     //registrar log
+    //  public function registrarAcceso($evento, $ip, $detalle)
+    //  {
+    //      $sql = "INSERT INTO acceso (evento, ip, detalle) VALUES (?,?,?)";
+    //      $array = array($evento, $ip, $detalle);
+    //      return $this->insertar($sql, $array);
+    //  }
 }
 ?>

@@ -9,6 +9,10 @@ class Admin extends Controller
     {
         parent::__construct();
         session_start();
+        if(empty($_SESSION['id_usuario'])){
+            header('Location: '. BASE_URL);
+            exit;
+        }
         $this->idUsuario = $_SESSION['id_usuario'];
     }
 

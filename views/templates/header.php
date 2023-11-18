@@ -183,13 +183,13 @@
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="javascript:;"><i
+                            <li><a class="dropdown-item" href="<?php echo BASE_URL .'usuarios/perfil'; ?>"><i
                                         class="bx bx-user"></i><span>Perfil</span></a>
                             </li>
                             <li>
                                 <div class="dropdown-divider mb-0"></div>
                             </li>
-                            <li><a class="dropdown-item" href="javascript:;"><i
+                            <li><a class="dropdown-item" href="<?php echo BASE_URL .'usuarios/salir'; ?>"><i
                                         class='bx bx-log-out-circle'></i><span>Salir</span></a>
                             </li>
                         </ul>

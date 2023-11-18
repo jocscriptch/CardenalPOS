@@ -1,10 +1,16 @@
 <?php
 class Usuarios extends Controller
 {
+    private $idUsuario;
     public function __construct()
     {
         parent::__construct();
         session_start();
+        if(empty($_SESSION['id_usuario'])){
+            header('Location: '. BASE_URL);
+            exit;
+        }
+        $this->idUsuario = $_SESSION['id_usuario'];
     }
     public function index()
     {
@@ -101,34 +107,34 @@ class Usuarios extends Controller
                         $res = array('msg' => 'EL CORREO DEBE SER UNICO', 'type' => 'warning');
                     }
                 } else {
-                     //verificar si existe los datos con la db
-                $verificarEmail = $this->model->getValidar('correo', $email, 'editar', $id);
-                if (empty($verificarEmail)) {
+                    //verificar si existe los datos con la db
+                    $verificarEmail = $this->model->getValidar('correo', $email, 'editar', $id);
+                    if (empty($verificarEmail)) {
 
-                    $verificarTel = $this->model->getValidar('telefono', $telefono, 'editar', $id);
+                        $verificarTel = $this->model->getValidar('telefono', $telefono, 'editar', $id);
 
-                    if (empty($verificarTel)) {
+                        if (empty($verificarTel)) {
 
-                        $data = $this->model->actualizar(
-                            $nombres,
-                            $apellidos,
-                            $email,
-                            $telefono,
-                            $direccion,
-                            $rol,
-                            $id
-                        );
-                        if ($data > 0) {
-                            $res = array('msg' => 'Usuario Actualizado', 'type' => 'success');
+                            $data = $this->model->actualizar(
+                                $nombres,
+                                $apellidos,
+                                $email,
+                                $telefono,
+                                $direccion,
+                                $rol,
+                                $id
+                            );
+                            if ($data > 0) {
+                                $res = array('msg' => 'Usuario Actualizado', 'type' => 'success');
+                            } else {
+                                $res = array('msg' => 'Error al Acutalizar', 'type' => 'error');
+                            }
                         } else {
-                            $res = array('msg' => 'Error al Acutalizar', 'type' => 'error');
+                            $res = array('msg' => 'TELEFONO DEBE SER UNICO', 'type' => 'warning');
                         }
                     } else {
-                        $res = array('msg' => 'TELEFONO DEBE SER UNICO', 'type' => 'warning');
+                        $res = array('msg' => 'EL CORREO DEBE SER UNICO', 'type' => 'warning');
                     }
-                } else {
-                    $res = array('msg' => 'EL CORREO DEBE SER UNICO', 'type' => 'warning');
-                }
                 }
             }
         } else {
@@ -213,6 +219,118 @@ class Usuarios extends Controller
         }
         echo json_encode($res, JSON_UNESCAPED_UNICODE);
         die();
+    }
+
+    //vista perfil usuario
+    public function perfil()
+    {
+        $data['title'] = 'Perfil de Usuario';
+        $data['script'] = 'perfil.js';
+        $data['usuario'] = $this->model->editar($this->idUsuario);
+        $this->views->getView('usuarios', 'perfil', $data);
+    }
+
+    public function modificarDatos()
+    {
+        $nombre = strClean($_POST['nombrePerfil']);
+        $apellidos = strClean($_POST['apellidoPerfil']);
+        $correo = strClean($_POST['correoPerfil']);
+        $telefono = strClean($_POST['telefonoPerfil']);
+        $direccion = strClean($_POST['direccionPerfil']);
+        $claveNueva = strClean($_POST['claveNueva']);
+        $claveActual = strClean($_POST['claveActual']);
+
+        $foto = $_FILES['fotoPerfil'];
+        $name = $foto['name'];
+        $tmp = $foto['tmp_name'];
+
+        $verificarPerfil = $this->model->editar($this->idUsuario);
+        $destino = $verificarPerfil['perfil'];
+
+        if (!empty($name)) {
+            if (file_exists($destino)) {
+                unlink($destino);
+            }
+            $perfil = date('YmdHis') . $correo . '.jpg';
+            $destino = 'assets/images/perfil/' . $perfil;
+        }
+
+        if (empty($nombre)) {
+            $res = array('msg' => 'EL NOMBRE ES REQUERIDO', 'type' => 'warning');
+        } else if (empty($apellidos)) {
+            $res = array('msg' => 'EL APELLIDO ES REQUERIDO', 'type' => 'warning');
+        } else if (empty($correo)) {
+            $res = array('msg' => 'EL CORREO ES REQUERIDO', 'type' => 'warning');
+        } else if (empty($telefono)) {
+            $res = array('msg' => 'EL TELÉFONO ES REQUERIDO', 'type' => 'warning');
+        } else if (empty($direccion)) {
+            $res = array('msg' => 'LA DIRECCIÓN ES REQUERIDA', 'type' => 'warning');
+        } else {
+            $verificarClave = $this->model->editar($this->idUsuario);
+            if (empty($claveNueva)) {
+                $hash = $verificarClave['clave'];
+                $verificarCorreo = $this->model->getValidar('correo', $correo, 'actualizar', $this->idUsuario);
+                if (empty($verificarCorreo)) {
+                    $verificarTel = $this->model->getValidar('telefono', $telefono, 'actualizar', $this->idUsuario);
+                    if (empty($verificarTel)) {
+                        $data = $this->model->modificarDatos($nombre, $apellidos, $correo, $telefono, $direccion, $hash, $destino, $this->idUsuario);
+                        if ($data == 1) {
+                            if (!empty($name)) {
+                                move_uploaded_file($tmp, $destino);
+                            }
+                            $res = array('msg' => 'DATOS ACTUALIZADOS', 'type' => 'success', 'clave' => false);
+                        } else {
+                            $res = array('msg' => 'ERROR AL ACTUALIZAR', 'type' => 'error');
+                        }
+                    } else {
+                        $res = array('msg' => 'EL TELEFONO DEBE SER UNICO', 'type' => 'warning');
+                    }
+                } else {
+                    $res = array('msg' => 'EL CORREO DEBE SER UNICO', 'type' => 'warning');
+                }
+            } else {
+                if (password_verify($claveActual, $verificarClave['clave'])) {
+                    $verificarCorreo = $this->model->getValidar('correo', $correo, 'actualizar', $this->idUsuario);
+                    if (empty($verificarCorreo)) {
+                        $verificarTel = $this->model->getValidar('telefono', $telefono, 'actualizar', $this->idUsuario);
+                        if (empty($verificarTel)) {
+                            $hash = password_hash($claveNueva, PASSWORD_DEFAULT);
+                            $data = $this->model->modificarDatos($nombre, $apellidos, $correo, $telefono, $direccion, $hash, $destino, $this->idUsuario);
+                            if ($data == 1) {
+                                if (!empty($name)) {
+                                    move_uploaded_file($tmp, $destino);
+                                }
+                                $res = array('msg' => 'DATOS ACTUALIZADOS', 'type' => 'success', 'clave' => true);
+                            } else {
+                                $res = array('msg' => 'ERROR AL ACTUALIZAR', 'type' => 'error');
+                            }
+                        } else {
+                            $res = array('msg' => 'EL TELEFONO DEBE SER UNICO', 'type' => 'warning');
+                        }
+                    } else {
+                        $res = array('msg' => 'EL CORREO DEBE SER UNICO', 'type' => 'warning');
+                    }
+                } else {
+                    $res = array('msg' => 'CONTRASEÑA ACTUAL INCORRECTA', 'type' => 'warning');
+                }
+            }
+        }
+        echo json_encode($res, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function salir()
+    {
+        session_destroy();
+        header('Location: ' . BASE_URL);
+        // $evento = 'Cerrar Sesión';
+        // $ip = $_SERVER['REMOTE_ADDR'];
+        // $detalle = $_SERVER['HTTP_USER_AGENT'];
+        // $acceso = $this->model->registrarAcceso($evento, $ip, $detalle);
+        // if ($acceso > 0) {
+        //     session_destroy();
+        //     header('Location: ' . BASE_URL);
+        // }
     }
 }
 ?>
