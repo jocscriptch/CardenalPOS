@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-11-2023 a las 12:21:46
+-- Tiempo de generación: 19-11-2023 a las 01:14:55
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -32,6 +32,20 @@ CREATE TABLE `tbabonos` (
   `abono` decimal(10,2) NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `id_credito` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbacceso`
+--
+
+CREATE TABLE `tbacceso` (
+  `id` int(11) NOT NULL,
+  `evento` varchar(30) NOT NULL,
+  `ip` varchar(50) NOT NULL,
+  `detalle` text NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -370,7 +384,7 @@ CREATE TABLE `tbusuarios` (
 
 INSERT INTO `tbusuarios` (`id`, `nombre`, `apellido`, `correo`, `telefono`, `direccion`, `perfil`, `clave`, `token`, `fecha`, `estado`, `rol`) VALUES
 (1, 'Jocsan', 'Ramirez', 'jocsan@gmail.com', '83626991', 'Rio Claro', 'assets/images/perfil/20231117222657jocsan@gmail.com.jpg', '$2y$10$hSZ8sC7jEjI2nWPHDSKjjut3fYk4hbwL45tU7aiN13QVu9OchWKmq', NULL, '2023-11-18 04:26:57', 1, 1),
-(2, 'Abdias', 'Ureña', 'abdias@gmail.com', '88997766', 'Rio Claro', 'assets/images/perfil/20231117223355abdias@gmail.com.jpg', '$2y$10$TjXJ374K8GbpImBEFSYHyOtRnEfbdU4NQ1eogBmYU7xVM0L5t1OUW', NULL, '2023-11-18 18:14:44', 1, 1);
+(2, 'Abdias', 'Ureña', 'abdiasxd49@gmail.com', '88997766', 'Rio Claro', 'assets/images/perfil/20231117223355abdias@gmail.com.jpg', '$2y$10$ItDjy2bYyaKPb4BvLpX3y.Z5Mb0aVyS7gK9Vmq3Gg0ACNz2fwamcO', NULL, '2023-11-19 05:29:45', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -412,6 +426,12 @@ INSERT INTO `tbventas` (`id`, `productos`, `subtotal`, `iva`, `total`, `fecha`, 
 ALTER TABLE `tbabonos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_credito` (`id_credito`);
+
+--
+-- Indices de la tabla `tbacceso`
+--
+ALTER TABLE `tbacceso`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `tbapartados`
@@ -527,6 +547,12 @@ ALTER TABLE `tbabonos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `tbacceso`
+--
+ALTER TABLE `tbacceso`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `tbapartados`
 --
 ALTER TABLE `tbapartados`
@@ -584,7 +610,7 @@ ALTER TABLE `tbgastos`
 -- AUTO_INCREMENT de la tabla `tbinventario`
 --
 ALTER TABLE `tbinventario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `tbmedidas`
@@ -596,7 +622,7 @@ ALTER TABLE `tbmedidas`
 -- AUTO_INCREMENT de la tabla `tbproductos`
 --
 ALTER TABLE `tbproductos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `tbproveedor`
@@ -614,7 +640,7 @@ ALTER TABLE `tbusuarios`
 -- AUTO_INCREMENT de la tabla `tbventas`
 --
 ALTER TABLE `tbventas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas

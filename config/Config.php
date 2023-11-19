@@ -7,5 +7,9 @@ define('PASS', '');
 define('DBNAME', 'cardenalpos');
 define('CHARSET', 'utf8mb4');
 define('TITLE', 'CARDENAL POS');
+define('CLAVE_SMTP', 'caicnksgnokfhlur');
+define('HOST_SMTP', 'smtp.gmail.com');
+define('USER_SMTP', 'abdiasxd49@gmail.com');
+define('PORT_SMTP', 465);
 //define('MONEDA', '₡/ ');
 ?>

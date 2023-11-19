@@ -68,6 +68,9 @@
                         <li> <a href="<?php echo BASE_URL . 'admin/datos'; ?>"><i
                                     class="bx bx-right-arrow-alt"></i>Configuración</a>
                         </li>
+                        <li> <a href="<?php echo BASE_URL . 'admin/logs'; ?>"><i
+                                    class="bx bx-right-arrow-alt"></i>Logs de Acceso</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -171,7 +174,12 @@
                     <div class="user-box dropdown">
                         <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="<?php echo BASE_URL; ?>assets/images/avatars/avatar-1.png" class="user-img"
+                            <?php if ($_SESSION['perfil_usuario'] == null) {
+                                $perfil = BASE_URL . 'assets/images/defaultUser.png';
+                            } else {
+                                $perfil = BASE_URL . $_SESSION['perfil_usuario'];
+                            } ?>
+                            <img src="<?php echo $perfil; ?>" class="user-img"
                                 alt="user avatar">
                             <div class="user-info ps-3">
                                 <p class="user-name mb-0">
@@ -183,13 +191,13 @@
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="<?php echo BASE_URL .'usuarios/perfil'; ?>"><i
+                            <li><a class="dropdown-item" href="<?php echo BASE_URL . 'usuarios/perfil'; ?>"><i
                                         class="bx bx-user"></i><span>Perfil</span></a>
                             </li>
                             <li>
                                 <div class="dropdown-divider mb-0"></div>
                             </li>
-                            <li><a class="dropdown-item" href="<?php echo BASE_URL .'usuarios/salir'; ?>"><i
+                            <li><a class="dropdown-item" href="<?php echo BASE_URL . 'usuarios/salir'; ?>"><i
                                         class='bx bx-log-out-circle'></i><span>Salir</span></a>
                             </li>
                         </ul>

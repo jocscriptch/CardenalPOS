@@ -6,8 +6,8 @@ class Usuarios extends Controller
     {
         parent::__construct();
         session_start();
-        if(empty($_SESSION['id_usuario'])){
-            header('Location: '. BASE_URL);
+        if (empty($_SESSION['id_usuario'])) {
+            header('Location: ' . BASE_URL);
             exit;
         }
         $this->idUsuario = $_SESSION['id_usuario'];
@@ -321,16 +321,14 @@ class Usuarios extends Controller
 
     public function salir()
     {
-        session_destroy();
-        header('Location: ' . BASE_URL);
-        // $evento = 'Cerrar Sesión';
-        // $ip = $_SERVER['REMOTE_ADDR'];
-        // $detalle = $_SERVER['HTTP_USER_AGENT'];
-        // $acceso = $this->model->registrarAcceso($evento, $ip, $detalle);
-        // if ($acceso > 0) {
-        //     session_destroy();
-        //     header('Location: ' . BASE_URL);
-        // }
+        $evento = 'Cerrar Sesión';
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $detalle = $_SERVER['HTTP_USER_AGENT'];
+        $acceso = $this->model->registrarAcceso($evento, $ip, $detalle);
+        if ($acceso > 0) {
+            session_destroy();
+            header('Location: ' . BASE_URL);
+        }
     }
 }
 ?>

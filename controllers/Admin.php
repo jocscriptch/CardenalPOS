@@ -202,6 +202,30 @@ class Admin extends Controller
         $dompdf->stream('reporte.pdf', array('Attachment' => false));
     }
 
+    // logs 
+    public function logs(){
+        $data['title'] = 'Logs De Acceso';
+        $data['script'] = 'logs.js';
+        $this->views->getView('admin', 'logs', $data);
+    }
+
+    public function listarLogs(){
+        $data = $this->model->listarLogs();
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function limpiarLogs(){
+        $data = $this->model->limpiarLogs();
+        if(empty($data)){
+            $res = array('msg' => 'LOGS LIMPIADOS', 'type' => 'success');
+        }else{
+            $res = array('msg' => 'ERROR AL LIMPIAR', 'type' => 'error');
+        }
+        echo json_encode($res);
+        die();
+    }
+
 
 }
 ?>

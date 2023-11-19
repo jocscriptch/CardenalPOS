@@ -1,6 +1,7 @@
 {
     "require": {
         "dompdf/dompdf": "^2.0",
-        "mike42/escpos-php": "^2.2"
+        "mike42/escpos-php": "^2.2",
+        "phpmailer/phpmailer": "^6.8"
     }
 }

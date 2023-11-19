@@ -105,5 +105,15 @@ class AdminModel extends Query{
         return $this->select($sql);
     }
 
+    public function listarLogs(){
+        $sql = "SELECT * FROM tbacceso";
+        return $this->selectAll($sql);
+    }
+
+    public function limpiarLogs(){
+        $sql = "TRUNCATE tbacceso";
+        return $this->select($sql);
+    }
+
 }
 ?>

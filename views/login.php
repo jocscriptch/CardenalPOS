@@ -70,7 +70,7 @@
                                                 <span id="passwordError" class="text-danger"></span>
                                             </div>
                                             <div class="col-md-12 text-end"> <a
-                                                    href="authentication-forgot-password.html">¿Olvidaste tu
+                                                    href="<?php echo BASE_URL . 'principal/forgot'; ?>">¿Olvidaste tu
                                                     contraseña?</a>
                                             </div>
                                             <div class="col-12">

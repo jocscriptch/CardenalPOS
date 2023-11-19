@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
             passwordError.textContent = 'INGRESE LA CONTRASEÑA';
         } else {
 
-            const url = base_url + 'home/validateLogin';
+            const url = base_url + 'principal/validateLogin';
             //crear formData
             const data = new FormData(this);
             const http = new XMLHttpRequest(); //creando instancia de XMLHTTPREQUEST
@@ -29,11 +29,14 @@ document.addEventListener('DOMContentLoaded', function () {
             http.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     const res = JSON.parse(this.responseText);
-                    Swal.fire(
-                        'Mensaje?',
-                        res.msg,
-                        res.type
-                    )
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-right',
+                        icon: res.type,
+                        title: res.msg,
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
                     if (res.type == 'success') {
                         setTimeout(() => {
                             let timerInterval
