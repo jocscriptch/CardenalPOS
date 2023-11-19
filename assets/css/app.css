@@ -46,8 +46,9 @@ a {
 }
 
 .logo-icon {
-	width: 45px
+    width: 35px;
 }
+
 
 .logo-text {
 	font-size: 22px;
@@ -1776,7 +1777,7 @@ a {
 }
 
 .bg-forgot {
-	background-image: url(../images/login-images/bg-forgot-password.jpg);
+	background-image: url(../images/login-images/bg-login-img.jpg);
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
