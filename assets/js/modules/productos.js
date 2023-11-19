@@ -170,7 +170,6 @@ document.getElementById('btnRegistrar').addEventListener('click', function (e) {
         return;
     }
 
-
     for (var i = 0; i < rows.length; i++) {
         var cells = rows[i].getElementsByTagName('td');
 
@@ -214,42 +213,56 @@ document.getElementById('btnCargarXML').addEventListener('click', function () {
             var response = JSON.parse(data);
             var productos = response.productos;
             if (!response || !productos) {
-                console.error('Invalid server response:', response);
+                alertaPersonalizada(response.type, response.msg);
                 return; // Exit the function
             }
             var tableBody = $('#tblProductosXML tbody');
             tableBody.empty();
+
+            var productosExisten = false; // Variable para rastrear si existen productos en el XML
+
             productos.forEach(function (producto) {
-                if (!producto.Codigo || !producto.Detalle || !producto.PrecioUnitario || !producto.Medidas || !producto.Categorias) {
-                    console.error('Invalid product data:', producto);
-                    return; // Skip this product
+                if (!producto.Existe) {
+                    // Producto no existe, procesar y mostrar en la tabla
+                    if (!producto.Codigo || !producto.Detalle || !producto.PrecioUnitario || !producto.Medidas || !producto.Categorias) {
+                        console.error('Invalid product data:', producto);
+                        return; // Skip this product
+                    }
+                    // Crear un input para el precio de venta
+                    var precioVentaInput = '<input class="form-control" type="text" value="' + producto.PrecioUnitario + '">';
+
+                    // Crear un select para la medida
+                    var medidaSelect = '<select class="form-control">';
+                    producto.Medidas.forEach(function (medida) {
+                        medidaSelect += '<option value="' + medida + '">' + medida + '</option>';
+                    });
+                    medidaSelect += '</select>';
+
+                    // Crear un select para la categoría
+                    var categoriaSelect = '<select class="form-control">';
+                    producto.Categorias.forEach(function (categoria) {
+                        categoriaSelect += '<option value="' + categoria + '">' + categoria + '</option>';
+                    });
+                    categoriaSelect += '</select>';
+
+                    tableBody.append('<tr>' +
+                        '<td>' + producto.Codigo + '</td>' +
+                        '<td>' + producto.Detalle + '</td>' +
+                        '<td>' + producto.PrecioUnitario + '</td>' +
+                        '<td>' + precioVentaInput + '</td>' +
+                        '<td>' + medidaSelect + '</td>' +
+                        '<td>' + categoriaSelect + '</td>' +
+                        '</tr>');
+                } else {
+                    // Producto existe, marcar que al menos uno existe
+                    productosExisten = true;
                 }
-                // Crear un input para el precio de venta
-                var precioVentaInput = '<input class="form-control" type="text" value="' + producto.PrecioUnitario + '">';
-
-                // Crear un select para la medida
-                var medidaSelect = '<select class="form-control">';
-                producto.Medidas.forEach(function (medida) {
-                    medidaSelect += '<option value="' + medida + '">' + medida + '</option>';
-                });
-                medidaSelect += '</select>';
-
-                // Crear un select para la categoría
-                var categoriaSelect = '<select class="form-control">';
-                producto.Categorias.forEach(function (categoria) {
-                    categoriaSelect += '<option value="' + categoria + '">' + categoria + '</option>';
-                });
-                categoriaSelect += '</select>';
-
-                tableBody.append('<tr>' +
-                    '<td>' + producto.Codigo + '</td>' +
-                    '<td>' + producto.Detalle + '</td>' +
-                    '<td>' + producto.PrecioUnitario + '</td>' +
-                    '<td>' + precioVentaInput + '</td>' +
-                    '<td>' + medidaSelect + '</td>' +
-                    '<td>' + categoriaSelect + '</td>' +
-                    '</tr>');
             });
+
+            // Mostrar una notificación si al menos un producto existe en el XML
+            if (productosExisten) {
+                alertaPersonalizada('warning', 'Algunos productos ya existen en la base de datos.');
+            }
         }
     });
 });

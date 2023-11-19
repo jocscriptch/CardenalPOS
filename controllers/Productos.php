@@ -9,8 +9,8 @@ class Productos extends Controller
     {
         parent::__construct();
         session_start();
-        if(empty($_SESSION['id_usuario'])){
-            header('Location: '. BASE_URL);
+        if (empty($_SESSION['id_usuario'])) {
+            header('Location: ' . BASE_URL);
             exit;
         }
         $this->medidasModel = new MedidasModel();
@@ -309,6 +309,10 @@ class Productos extends Controller
                         'PrecioUnitario' => $precioUnitario,
                         'Medidas' => $nombresMedidas,
                         'Categorias' => $nombresCategorias
+                    ];
+                } else {
+                    $datos[] = [
+                        'Existe' => true
                     ];
                 }
             }
