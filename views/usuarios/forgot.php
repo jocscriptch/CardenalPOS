@@ -38,7 +38,7 @@
 							<input type="email" class="form-control form-control-lg" id="email" placeholder="jose@gmail.com" autocomplete="off" />
 						</div>
 						<div class="d-grid gap-2">
-							<button type="button" class="btn btn-primary btn-lg" id="btnEnviar">Enviar</button> <a href="<?php echo BASE_URL;?>" class="btn btn-light btn-lg"><i class='bx bx-arrow-back me-1'></i>Back to Login</a>
+							<button type="button" class="btn btn-primary btn-lg" id="btnEnviar">Enviar</button> <a href="<?php echo BASE_URL;?>" class="btn btn-light btn-lg"><i class='bx bx-arrow-back me-1'></i>Volver Al Inicio</a>
 						</div>
 					</div>
 				</div>

@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: res.type,
                         title: res.msg,
                         showConfirmButton: false,
-                        timer: 4000
+                        timer: 1500
                     })
                 }
             }

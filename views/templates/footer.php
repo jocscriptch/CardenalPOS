@@ -20,33 +20,33 @@
     </div>
     <div class="switcher-body">
         <div class="d-flex align-items-center">
-            <h5 class="mb-0 text-uppercase">Theme Customizer</h5>
+            <h5 class="mb-0 text-uppercase">Personalizador de temas</h5>
             <button type="button" class="btn-close ms-auto close-switcher" aria-label="Close"></button>
         </div>
         <hr />
-        <h6 class="mb-0">Theme Styles</h6>
+        <h6 class="mb-0">Estilos de Temas</h6>
         <hr />
         <div class="d-flex align-items-center justify-content-between">
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="lightmode" checked>
-                <label class="form-check-label" for="lightmode">Light</label>
+                <label class="form-check-label" for="lightmode">Claro</label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="darkmode">
-                <label class="form-check-label" for="darkmode">Dark</label>
+                <label class="form-check-label" for="darkmode">Oscuro</label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="semidark">
-                <label class="form-check-label" for="semidark">Semi Dark</label>
+                <label class="form-check-label" for="semidark">Semi Oscuro</label>
             </div>
         </div>
         <hr />
         <div class="form-check">
             <input class="form-check-input" type="radio" id="minimaltheme" name="flexRadioDefault">
-            <label class="form-check-label" for="minimaltheme">Minimal Theme</label>
+            <label class="form-check-label" for="minimaltheme">Tema Minimal</label>
         </div>
         <hr />
-        <h6 class="mb-0">Header Colors</h6>
+        <h6 class="mb-0">Encabezado Color</h6>
         <hr />
         <div class="header-colors-indigators">
             <div class="row row-cols-auto g-3">
@@ -77,7 +77,7 @@
             </div>
         </div>
         <hr />
-        <h6 class="mb-0">Sidebar Colors</h6>
+        <h6 class="mb-0">Menú Color</h6>
         <hr />
         <div class="header-colors-indigators">
             <div class="row row-cols-auto g-3">

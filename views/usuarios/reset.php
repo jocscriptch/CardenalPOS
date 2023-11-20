@@ -17,8 +17,8 @@
 	<link href="<?php echo BASE_URL; ?>assets/css/app.css" rel="stylesheet">
 	<link href="<?php echo BASE_URL; ?>assets/css/icons.css" rel="stylesheet">
 	<title>
-        <?php echo TITLE . ' - ' . $data['title']; ?>
-    </title>
+		<?php echo TITLE . ' - ' . $data['title']; ?>
+	</title>
 </head>
 
 <body>
@@ -32,28 +32,45 @@
 							<div class="col-lg-5 border-end">
 								<div class="card-body">
 									<div class="p-5">
-										<div class="text-start">
-											<img src="<?php echo BASE_URL; ?>assets/images/logoPos7.png" width="180" alt="">
-										</div>
-                                        <input type="hidden" id="token" value="<?php echo $data['Securitytoken']['token'] ?>">
+										<input type="hidden" id="token"
+											value="<?php echo $data['Securitytoken']['token'] ?>">
 										<h4 class="mt-5 font-weight-bold">Generar Nueva Contraseña</h4>
-										<p class="text-muted">Recibimos su solicitud de restablecimiento de contraseña. ¡Por favor, introduzca su nueva contraseña!</p>
+										<p class="text-muted">Recibimos su solicitud de restablecimiento de contraseña.
+											¡Por favor, introduzca su nueva contraseña!</p>
 										<div class="mb-3 mt-5">
-											<label class="form-label">Nueva Contraseña <span  class="text-danger fw-bold">*</span></label>
-											<input type="text" class="form-control" placeholder="Introduzca una nueva contraseña" id="nueva_clave" />
+											<label for="password" class="form-label">Nueva Contraseña <span class="text-danger fw-bold">*</span></label>
+											<div class="input-group" id="showHidePassword">
+												<input type="password" class="form-control border-end-0" id="nueva_clave"
+													name="password" placeholder="Introduzca una nueva contraseña">
+												<a href="javascript:;" class="input-group-text bg-transparent"><i
+														class='bx bx-hide'>
+													</i>
+												</a>
+											</div>
 										</div>
 										<div class="mb-3">
-											<label class="form-label">Confirmar Contraseña <span class="text-danger fw-bold">*</span></label>
-											<input type="text" class="form-control" id="confirm_clave" placeholder="Confirmar contraseña" />
+											<label for="password" class="form-label">Confirmar Contraseña <span class="text-danger fw-bold">*</span></label>
+											<div class="input-group" id="showHidePassword">
+												<input type="password" class="form-control border-end-0" id="confirm_clave"
+													name="password" placeholder="Introduzca una nueva contraseña">
+												<a href="javascript:;" class="input-group-text bg-transparent"><i
+														class='bx bx-hide'>
+													</i>
+												</a>
+											</div>
 										</div>
 										<div class="d-grid gap-2">
-											<button type="button" class="btn btn-primary" id="btnCambiar">Cambiar Contraseña</button> <a href="<?php echo BASE_URL;?>" class="btn btn-light"><i class='bx bx-arrow-back mr-1'></i>Volver Al Inicio</a>
+											<button type="button" class="btn btn-primary" id="btnCambiar">Cambiar
+												Contraseña</button> <a href="<?php echo BASE_URL; ?>"
+												class="btn btn-light"><i class='bx bx-arrow-back mr-1'></i>Volver Al
+												Inicio</a>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="col-lg-7">
-								<img src="<?php echo BASE_URL; ?>assets/images/login-images/forgot-password-frent-img.jpg" class="card-img login-img h-100" alt="...">
+								<img src="<?php echo BASE_URL; ?>assets/images/login-images/forgot-password-frent-img.jpg"
+									class="card-img login-img h-100" alt="...">
 							</div>
 						</div>
 					</div>
@@ -62,13 +79,31 @@
 		</div>
 	</div>
 	<!-- end wrapper -->
-    <script>
+	<script src="<?php echo BASE_URL; ?>assets/js/jquery.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#showHidePassword a").on('click', function (event) {
+				event.preventDefault();
+				if ($('#showHidePassword input').attr("type") == "text") {
+					$('#showHidePassword input').attr('type', 'password');
+					$('#showHidePassword i').addClass("bx-hide");
+					$('#showHidePassword i').removeClass("bx-show");
+				} else if ($('#showHidePassword input').attr("type") == "password") {
+					$('#showHidePassword input').attr('type', 'text');
+					$('#showHidePassword i').removeClass("bx-hide");
+					$('#showHidePassword i').addClass("bx-show");
+				}
+			});
+		});
+	</script>
+	<script>
 		const base_url = '<?php echo BASE_URL; ?>';
 	</script>
 	<script src="<?php echo BASE_URL . 'assets/js/sweetalert2.all.min.js'; ?>">
 	</script>
 	<script src="<?php echo BASE_URL . 'assets/js/modules/restablecer.js'; ?>">
 	</script>
+
 </body>
 
 </html>
