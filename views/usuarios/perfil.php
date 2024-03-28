@@ -12,8 +12,7 @@
                             } else {
                                 $perfil = BASE_URL . $data['usuario']['perfil'];
                             } ?>
-                            <img src="<?php echo $perfil; ?>" alt="Admin" class="rounded-circle p-1 bg-primary"
-                                width="110">
+                           <img src="<?php echo $perfil; ?>" alt="Admin" class="rounded-circle p-1 bg-primary" width="110" style="max-width: 125px; height: 125px;">
                             <div class="mt-3">
                                 <h4>
                                     <?php echo $data['usuario'] ['nombre'] . ' ' . $data['usuario']['apellido']; ?>

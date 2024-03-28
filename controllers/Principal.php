@@ -1,4 +1,5 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -81,21 +82,30 @@ class Principal extends Controller
 
         if (empty($nueva) || empty($confirm)) {
             $res = array('msg' => 'Todos los campos con * son obligatorios', 'type' => 'warning');
+        } else if (strlen($nueva) < 6) {
+            $res = array('msg' => 'La contraseña debe tener al menos 6 caracteres', 'type' => 'warning');
+        } else if (!$this->validarClave($nueva)) {
+            $res = array('msg' => 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número', 'type' => 'warning');
+        } else if ($nueva != $confirm) {
+            $res = array('msg' => 'Las contraseñas no coinciden', 'type' => 'warning');
         } else {
-            if ($nueva != $confirm) {
-                $res = array('msg' => 'Las contraseñas no coinciden', 'type' => 'warning');
+            $hash = password_hash($nueva, PASSWORD_DEFAULT);
+            $data = $this->model->modificarClave($hash, $token);
+            if ($data == 1) {
+                $res = array('msg' => 'Contraseña modificada correctamente', 'type' => 'success');
             } else {
-                $hash = password_hash($nueva, PASSWORD_DEFAULT);
-                $data = $this->model->modificarClave($hash, $token);
-                if ($data == 1) {
-                    $res = array('msg' => 'Contraseña modificada correctamente', 'type' => 'success');
-                } else {
-                    $res = array('msg' => 'No se pudo modificar la contraseña', 'type' => 'error');
-                }
+                $res = array('msg' => 'No se pudo modificar la contraseña', 'type' => 'error');
             }
         }
         echo json_encode($res, JSON_UNESCAPED_UNICODE);
         die();
+    }
+
+    // validar si la contraseña es segura
+    private function validarClave($clave)
+    {
+        // verificar si la contraseña contiene al menos una letra mayuscula, una letra minuscula y un numero
+        return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', $clave);
     }
 
     public function sendEmail($email)
@@ -164,5 +174,3 @@ class Principal extends Controller
         $this->views->getView('admin', 'error', $data);
     }
 }
-
-?>

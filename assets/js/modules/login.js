@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
         emailError.textContent = '';
         passwordError.textContent = '';
 
-
         if (email.value == '') {
             emailError.textContent = 'INGRESE UN CORREO';
         } else if (password.value == '') {

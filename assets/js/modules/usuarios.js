@@ -63,30 +63,24 @@ document.addEventListener('DOMContentLoaded', function () {
         limpiarCampos();
         if (nombres.value == '') {
             errorNombres.textContent = 'DEBES INGRESAR EL NOMBRE';
-
         } else if (apellidos.value == '') {
             errorApellidos.textContent = 'DEBES INGRESAR APELLIDO';
-
         } else if (email.value == '') {
             errorEmail.textContent = 'DEBES INGRESAR EL CORREO';
-
         } else if (telefono.value == '') {
             errorTelefono.textContent = 'DEBES INGRESAR EL TELEFONO';
-
         } else if (direccion.value == '') {
             errorDireccion.textContent = 'DEBES INGRESAR LA DIRECCION';
-
         } else if (clave.value == '') {
             errorClave.textContent = 'DEBES INGRESAR LA CONTRASEÑA';
-
+        } else if (clave.value.length < 6) {
+            errorClave.textContent = 'LA CONTRASEÑA DEBE TENER AL MENOS 6 CARACTERES';
         } else if (rol.value == '') {
             errorRol.textContent = 'DEBES INGRESAR EL ROL';
-
         } else {
             const url = base_url + 'usuarios/registrar';
             insertarRegistros(url, this, tblUsuarios, btnAccion, true);
         }
-
     })
 })
 
@@ -125,8 +119,7 @@ function editarUsuario(idUsuario) {
         }
     }
 }
-function limpiarCampos()
-{
+function limpiarCampos() {
     errorNombres.textContent = '';
     errorApellidos.textContent = '';
     errorEmail.textContent = '';

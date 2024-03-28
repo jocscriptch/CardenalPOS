@@ -47,25 +47,25 @@ class Usuarios extends Controller
         if (isset($_POST)) {
             if (empty($_POST['nombres'])) {
                 $res = array('msg' => 'Nombre Requerido', 'type' => 'warning');
-
             } else if (empty($_POST['apellidos'])) {
-                $res = array('msg' => 'Apellidos Requerido', 'type' => 'warning');
-
+                $res = array('msg' => 'Apellido Requerido', 'type' => 'warning');
             } else if (empty($_POST['email'])) {
                 $res = array('msg' => 'Correo Requerido', 'type' => 'warning');
-
             } else if (empty($_POST['telefono'])) {
-                $res = array('msg' => 'Telefono Requerido', 'type' => 'warning');
-
+                $res = array('msg' => 'Teléfono Requerido', 'type' => 'warning');
             } else if (empty($_POST['direccion'])) {
-                $res = array('msg' => 'Direccion Requerido', 'type' => 'warning');
-
+                $res = array('msg' => 'Dirección Requerido', 'type' => 'warning');
             } else if (empty($_POST['clave'])) {
                 $res = array('msg' => 'Clave Requerido', 'type' => 'warning');
-
             } else if (empty($_POST['rol'])) {
                 $res = array('msg' => 'Rol Requerido', 'type' => 'warning');
-
+            } else if (strlen($_POST['clave']) < 6) {
+                $res = array('msg' => 'La contraseña debe tener al menos 6 caracteres', 'type' => 'warning');
+            } else if (!$this->validarClave($_POST['clave'])) {
+                $res = array(
+                    'msg' => 'Contraseña débil, debe contener al menos una letra mayúscula, una letra minúscula y un número',
+                    'type' => 'warning'
+                );
             } else {
                 $nombres = strClean($_POST['nombres']);
                 $apellidos = strClean($_POST['apellidos']);
@@ -101,10 +101,10 @@ class Usuarios extends Controller
                                 $res = array('msg' => 'Error Registrar', 'type' => 'error');
                             }
                         } else {
-                            $res = array('msg' => 'TELEFONO DEBE SER UNICO', 'type' => 'warning');
+                            $res = array('msg' => 'TELÉFONO DEBE SER ÚNICO', 'type' => 'warning');
                         }
                     } else {
-                        $res = array('msg' => 'EL CORREO DEBE SER UNICO', 'type' => 'warning');
+                        $res = array('msg' => 'EL CORREO DEBE SER ÚNICO', 'type' => 'warning');
                     }
                 } else {
                     //verificar si existe los datos con la db
@@ -130,10 +130,10 @@ class Usuarios extends Controller
                                 $res = array('msg' => 'Error al Acutalizar', 'type' => 'error');
                             }
                         } else {
-                            $res = array('msg' => 'TELEFONO DEBE SER UNICO', 'type' => 'warning');
+                            $res = array('msg' => 'TELÉFONO DEBE SER ÚNICO', 'type' => 'warning');
                         }
                     } else {
-                        $res = array('msg' => 'EL CORREO DEBE SER UNICO', 'type' => 'warning');
+                        $res = array('msg' => 'EL CORREO DEBE SER ÚNICO', 'type' => 'warning');
                     }
                 }
             }
@@ -142,6 +142,13 @@ class Usuarios extends Controller
         }
         echo json_encode($res, JSON_UNESCAPED_UNICODE);
         die();
+    }
+
+    // validar si la contraseña es segura
+    private function validarClave($clave)
+    {
+        // verificar si la contraseña contiene al menos una letra mayuscula, una letra minuscula y un numero
+        return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', $clave);
     }
 
     //metodo eliminar usuario
@@ -331,4 +338,3 @@ class Usuarios extends Controller
         }
     }
 }
-?>
