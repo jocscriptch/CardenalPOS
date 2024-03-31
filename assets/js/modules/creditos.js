@@ -86,6 +86,8 @@ document.addEventListener('DOMContentLoaded', function () {
     btnAccion.addEventListener('click', function () {
         if (monto_abonar.value == '') {
             alertaPersonalizada('warning', 'INGRESE EL MONTO ABONAR');
+        } else if (monto_abonar.value <= 0) {
+            alertaPersonalizada('warning', 'EL MONTO A ABONAR DEBE SER MAYOR A 0');
         } else if (idCredito.value == '' && cliente.value == '' && telefonoCliente.value == '') {
             alertaPersonalizada('warning', 'SELECCIONE UN CLIENTE');
         } else if (parseFloat(restante.value) < parseFloat(monto_abonar.value)) {
