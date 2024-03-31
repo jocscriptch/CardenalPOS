@@ -37,6 +37,7 @@ class Principal extends Controller
                     $_SESSION['nombre_usuario'] = $data['nombre'];
                     $_SESSION['correo'] = $data['correo'];
                     $_SESSION['perfil_usuario'] = $data['perfil'];
+                    $_SESSION['rol'] = $data['rol'];
                     $evento = 'Inicio de Sesión';
                     $ip = $_SERVER['REMOTE_ADDR'];
                     $detalle = $_SERVER['HTTP_USER_AGENT'];

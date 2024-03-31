@@ -14,6 +14,10 @@ class Inventarios extends Controller
             header('Location: '. BASE_URL);
             exit;
         }
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $this->idUsuario = $_SESSION['id_usuario'];
     }
     public function index()

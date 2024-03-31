@@ -55,24 +55,24 @@
                         <div class="menu-title">Principal</div>
                     </a>
                 </li>
-                <li>
-                    <a href="javascript:;" class="has-arrow">
-                        <div class="parent-icon"><i class="fa-solid fa-screwdriver-wrench"></i>
-                        </div>
-                        <div class="menu-title">Administración</div>
-                    </a>
-                    <ul>
-                        <li> <a href="<?php echo BASE_URL . 'usuarios'; ?>"><i
-                                    class="bx bx-right-arrow-alt"></i>Usuarios</a>
-                        </li>
-                        <li> <a href="<?php echo BASE_URL . 'admin/datos'; ?>"><i
-                                    class="bx bx-right-arrow-alt"></i>Configuración</a>
-                        </li>
-                        <li> <a href="<?php echo BASE_URL . 'admin/logs'; ?>"><i
-                                    class="bx bx-right-arrow-alt"></i>Logs de Acceso</a>
-                        </li>
-                    </ul>
-                </li>
+
+                <?php if ($_SESSION['rol'] == 1) { ?>
+                    <li>
+                        <a href="javascript:;" class="has-arrow">
+                            <div class="parent-icon"><i class="fa-solid fa-screwdriver-wrench"></i>
+                            </div>
+                            <div class="menu-title">Administración</div>
+                        </a>
+                        <ul>
+                            <li> <a href="<?php echo BASE_URL . 'usuarios'; ?>"><i class="bx bx-right-arrow-alt"></i>Usuarios</a>
+                            </li>
+                            <li> <a href="<?php echo BASE_URL . 'admin/datos'; ?>"><i class="bx bx-right-arrow-alt"></i>Configuración</a>
+                            </li>
+                            <li> <a href="<?php echo BASE_URL . 'admin/logs'; ?>"><i class="bx bx-right-arrow-alt"></i>Logs de Acceso</a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php } ?>
                 <li>
                     <a href="javascript:;" class="has-arrow">
                         <div class="parent-icon"><i class="fa-solid fa-clipboard-list"></i>
@@ -80,14 +80,11 @@
                         <div class="menu-title">Mantenimiento</div>
                     </a>
                     <ul>
-                        <li> <a href="<?php echo BASE_URL . 'medidas'; ?>"><i
-                                    class="bx bx-right-arrow-alt"></i>Medidas</a>
+                        <li> <a href="<?php echo BASE_URL . 'medidas'; ?>"><i class="bx bx-right-arrow-alt"></i>Medidas</a>
                         </li>
-                        <li> <a href="<?php echo BASE_URL . 'categorias'; ?>"><i
-                                    class="bx bx-right-arrow-alt"></i>Categorias</a>
+                        <li> <a href="<?php echo BASE_URL . 'categorias'; ?>"><i class="bx bx-right-arrow-alt"></i>Categorias</a>
                         </li>
-                        <li> <a href="<?php echo BASE_URL . 'productos'; ?>"><i
-                                    class="bx bx-right-arrow-alt"></i>Productos</a>
+                        <li> <a href="<?php echo BASE_URL . 'productos'; ?>"><i class="bx bx-right-arrow-alt"></i>Productos</a>
                         </li>
                     </ul>
                 </li>
@@ -98,20 +95,16 @@
                         <div class="menu-title">Clientes</div>
                     </a>
                 </li>
-                <li>
-                    <a href="<?php echo BASE_URL . 'proveedor'; ?>">
-                        <div class="parent-icon"><i class='fa-solid fa-cart-flatbed-suitcase'></i>
-                        </div>
-                        <div class="menu-title">Proveedores</div>
-                    </a>
-                </li>
-                <!-- <li>
-                    <a href="<?php echo BASE_URL . 'cajas'; ?>">
-                        <div class="parent-icon"><i class='fa-solid fa-cash-register'></i>
-                        </div>
-                        <div class="menu-title">Cajas</div>
-                    </a>
-                </li> -->
+
+                <?php if ($_SESSION['rol'] == 1) { ?>
+                    <li>
+                        <a href="<?php echo BASE_URL . 'proveedor'; ?>">
+                            <div class="parent-icon"><i class='fa-solid fa-cart-flatbed-suitcase'></i>
+                            </div>
+                            <div class="menu-title">Proveedores</div>
+                        </a>
+                    </li>
+                <?php } ?>
                 <li> <a href="<?php echo BASE_URL . 'compras'; ?>">
                         <div class="parent-icon"><i class="fa-solid fa-cart-shopping"></i>
                         </div>
@@ -147,13 +140,15 @@
                         <div class="menu-title">Apartados</div>
                     </a>
                 </li>
-                <li>
-                    <a href="<?php echo BASE_URL . 'inventarios'; ?>">
-                        <div class="parent-icon"><i class='fa-solid fa-file-lines'></i>
-                        </div>
-                        <div class="menu-title">Inventario & Kardex</div>
-                    </a>
-                </li>
+                <?php if ($_SESSION['rol'] == 1) { ?>
+                    <li>
+                        <a href="<?php echo BASE_URL . 'inventarios'; ?>">
+                            <div class="parent-icon"><i class='fa-solid fa-file-lines'></i>
+                            </div>
+                            <div class="menu-title">Inventario & Kardex</div>
+                        </a>
+                    </li>
+                <?php } ?>
             </ul>
             <!--end navigation-->
         </div>
@@ -172,15 +167,13 @@
                         </div>
                     </div>
                     <div class="user-box dropdown">
-                        <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
-                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?php if ($_SESSION['perfil_usuario'] == null) {
                                 $perfil = BASE_URL . 'assets/images/defaultUser.png';
                             } else {
                                 $perfil = BASE_URL . $_SESSION['perfil_usuario'];
                             } ?>
-                            <img src="<?php echo $perfil; ?>" class="user-img"
-                                alt="user avatar">
+                            <img src="<?php echo $perfil; ?>" class="user-img" alt="user avatar">
                             <div class="user-info ps-3">
                                 <p class="user-name mb-0">
                                     <?php echo $_SESSION['nombre_usuario']; ?>
@@ -191,14 +184,12 @@
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="<?php echo BASE_URL . 'usuarios/perfil'; ?>"><i
-                                        class="bx bx-user"></i><span>Perfil</span></a>
+                            <li><a class="dropdown-item" href="<?php echo BASE_URL . 'usuarios/perfil'; ?>"><i class="bx bx-user"></i><span>Perfil</span></a>
                             </li>
                             <li>
                                 <div class="dropdown-divider mb-0"></div>
                             </li>
-                            <li><a class="dropdown-item" href="<?php echo BASE_URL . 'usuarios/salir'; ?>"><i
-                                        class='bx bx-log-out-circle'></i><span>Salir</span></a>
+                            <li><a class="dropdown-item" href="<?php echo BASE_URL . 'usuarios/salir'; ?>"><i class='bx bx-log-out-circle'></i><span>Salir</span></a>
                             </li>
                         </ul>
                     </div>

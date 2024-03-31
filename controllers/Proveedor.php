@@ -13,6 +13,10 @@ class Proveedor extends Controller
 
     public function index()
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data['title'] = 'Proveedores';
         $data['script'] = 'proveedor.js';
         $this->views->getView('proveedor', 'index', $data);
@@ -20,6 +24,10 @@ class Proveedor extends Controller
 
     public function listar()
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data = $this->model->getProveedores(1);
 
         for ($i = 0; $i < count($data); $i++) {
@@ -34,6 +42,10 @@ class Proveedor extends Controller
 
     public function registrar()
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         if (isset($_POST['nombre'])) {
             $id = strClean($_POST['id']);
             $nombre = strClean($_POST['nombre']);
@@ -108,6 +120,10 @@ class Proveedor extends Controller
 
     public function eliminar($idProveedor)
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         if (isset($_GET) && is_numeric($idProveedor)) {
             $data = $this->model->eliminar(0, $idProveedor);
 
@@ -125,6 +141,10 @@ class Proveedor extends Controller
 
     public function editar($idProveedor)
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data = $this->model->editar($idProveedor);
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
@@ -132,6 +152,10 @@ class Proveedor extends Controller
 
     public function inactivos()
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data['title'] = 'Proveedores Inactivos';
         $data['script'] = 'proveedor_inactivos.js';
         $this->views->getView('proveedor', 'inactivos', $data);
@@ -139,6 +163,10 @@ class Proveedor extends Controller
 
     public function listarInactivos()
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data = $this->model->getProveedores(0);
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['acciones'] =
@@ -151,6 +179,10 @@ class Proveedor extends Controller
 
     public function restaurar($idProveedor)
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         if (isset($_GET) && is_numeric($idProveedor)) {
             $data = $this->model->eliminar(1, $idProveedor);
 

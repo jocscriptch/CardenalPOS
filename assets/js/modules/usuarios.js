@@ -113,8 +113,6 @@ function editarUsuario(idUsuario) {
             clave.value = '0000';
             clave.setAttribute('readonly', 'readonly');
             btnAccion.textContent = 'Actualizar';
-            var firstTabEl = document.querySelector('#nav-tab button:last-child')
-            var firstTab = new bootstrap.Tab(firstTabEl)
             firstTab.show()
         }
     }

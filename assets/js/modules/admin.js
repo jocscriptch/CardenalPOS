@@ -6,6 +6,8 @@ const nombre = document.querySelector('#nombre');
 const telefono = document.querySelector('#telefono');
 const direccion = document.querySelector('#direccion');
 const email = document.querySelector('#email');
+const foto = document.querySelector('#foto');
+const containerPreview = document.querySelector('#containerPreview');
 
 const errorRut = document.querySelector('#errorRut');
 const errorNombre = document.querySelector('#errorNombre');
@@ -34,6 +36,25 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error(error);
         });
 
+
+    //imagen vista previa
+    foto.addEventListener("change", function (e) {
+        if (
+            e.target.files[0].type == "image/png") {
+            const url = e.target.files[0];
+            const tmpUrl = URL.createObjectURL(url);
+            containerPreview.innerHTML = `
+            <img class="img-thumbnail img-fluid" src="${tmpUrl}" style="max-width: 200px; max-height: 200px;">
+            <button class="btn btn-danger" type="button" onClick="borrarImg()"><i class="fas fa-trash"></i></button>`;
+        } else {
+            foto.value = "";
+            alertaPersonalizada(
+                "warning",
+                "SOLO SE PERMITEN IMAGENES PNG"
+            );
+        }
+    });
+
     //actualizar datos de la empresa
     form.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -45,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
         errorEmail.textContent = '';
 
         if (rut.value == '') {
-            errorRut.textContent = 'RUT REQUERIDO';
+            errorRut.textContent = 'IDENTIFICACIÓN REQUERIDA';
 
         } else if (nombre.value == '') {
             errorNombre.textContent = "NOMBRE REQUERIDO";
@@ -66,3 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 })
 
+function borrarImg(){
+    foto.value = "";
+    containerPreview.innerHTML = "";
+}

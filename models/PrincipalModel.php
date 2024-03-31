@@ -6,7 +6,7 @@ class PrincipalModel extends Query {
     // datos login
     public function getData($email)
     {
-        $sql = "SELECT id, nombre, correo, perfil, clave FROM tbusuarios WHERE correo = '$email'";
+        $sql = "SELECT id, nombre, correo, perfil, clave, rol FROM tbusuarios WHERE correo = '$email'";
         return $this->select($sql);
     }
 
@@ -45,6 +45,3 @@ class PrincipalModel extends Query {
         return $request;
     }
 }
-
-
-?>

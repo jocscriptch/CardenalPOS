@@ -2,6 +2,7 @@
 
 require 'vendor/autoload.php';
 use Dompdf\Dompdf;
+use FontLib\Table\Type\name;
 class Admin extends Controller
 {
     private $idUsuario;
@@ -33,6 +34,10 @@ class Admin extends Controller
     //datos de la empresa
     public function datos()
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data['title'] = 'Datos del Negocio';
         $data['script'] = 'admin.js';
         $data['empresa'] = $this->model->getData();
@@ -42,6 +47,10 @@ class Admin extends Controller
     //modificar datos de la empresa
     public function modificar()
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         if (isset($_POST)) {
             //accediento a los campos nombres del formulario index.php
             $rut = strClean($_POST['rut']);
@@ -51,10 +60,11 @@ class Admin extends Controller
             $direccion = strClean($_POST['direccion']);
             $impuesto = strClean($_POST['impuesto']);
             $mensaje = strClean($_POST['mensaje']);
+            $logo = $_FILES['foto'];
             $id = strClean($_POST['id']);
 
             if (empty($rut)) {
-                $res = array('msg' => 'EL RUT ES REQUERIDO', 'type' => 'warning');
+                $res = array('msg' => 'IDENTIFICACIÓN ES REQUERIDA', 'type' => 'warning');
 
             } else if (empty($nombre)) {
                 $res = array('msg' => 'EL NOMBRE ES REQUERIDO', 'type' => 'warning');
@@ -79,6 +89,10 @@ class Admin extends Controller
                 );
 
                 if ($data == 1) {
+                    if(!empty($logo['name'])){
+                        $directorio = 'assets/images/logo.png';
+                        move_uploaded_file($logo['tmp_name'], $directorio);
+                    }
                     $res = array('msg' => 'DATOS MODIFICADOS', 'type' => 'success');
                 } else {
                     $res = array('msg' => 'ERROR AL ACTUALIZAR', 'type' => 'error');
@@ -204,18 +218,30 @@ class Admin extends Controller
 
     // logs 
     public function logs(){
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data['title'] = 'Logs De Acceso';
         $data['script'] = 'logs.js';
         $this->views->getView('admin', 'logs', $data);
     }
 
     public function listarLogs(){
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data = $this->model->listarLogs();
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
 
     public function limpiarLogs(){
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data = $this->model->limpiarLogs();
         if(empty($data)){
             $res = array('msg' => 'LOGS LIMPIADOS', 'type' => 'success');
@@ -224,5 +250,10 @@ class Admin extends Controller
         }
         echo json_encode($res);
         die();
+    }
+
+    public function permisos(){
+        $data['title'] = 'Permisos';
+        $this->views->getView('admin', 'permisos', $data);
     }
 }

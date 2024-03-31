@@ -14,6 +14,10 @@ class Usuarios extends Controller
     }
     public function index()
     {
+       if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data['title'] = 'Usuarios';
         $data['script'] = 'usuarios.js';
         $this->views->getView('usuarios', 'index', $data);
@@ -23,6 +27,10 @@ class Usuarios extends Controller
 
     public function listar()
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data = $this->model->getUsuarios(1);
 
         for ($i = 0; $i < count($data); $i++) {
@@ -44,6 +52,10 @@ class Usuarios extends Controller
     //metodo registrar y modificar
     public function registrar()
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         if (isset($_POST)) {
             if (empty($_POST['nombres'])) {
                 $res = array('msg' => 'Nombre Requerido', 'type' => 'warning');
@@ -154,6 +166,10 @@ class Usuarios extends Controller
     //metodo eliminar usuario
     public function eliminar($id)
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         if (isset($_GET)) {
             if (is_numeric($id)) {
                 $data = $this->model->eliminar(0, $id);
@@ -174,7 +190,10 @@ class Usuarios extends Controller
 
     public function editar($id)
     {
-
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data = $this->model->editar($id);
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
@@ -183,6 +202,10 @@ class Usuarios extends Controller
     //vista de usuarios inactivos
     public function inactivos()
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data['title'] = 'Usuarios Inactivos';
         $data['script'] = 'usuarios_inactivos.js';
         $this->views->getView('usuarios', 'inactivos', $data);
@@ -190,6 +213,10 @@ class Usuarios extends Controller
 
     public function listarInactivos()
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         $data = $this->model->getUsuarios(0);
 
         for ($i = 0; $i < count($data); $i++) {
@@ -210,6 +237,10 @@ class Usuarios extends Controller
     //restaurar usuarios
     public function restaurar($id)
     {
+        if ($_SESSION['rol'] == 2) {
+            header('Location: ' . BASE_URL . 'admin/permisos');
+            exit;
+        }
         if (isset($_GET)) {
             if (is_numeric($id)) {
                 $data = $this->model->eliminar(1, $id);

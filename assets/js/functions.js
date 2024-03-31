@@ -1,6 +1,10 @@
 var firstTabEl = document.querySelector('#nav-tab button:last-child')
 var firstTab = new bootstrap.Tab(firstTabEl)
 
+var primerTabEl = document.querySelector('#nav-tab button:first-child')
+var primerTab = new bootstrap.Tab(primerTabEl)
+
+
 function insertarRegistros(url, idForm, tbl, idBoton, accion) {
     //crear formData
     const data = new FormData(idForm);
@@ -28,6 +32,7 @@ function insertarRegistros(url, idForm, tbl, idBoton, accion) {
                     idBoton.textContent = 'Registrar';
                     idForm.reset();
                     tbl.ajax.reload();
+                    primerTab.show();
                 }
             }
         }

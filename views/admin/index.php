@@ -11,7 +11,7 @@
                     <label>Identificación de la empresa<span class="text-danger">*</span></label>
                     <div class="input-group ">
                         <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                        <input type="text" id="rut" name="rut" class="form-control" value="<?php echo $data['empresa']['id_empresa']; ?>" placeholder="Rut">
+                        <input type="text" id="rut" name="rut" class="form-control" value="<?php echo $data['empresa']['id_empresa']; ?>" placeholder="Identificación">
                     </div>
                     <span id="errorRut" class="text-danger"></span>
                 </div>
@@ -59,15 +59,23 @@
                         <input type="number" id="impuesto" name="impuesto" class="form-control" value="<?php echo $data['empresa']['impuesto']; ?>" placeholder="Impuesto">
                     </div>
                 </div>
-                
+
                 <div class="col-lg-9 col-sm-6 mb-2">
                     <div class="form-group">
                         <label for="mensaje">Mensaje (Opcional)</label>
-                        <textarea id="mensaje" class="form-control" name="mensaje" rows="3"  placeholder="Mensaje"><?php echo $data['empresa']['mensaje']; ?></textarea>
+                        <textarea id="mensaje" class="form-control" name="mensaje" rows="3" placeholder="Mensaje"><?php echo $data['empresa']['mensaje']; ?></textarea>
                     </div>
                 </div>
 
-
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="foto">Logo(PNG)</label>
+                        <input id="foto" class="form-control" type="file" name="foto">
+                    </div>
+                    <div class="pt-3" id="containerPreview">
+                        <img class="img-thumbnail" src="<?php echo BASE_URL . 'assets/images/logo.png'; ?>" alt="LOGO_PNG" width="200">
+                    </div>
+                </div>
             </div>
             <div class="text-end">
                 <button class="btn btn-primary" type="submit" id="btnAccion">Actualizar</button>
