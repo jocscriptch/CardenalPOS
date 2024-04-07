@@ -56,10 +56,10 @@ class ApartadosModel extends Query
 
     
     //actualizar stock
-    public function actualizarStock($nuevaCantidad, $idProducto)
+    public function actualizarStock($nuevaCantidad,$ventas, $idProducto)
     {
-        $sql = "UPDATE tbproductos SET cantidad = ? WHERE id = ?";
-        $array = array($nuevaCantidad, $idProducto);
+        $sql = "UPDATE tbproductos SET cantidad = ?, ventas = ? WHERE id = ?";
+        $array = array($nuevaCantidad, $ventas, $idProducto);
         return $this->save($sql, $array);
     }
 

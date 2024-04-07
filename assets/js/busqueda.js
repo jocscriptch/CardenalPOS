@@ -5,6 +5,8 @@ const nombre = document.querySelector('#nombre');
 const containerCodigo = document.querySelector('#containerCodigo');
 const containerNombre = document.querySelector('#containerNombre');
 
+const errorBusqueda = document.querySelector('#errorBusqueda');
+
 const btnAccion = document.querySelector('#btnAccion');
 const subtotalPagar = document.querySelector('#subtotalPagar');
 const totalPagar = document.querySelector('#totalPagar');
@@ -25,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         containerCodigo.classList.add('d-none');
         containerNombre.classList.remove('d-none');
         inputBuscarNombre.value = '';
+        errorBusqueda.textContent = '';
         inputBuscarNombre.focus();
     })
     //mostrar input para la busqueda por codigo
@@ -32,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
         containerNombre.classList.add('d-none');
         containerCodigo.classList.remove('d-none');
         inputBuscarCodigo.value = '';
+        errorBusqueda.textContent = '';
         inputBuscarCodigo.focus();
     })
 
@@ -52,6 +56,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 success: function (data) {
                     response(data);
+                    if (data.length > 0) {
+                        errorBusqueda.textContent = '';
+                    } else {
+                        errorBusqueda.textContent = 'NO HAY PRODUCTO CON ESE NOMBRE';
+                    }
                 }
             });
         },
@@ -102,10 +111,12 @@ function buscarProducto(valor) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const res = JSON.parse(this.responseText);
+            errorBusqueda.textContent = '';
             if (res.estado) {
                 agregarProducto(res.datos.id, 1, res.datos.cantidad);
             } else {
-                alertaPersonalizada('warning', 'CODIGO NO EXISTE');
+                errorBusqueda.textContent = 'CODIGO NO EXISTE';
+                //alertaPersonalizada('warning', 'CODIGO NO EXISTE');
             }
             inputBuscarCodigo.value = '';
             inputBuscarCodigo.focus();
@@ -113,19 +124,19 @@ function buscarProducto(valor) {
     }
 }
 
-//agregar productos al localStorage
+// agregar productos al localStorage
 function agregarProducto(idProducto, cantidad, stockActual) {
     if (localStorage.getItem(nombreKey) == null) {
         listaCarrito = [];
     } else {
-        if (nombreKey === 'posVenta') {
+        if (nombreKey === 'posVenta' || nombreKey === 'posApartados') {
             let cantidadAgregada = 0;
             for (let i = 0; i < listaCarrito.length; i++) {
                 if (listaCarrito[i]['id'] == idProducto) {
                     cantidadAgregada = parseInt(listaCarrito[i]['cantidad']) + parseInt(cantidad);
                 }
             }
-            if (cantidadAgregada > stockActual) {
+            if (parseInt(cantidadAgregada) > parseInt(stockActual) || parseInt(stockActual) == 0) {
                 alertaPersonalizada('warning', 'STOCK INSUFICIENTE');
                 return;
             }
@@ -140,6 +151,14 @@ function agregarProducto(idProducto, cantidad, stockActual) {
             }
         }
     }
+
+    // si la lista carrito no existe
+    if(nombreKey === 'posVenta' || nombreKey === 'posApartados'){
+        if(stockActual <= 0){
+            alertaPersonalizada('warning', 'STOCK INSUFICIENTE');
+            return;
+        }
+    }
     listaCarrito.push({
         id: idProducto,
         cantidad: cantidad
@@ -148,6 +167,7 @@ function agregarProducto(idProducto, cantidad, stockActual) {
     alertaPersonalizada('success', 'PRODUCTO AGREGADO');
     mostrarProducto();
 }
+
 
 //agregar evento click para eliminar
 function btnEliminarProducto() {
@@ -193,7 +213,7 @@ function agregarCantidad() {
 }
 
 function cambiarCantidad(idProducto, cantidad) {
-    if (nombreKey === 'posVenta') {
+    if (nombreKey === 'posVenta' || nombreKey === 'posApartados') {
         const url = base_url + 'ventas/verificarStock/' + idProducto;
         //hacer una instancia del objeto XMLHttpRequest
         const http = new XMLHttpRequest();

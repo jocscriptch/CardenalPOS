@@ -3,27 +3,22 @@
     <div class="card-body">
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <button class="nav-link active" id="nav-ventas-tab" data-bs-toggle="tab" data-bs-target="#nav-ventas"
-                    type="button" role="tab" aria-controls="nav-ventas" aria-selected="true">Ventas</button>
-                <button class="nav-link" id="nav-historial-tab" data-bs-toggle="tab" data-bs-target="#nav-historial"
-                    type="button" role="tab" aria-controls="nav-historial" aria-selected="false">Historial</button>
+                <button class="nav-link active" id="nav-ventas-tab" data-bs-toggle="tab" data-bs-target="#nav-ventas" type="button" role="tab" aria-controls="nav-ventas" aria-selected="true">Ventas</button>
+                <button class="nav-link" id="nav-historial-tab" data-bs-toggle="tab" data-bs-target="#nav-historial" type="button" role="tab" aria-controls="nav-historial" aria-selected="false">Historial</button>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active p-3" id="nav-ventas" role="tabpanel" aria-labelledby="nav-ventas-tab"
-                tabindex="0">
+            <div class="tab-pane fade show active p-3" id="nav-ventas" role="tabpanel" aria-labelledby="nav-ventas-tab" tabindex="0">
                 <h5 class="card-title text-center"><i class="fas fa-cash-register"></i> Nueva Venta</h5>
                 <hr>
                 <div class="row mb-2">
                     <div class="col-md-6">
                         <div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
                             <label class="btn btn-primary">
-                                <input type="radio" id="barcode" checked name="buscarProducto"
-                                    class="text-center me-2"><i class="fas fa-barcode"></i> Barcode
+                                <input type="radio" id="barcode" checked name="buscarProducto" class="text-center me-2"><i class="fas fa-barcode"></i> Barcode
                             </label>
                             <label class="btn btn-info">
-                                <input type="radio" id="nombre" name="buscarProducto" class="text-center me-2"><i
-                                    class="fas fa-list"></i> Nombre
+                                <input type="radio" id="nombre" name="buscarProducto" class="text-center me-2"><i class="fas fa-list"></i> Nombre
                             </label>
                         </div>
                     </div>
@@ -47,22 +42,21 @@
                 <!-- input para buscar codigo -->
                 <div class="input-group mb-2" id="containerCodigo">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
-                    <input class="form-control" type="text" id="buscarProductoCodigo"
-                        placeholder="Ingrese Barcode - Enter" autocomplete="off">
+                    <input class="form-control" type="text" id="buscarProductoCodigo" placeholder="Ingrese Barcode - Enter" autocomplete="off">
                 </div>
 
                 <!-- input para buscar nombre -->
                 <div class="input-group d-none mb-2" id="containerNombre">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
-                    <input class="form-control" type="text" id="buscarProductoNombre" placeholder="Buscar Producto"
-                        autocomplete="off">
+                    <input class="form-control" type="text" id="buscarProductoNombre" placeholder="Buscar Producto" autocomplete="off">
                 </div>
+
+                <span class="text-danger fw-bold mb-2" id="errorBusqueda"></span>
 
                 <!-- table productos -->
 
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover align-middle" id="tblNuevaVenta"
-                        style="width: 100%;">
+                    <table class="table table-bordered table-striped table-hover align-middle" id="tblNuevaVenta" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>Producto</th>
@@ -81,18 +75,20 @@
 
                 <div class="row justify-content-between">
                     <div class="col-md-4">
-                        <label>Buscar Cliente</label>
-                        <div class="input-group mb-2">
-                            <input type="hidden" id="idCliente">
-                            <span class="input-group-text"><i class="fas fa-search"></i></span>
-                            <input class="form-control" type="text" id="buscarCliente" placeholder="Buscar Cliente">
+                        <div>
+                            <label>Buscar Cliente</label>
+                            <div class="input-group mb-2">
+                                <input type="hidden" id="idCliente">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                <input class="form-control" type="text" id="buscarCliente" placeholder="Buscar Cliente">
+                            </div>
+                            <span class="text-danger fw-bold mb-2" id="errorCliente"></span>
                         </div>
 
                         <label>Telefono</label>
                         <div class="input-group mb-2">
                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                            <input class="form-control" type="text" id="telefonoCliente" placeholder="Telefono"
-                                disabled>
+                            <input class="form-control" type="text" id="telefonoCliente" placeholder="Telefono" disabled>
                         </div>
 
                         <label>Dirección</label>
@@ -105,10 +101,9 @@
                         <label>Vendedor</label>
                         <div class="input-group mb-2">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
-                            <input class="form-control" type="text" value="<?php echo $_SESSION['nombre_usuario']; ?>"
-                                placeholder="Vendedor" disabled>
+                            <input class="form-control" type="text" value="<?php echo $_SESSION['nombre_usuario']; ?>" placeholder="Vendedor" disabled>
                         </div>
-                        
+
                         <label>Subtotal</label>
                         <div class="input-group mb-2">
                             <span class="input-group-text"><i class="fas fa-colon-sign"></i></span>
@@ -135,8 +130,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade p-3" id="nav-historial" role="tabpanel" aria-labelledby="nav-historial-tab"
-                tabindex="0">
+            <div class="tab-pane fade p-3" id="nav-historial" role="tabpanel" aria-labelledby="nav-historial-tab" tabindex="0">
                 <div class="d-flex justify-content-center mb-3">
                     <div class="form-group">
                         <label for="desde">Desde</label>
@@ -148,8 +142,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover align-middle nowrap" id="tblHistorial"
-                        style="width: 100%;">
+                    <table class="table table-bordered table-striped table-hover align-middle nowrap" id="tblHistorial" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>Fecha</th>

@@ -6,6 +6,7 @@ const clienteDireccion = document.querySelector('#clienteDireccion');
 
 const metodo = document.querySelector('#metodo');
 const impresion_directa = document.querySelector('#impresion_directa');
+const errorCliente = document.querySelector('#errorCliente');
 
 document.addEventListener('DOMContentLoaded', function () {
     //cargar productos del localStorage
@@ -22,6 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 success: function (data) {
                     response(data);
+                    if (data.length > 0) {
+                        errorCliente.textContent = '';
+                    } else {
+                        errorCliente.textContent = 'CLIENTE NO ENCONTRADO';
+                    }
                 }
             });
         },
@@ -124,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
         dom,
         buttons,
         responsive: true,
-        order: [[0, 'desc']],
+        order: [[4, 'desc']],
     });
 });
 

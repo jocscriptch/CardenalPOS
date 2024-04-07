@@ -17,6 +17,7 @@ const monto_abonado = document.querySelector('#monto_abonado');
 const monto_total = document.querySelector('#monto_total');
 const monto_pendiente = document.querySelector('#monto_pendiente');
 const btnProcesar = document.querySelector('#btnProcesar');
+const errorCliente = document.querySelector('#errorCliente');
 
 let total = 0;
 
@@ -113,6 +114,11 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         success: function (data) {
           response(data);
+          if(data.length > 0){
+            errorCliente.textContent = '';
+          }else{
+            errorCliente.textContent = 'CLIENTE NO ENCONTRADO';
+          }
         }
       });
     },
@@ -206,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
     dom,
     buttons,
     responsive: true,
-    order: [[0, 'asc']],
+    order: [[6, 'desc']],
   });
 });
 

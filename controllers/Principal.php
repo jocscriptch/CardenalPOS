@@ -30,23 +30,27 @@ class Principal extends Controller
                 $password = strClean($_POST['password']);
                 $data = $this->model->getData($email);
 
-                if (empty($data) || !password_verify($password, $data['clave'])) {
-                    $res = array('msg' => 'Correo y Contraseña inválidos', 'type' => 'warning');
-                } else {
-                    $_SESSION['id_usuario'] = $data['id'];
-                    $_SESSION['nombre_usuario'] = $data['nombre'];
-                    $_SESSION['correo'] = $data['correo'];
-                    $_SESSION['perfil_usuario'] = $data['perfil'];
-                    $_SESSION['rol'] = $data['rol'];
-                    $evento = 'Inicio de Sesión';
-                    $ip = $_SERVER['REMOTE_ADDR'];
-                    $detalle = $_SERVER['HTTP_USER_AGENT'];
-                    $acceso = $this->model->registrarAcceso($evento, $ip, $detalle);
-                    if ($acceso > 0) {
-                        $res = array('msg' => '¡Inicio Sesión Exitoso!', 'type' => 'success');
+                if ($data['estado'] == 1) {
+                    if (empty($data) || !password_verify($password, $data['clave'])) {
+                        $res = array('msg' => 'Correo y Contraseña inválidos', 'type' => 'warning');
                     } else {
-                        $res = array('msg' => 'No se pudo registrar el acceso', 'type' => 'error');
+                        $_SESSION['id_usuario'] = $data['id'];
+                        $_SESSION['nombre_usuario'] = $data['nombre'];
+                        $_SESSION['correo'] = $data['correo'];
+                        $_SESSION['perfil_usuario'] = $data['perfil'];
+                        $_SESSION['rol'] = $data['rol'];
+                        $evento = 'Inicio de Sesión';
+                        $ip = $_SERVER['REMOTE_ADDR'];
+                        $detalle = $_SERVER['HTTP_USER_AGENT'];
+                        $acceso = $this->model->registrarAcceso($evento, $ip, $detalle);
+                        if ($acceso > 0) {
+                            $res = array('msg' => '¡Inicio Sesión Exitoso!', 'type' => 'success');
+                        } else {
+                            $res = array('msg' => 'No se pudo registrar el acceso', 'type' => 'error');
+                        }
                     }
+                } else {
+                    $res = array('msg' => 'Usuario Inactivo', 'type' => 'warning');
                 }
             }
         } else {

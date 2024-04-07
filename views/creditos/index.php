@@ -54,6 +54,7 @@
                                 <th>Restante</th>
                                 <th>Abonado</th>
                                 <th>N° Venta</th>
+                                <th>Estado</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -100,7 +101,7 @@
                             <input class="form-control" type="text" id="buscarCliente" placeholder="Buscar Cliente">
                         </div>
                     </div>
-
+                    <span class="text-danger fw-bold" id="errorCliente"></span>
                     <div class="col-md-12">
                         <label>Telefono</label>
                         <div class="input-group mb-2">

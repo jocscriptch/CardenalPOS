@@ -1,14 +1,16 @@
 <?php
 require 'vendor/autoload.php';
+
 use Dompdf\Dompdf;
+
 class Creditos extends Controller
 {
     public function __construct()
     {
         parent::__construct();
         session_start();
-        if(empty($_SESSION['id_usuario'])){
-            header('Location: '. BASE_URL);
+        if (empty($_SESSION['id_usuario'])) {
+            header('Location: ' . BASE_URL);
             exit;
         }
     }
@@ -37,9 +39,17 @@ class Creditos extends Controller
             $data[$i]['restante'] = number_format($restante, 2);
             $data[$i]['venta'] = 'N°: ' . $data[$i]['id_venta'];
             $data[$i]['acciones'] =
-                '<a class="btn btn-danger" href="'.BASE_URL.'creditos/reporte/'.$data[$i]['id'].'" target="_blank">
+                '<a class="btn btn-danger" href="' . BASE_URL . 'creditos/reporte/' . $data[$i]['id'] . '" target="_blank">
                     <i class="fas fa-file-pdf"></i>
                 </a>';
+
+            if ($data[$i]['estado'] == 1) {
+                $data[$i]['estado'] = '<span class="badge bg-warning text-dark">PENDIENTE</span>';
+            } else if ($data[$i]['estado'] == 2) {
+                $data[$i]['estado'] = '<span class="badge bg-danger">ANULADO</span>';
+            } else {
+                $data[$i]['estado'] = '<span class="badge bg-success">PAGADO</span>';
+            }
         }
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
@@ -111,7 +121,7 @@ class Creditos extends Controller
         $dompdf->loadHtml($html);
 
         $dompdf->setPaper('A4', 'vertical');
-        
+
         $dompdf->render();
         $dompdf->stream('reporte.pdf', array("Attachment" => false));
     }
@@ -119,11 +129,10 @@ class Creditos extends Controller
     public function listarAbonos()
     {
         $data = $this->model->getHistorialAbonos();
-        for ($i=0; $i < count($data) ; $i++) {
-            $data[$i]['credito'] = 'N°: '.$data[$i]['id_credito'];
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['credito'] = 'N°: ' . $data[$i]['id_credito'];
         }
         echo json_encode($data);
         die();
     }
 }
-?>

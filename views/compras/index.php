@@ -39,6 +39,8 @@
                     placeholder="Buscar Producto" autocomplete="off">
                 </div>
 
+                <span class="text-danger fw-bold mb-2" id="errorBusqueda"></span>
+
                 <!-- table productos -->
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover align-middle" id="tblNuevaCompra"
@@ -66,6 +68,8 @@
                             <span class="input-group-text"><i class="fas fa-search"></i></span>
                             <input class="form-control" type="text" id="buscarProveedor" placeholder="Buscar Proveedor">
                         </div>
+
+                        <span class="text-danger fw-bold mb-2" id="errorProveedor"></span>
 
                         <label>Telefono</label>
                         <div class="input-group mb-2">

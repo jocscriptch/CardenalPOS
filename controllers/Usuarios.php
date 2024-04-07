@@ -14,7 +14,7 @@ class Usuarios extends Controller
     }
     public function index()
     {
-       if ($_SESSION['rol'] == 2) {
+        if ($_SESSION['rol'] == 2) {
             header('Location: ' . BASE_URL . 'admin/permisos');
             exit;
         }
@@ -34,16 +34,21 @@ class Usuarios extends Controller
         $data = $this->model->getUsuarios(1);
 
         for ($i = 0; $i < count($data); $i++) {
+            if ($data[$i]['id'] == 1) {
+                $data[$i]['acciones'] = '';
+            } else {
+                $data[$i]['acciones'] =
+                    '<div class="text-center">
+                      <button class="btn btn-info" type="button" onClick="editarUsuario(' . $data[$i]['id'] . ')"><i class="fa-solid fa-pen text-white"></i></button>
+                      <button class="btn btn-danger" type="button" onClick="eliminarUsuario(' . $data[$i]['id'] . ')"><i class="fa-solid fa-trash"></i></button>
+                    </div>';
+            }
+
             if ($data[$i]['rol'] == 1) {
                 $data[$i]['rol'] = '<span class="badge bg-success">ADMINISTRADOR</span>';
             } else {
                 $data[$i]['rol'] = '<span class="badge bg-info">EMPLEADO</span>';
             }
-            $data[$i]['acciones'] =
-                '<div class="text-center">
-                      <button class="btn btn-info" type="button" onClick="editarUsuario(' . $data[$i]['id'] . ')"><i class="fa-solid fa-pen text-white"></i></button>
-                      <button class="btn btn-danger" type="button" onClick="eliminarUsuario(' . $data[$i]['id'] . ')"><i class="fa-solid fa-trash"></i></button>
-                </div>';
         }
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();

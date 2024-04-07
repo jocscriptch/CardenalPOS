@@ -24,6 +24,8 @@ const barcode = document.querySelector('#barcode');
 const nombre = document.querySelector('#nombre');
 const containerCodigo = document.querySelector('#containerCodigo');
 const containerNombre = document.querySelector('#containerNombre');
+const errorBusqueda = document.querySelector('#errorBusqueda');
+const errorBusquedaAjuste = document.querySelector('#errorBusquedaAjuste');
 
 document.addEventListener('DOMContentLoaded', function () {
     // cargar inventario
@@ -64,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
         containerNombreAjuste.classList.remove('d-none');
         buscarNombreAjuste.value = '';
         idProductoAjuste.value = '';
+        errorBusquedaAjuste.textContent = '';
         buscarNombreAjuste.focus();
     })
     //mostrar input para la busqueda por codigo
@@ -72,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
         containerCodigoAjuste.classList.remove('d-none');
         buscarCodigoAjuste.value = '';
         idProductoAjuste.value = '';
+        errorBusquedaAjuste.textContent = '';
         buscarCodigoAjuste.focus();
     })
 
@@ -93,6 +97,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 success: function (data) {
                     response(data);
+                    if(data.length > 0) {
+                        errorBusquedaAjuste.textContent = '';
+                    }else{
+                        errorBusquedaAjuste.textContent = 'NO EXISTE PRODUCTO';
+                    }
                 }
             });
         },
@@ -140,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
         containerCodigo.classList.add('d-none');
         containerNombre.classList.remove('d-none');
         inputBuscarNombre.value = '';
+        errorBusqueda.textContent = '';
         inputBuscarNombre.focus();
     })
     //mostrar input para la busqueda por codigo
@@ -147,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
         containerNombre.classList.add('d-none');
         containerCodigo.classList.remove('d-none');
         inputBuscarCodigo.value = '';
+        errorBusqueda.textContent = '';
         inputBuscarCodigo.focus();
     })
 
@@ -163,10 +174,12 @@ document.addEventListener('DOMContentLoaded', function () {
             http.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     const res = JSON.parse(this.responseText);
+                    errorBusqueda.textContent = '';
                     if (res.estado) {
                         reporteKardex(res.datos.id);
                     } else {
-                        alertaPersonalizada('warning', 'CODIGO NO EXISTE');
+                        errorBusqueda.textContent = 'CODIGO NO EXISTE';
+                        //alertaPersonalizada('warning', 'CODIGO NO EXISTE');
                     }
                 }
             }
@@ -185,6 +198,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 success: function (data) {
                     response(data);
+                    if (data.length > 0) {
+                        errorBusqueda.textContent = '';
+                    } else {
+                        errorBusqueda.textContent = 'NO EXISTE PRODUCTO';
+                    }
                 }
             });
         },
@@ -231,12 +249,14 @@ function productoPorCodigo(valor) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const res = JSON.parse(this.responseText);
+            errorBusquedaAjuste.textContent = '';
             if (res.estado) {
                 idProductoAjuste.value = res.datos.id;
                 buscarCodigoAjuste.value = res.datos.descripcion;
                 cantidadAjuste.focus();
             } else {
-                alertaPersonalizada('warning', 'CODIGO NO EXISTE');
+                errorBusquedaAjuste.textContent = 'CODIGO NO EXISTE';
+                //alertaPersonalizada('warning', 'CODIGO NO EXISTE');
             }
         }
     }

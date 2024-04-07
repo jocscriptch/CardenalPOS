@@ -76,7 +76,8 @@ class Apartados extends Controller
                         $result = $this->model->getProducto($producto['id']);
                         // Actualizar stock
                         $nuevaCantidad = $result['cantidad'] + $producto['cantidad'];
-                        $this->model->actualizarStock($nuevaCantidad, $result['id']);
+                        $totalVentas = $result['ventas'] + $producto['cantidad'];
+                        $this->model->actualizarStock($nuevaCantidad, $totalVentas, $result['id']);
 
                         //movimientos
                         $movimiento = 'Apartado N°: ' . $apartado;

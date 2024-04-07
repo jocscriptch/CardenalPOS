@@ -7,6 +7,7 @@ const direccionCliente = document.querySelector('#direccionCliente');
 // const descuento = document.querySelector('#descuento');
 const metodo = document.querySelector('#metodo');
 const validez = document.querySelector('#validez');
+const errorCliente = document.querySelector('#errorCliente');
 
 document.addEventListener('DOMContentLoaded', function () {
     //cargar productos de localStorage
@@ -23,6 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 success: function (data) {
                     response(data);
+                    if (data.length > 0) {
+                        errorCliente.textContent = '';
+                    } else {
+                        errorCliente.textContent = 'CLIENTE NO ENCONTRADO';
+                    }
                 }
             });
         },

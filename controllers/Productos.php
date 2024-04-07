@@ -29,7 +29,8 @@ class Productos extends Controller
         $data = $this->model->getProductos(1);
 
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['imagen'] = '<img class="img-thumbnail" src="' . $data[$i]['foto'] . '" width="100">';
+            $foto = ($data[$i]['foto'] == null) ? 'assets/images/productos/default.png' : $data[$i]['foto']  ;
+            $data[$i]['imagen'] = '<img class="img-thumbnail" src="' . $foto . '" width="50">';
             $data[$i]['acciones'] =
                 '<div class="text-center">
                     <button class="btn btn-info" type="button" onClick="editarProducto(' . $data[$i]['id'] . ')"><i class="fa-solid fa-pen text-white"></i></button>

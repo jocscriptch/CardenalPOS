@@ -3,20 +3,15 @@
     <div class="card-body">
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <button class="nav-link active" id="nav-inventarios-tab" data-bs-toggle="tab"
-                    data-bs-target="#nav-inventarios" type="button" role="tab" aria-controls="nav-inventarios"
-                    aria-selected="true"><i class="fa-solid fa-clipboard-check me-2 fa-lg"
-                        style="color: #28a457;"></i>Inventario</button>
-                <button class="nav-link" id="nav-kardex-tab" data-bs-toggle="tab" data-bs-target="#nav-kardex"
-                    type="button" role="tab" aria-controls="nav-kardex" aria-selected="false">
+                <button class="nav-link active" id="nav-inventarios-tab" data-bs-toggle="tab" data-bs-target="#nav-inventarios" type="button" role="tab" aria-controls="nav-inventarios" aria-selected="true"><i class="fa-solid fa-clipboard-check me-2 fa-lg" style="color: #28a457;"></i>Inventario</button>
+                <button class="nav-link" id="nav-kardex-tab" data-bs-toggle="tab" data-bs-target="#nav-kardex" type="button" role="tab" aria-controls="nav-kardex" aria-selected="false">
                     <i class="fa-solid fa-magnifying-glass-location fa-lg" style="color: #1db1b4;"></i>
                     Kardex
                 </button>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active mt-2" id="nav-inventarios" role="tabpanel"
-                aria-labelledby="nav-inventarios-tab" tabindex="0">
+            <div class="tab-pane fade show active mt-2" id="nav-inventarios" role="tabpanel" aria-labelledby="nav-inventarios-tab" tabindex="0">
                 <div class="alert alert-info border-0 bg-info alert-dismissible fade show py-2">
                     <div class="d-flex align-items-center">
                         <div class="font-35 text-white"><i class='fas fa-check-circle'></i>
@@ -33,17 +28,14 @@
                         <input id="mes" class="form-control" type="month">
                     </div>
                     <div>
-                        <button class="btn btn-primary" type="button" id="btnBuscar"><i
-                                class="fas fa-search"></i></button>
-                        <button class="btn btn-danger" type="button" id="btnReporte"><i
-                                class="fas fa-file-pdf"></i></button>
+                        <button class="btn btn-primary" type="button" id="btnBuscar"><i class="fas fa-search"></i></button>
+                        <button class="btn btn-danger" type="button" id="btnReporte"><i class="fas fa-file-pdf"></i></button>
                         <button class="btn btn-info" type="button" id="btnAjuste"><i class="fas fa-cog"></i></button>
                     </div>
                 </div>
                 <hr>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover align-middle nowrap" id="tblInventario"
-                        style="width: 100%;">
+                    <table class="table table-bordered table-striped table-hover align-middle nowrap" id="tblInventario" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>Producto</th>
@@ -57,8 +49,7 @@
                     </table>
                 </div>
             </div>
-            <div class="tab-pane fade p-3" id="nav-kardex" role="tabpanel" aria-labelledby="nav-kardex-tab"
-                tabindex="0">
+            <div class="tab-pane fade p-3" id="nav-kardex" role="tabpanel" aria-labelledby="nav-kardex-tab" tabindex="0">
 
                 <div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
                     <label class="btn btn-primary">
@@ -75,28 +66,24 @@
                 <!-- input para buscar codigo -->
                 <div class="input-group mb-2" id="containerCodigo">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
-                    <input class="form-control" type="text" id="buscarProductoCodigo"
-                        placeholder="Ingrese Barcode - Enter" autocomplete="off">
-                    <span class="input-group-text"><button class="btn btn-danger" type="button"><i
-                                class="fas fa-file-pdf"></i></button></span>
+                    <input class="form-control" type="text" id="buscarProductoCodigo" placeholder="Ingrese Barcode - Enter" autocomplete="off">
+                    <span class="input-group-text"><button class="btn btn-danger" type="button"><i class="fas fa-file-pdf"></i></button></span>
                 </div>
 
                 <!-- input para buscar nombre -->
                 <div class="input-group d-none mb-2" id="containerNombre">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
-                    <input class="form-control" type="text" id="buscarProductoNombre" placeholder="Buscar Producto"
-                        autocomplete="off">
-                    <span class="input-group-text"><button class="btn btn-danger" type="button"><i
-                                class="fas fa-file-pdf"></i></button></span>
+                    <input class="form-control" type="text" id="buscarProductoNombre" placeholder="Buscar Producto" autocomplete="off">
+                    <span class="input-group-text"><button class="btn btn-danger" type="button"><i class="fas fa-file-pdf"></i></button></span>
                 </div>
+                <span class="text-danger fw-bold mb-2" id="errorBusqueda"></span>
             </div>
         </div>
 
     </div>
 </div>
 
-<div id="modalAjuste" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title"
-    aria-hidden="true">
+<div id="modalAjuste" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -133,23 +120,25 @@
                 <!-- input para buscar codigo -->
                 <div class="input-group mb-2" id="containerCodigoAjuste">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
-                    <input class="form-control" type="text" id="buscarCodigoAjuste"
-                        placeholder="Ingrese Barcode - Enter" autocomplete="off">
+                    <input class="form-control" type="text" id="buscarCodigoAjuste" placeholder="Ingrese Barcode - Enter" autocomplete="off">
                 </div>
 
                 <!-- input para buscar nombre -->
                 <div class="input-group d-none mb-2" id="containerNombreAjuste">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
-                    <input class="form-control" type="text" id="buscarNombreAjuste" placeholder="Buscar Producto"
-                        autocomplete="off">
+                    <input class="form-control" type="text" id="buscarNombreAjuste" placeholder="Buscar Producto" autocomplete="off">
                 </div>
 
-                <label for="cantidadAjuste">Ajuste - / +</label>
-                <div class="d-flex justify-content-between">
-                    <div class="form-group">
-                        <input id="cantidadAjuste" class="form-control" type="number" placeholder="Cantidad">
+                <span class="text-danger fw-bold mb-2" id="errorBusquedaAjuste"></span>
+
+                <div>
+                    <label for="cantidadAjuste">Ajuste - / +</label>
+                    <div class="d-flex justify-content-between">
+                        <div class="form-group">
+                            <input id="cantidadAjuste" class="form-control" type="number" placeholder="Cantidad">
+                        </div>
+                        <button class="btn btn-success" type="button" id="btnProcesar">Procesar</button>
                     </div>
-                    <button class="btn btn-success" type="button" id="btnProcesar">Procesar</button>
                 </div>
             </div>
         </div>

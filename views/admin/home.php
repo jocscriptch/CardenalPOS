@@ -89,7 +89,7 @@
                         <select id="anio" onchange="comparacion()">
                             <?php
                             $fecha = date('Y');
-                            for ($i = 2023; $i <= $fecha; $i++) { ?>
+                            for ($i = 2024; $i <= $fecha; $i++) { ?>
                                 <option value="<?php echo $i; ?>" <?php echo ($fecha == $i) ? 'selected' : ''; ?>>
                                     <?php echo $i; ?>
                                 </option>
@@ -242,7 +242,7 @@
                         <select id="anioVenta" onchange="reporteVentas()">
                             <?php
                             $fecha = date('Y');
-                            for ($i = 2023; $i <= $fecha; $i++) { ?>
+                            for ($i = 2024; $i <= $fecha; $i++) { ?>
                                 <option value="<?php echo $i; ?>" <?php echo ($fecha == $i) ? 'selected' : ''; ?>>
                                     <?php echo $i; ?>
                                 </option>

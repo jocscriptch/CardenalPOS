@@ -11,6 +11,7 @@ const monto_abonar = document.querySelector('#monto_abonar');
 
 const btnAccion = document.querySelector('#btnAccion');
 const nuevoAbono = document.querySelector('#nuevoAbono');
+const errorCliente = document.querySelector('#errorCliente');
 
 const modalAbono = new bootstrap.Modal('#modalAbono');
 
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { data: 'restante' },
             { data: 'abonado' },
             { data: 'venta' },
+            { data: 'estado'},
             { data: 'acciones' }
         ],
         language: {
@@ -39,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         dom,
         buttons,
         responsive: true,
-        order: [[0, 'asc']]
+        order: [[5, 'desc']]
     });
 
     //autocomplete clientes
@@ -53,6 +55,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 success: function (data) {
                     response(data);
+                    if (data.length > 0) {
+                        errorCliente.textContent = '';
+                    } else {
+                        errorCliente.textContent = 'NO EXISTE CLIENTE CON ESE NOMBRE';
+                    }
                 }
             });
         },

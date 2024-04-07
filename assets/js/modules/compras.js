@@ -3,6 +3,7 @@ const tblNuevaCompra = document.querySelector('#tblNuevaCompra tbody');
 const telefonoProveedor = document.querySelector('#telefonoProveedor');
 const direccionProveedor = document.querySelector('#proveedorDireccion');
 const idProveedor = document.querySelector('#idProveedor');
+const errorProveedor = document.querySelector('#errorProveedor');
 
 document.addEventListener('DOMContentLoaded', function () {
     //autocomplete proveedores
@@ -16,6 +17,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 success: function (data) {
                     response(data);
+                    if (data.length > 0) {
+                        errorProveedor.textContent = '';
+                    } else {
+                        errorProveedor.textContent = 'NO HAY PROVEEDOR CON ESE NOMBRE';
+                    }
                 }
             });
         },

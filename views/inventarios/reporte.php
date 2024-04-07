@@ -13,7 +13,7 @@
     <table id="datos-empresa">
         <tr>
             <td class="logo">
-                <img src="<?php echo BASE_URL . 'assets/images/logoPos7.png'; ?>" alt="">
+                <img src="<?php echo BASE_URL . 'assets/images/logo.png'; ?>" alt="">
             </td>
             <td class="info-empresa">
                 <p>
