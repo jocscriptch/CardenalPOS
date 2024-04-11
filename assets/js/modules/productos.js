@@ -275,4 +275,5 @@ function limpiarCampos() {
     errorVenta.textContent = "";
     errorMedida.textContent = "";
     errorCategoria.textContent = "";
+    containerPreview.innerHTML = "";
 }

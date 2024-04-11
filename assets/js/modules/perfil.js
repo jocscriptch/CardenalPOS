@@ -35,8 +35,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (res.clave) {
                         setTimeout(() => {
                             window.location = base_url + 'usuarios/salir';
-                        }, 2000);
+                        }, 1500);
+                    }else{
+                        setTimeout(() => {
+                            window.location = base_url + 'usuarios/perfil';
+                        }, 1500);
                     }
+                    
                 }
             }
         }

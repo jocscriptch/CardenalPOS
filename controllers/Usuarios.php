@@ -157,6 +157,7 @@ class Usuarios extends Controller
         } else {
             $res = array('msg' => 'Error desconocido', 'type' => 'error');
         }
+
         echo json_encode($res, JSON_UNESCAPED_UNICODE);
         die();
     }
@@ -290,6 +291,13 @@ class Usuarios extends Controller
         $verificarPerfil = $this->model->editar($this->idUsuario);
         $destino = $verificarPerfil['perfil'];
 
+        // Validar si la contraseña nueva es segura
+        if (!empty($claveNueva) && !$this->validarClave($claveNueva)) {
+            $res = array('msg' => 'Contraseña débil, debe contener al menos una letra mayúscula, una letra minúscula y un número', 'type' => 'warning');
+            echo json_encode($res, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
         if (!empty($name)) {
             if (file_exists($destino)) {
                 unlink($destino);
@@ -358,6 +366,7 @@ class Usuarios extends Controller
                 }
             }
         }
+        $_SESSION['perfil_usuario'] = $destino;
         echo json_encode($res, JSON_UNESCAPED_UNICODE);
         die();
     }

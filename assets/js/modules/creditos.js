@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { data: 'restante' },
             { data: 'abonado' },
             { data: 'venta' },
-            { data: 'estado'},
+            { data: 'estado' },
             { data: 'acciones' }
         ],
         language: {
@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (res.type == 'success') {
                         modalAbono.hide();
                         tblCreditos.ajax.reload();
+                        tblAbonos.ajax.reload();
                         setTimeout(() => {
                             const ruta = base_url + 'creditos/reporte/' + idCredito.value;
                             window.open(ruta, '_blank');
@@ -143,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
         dom,
         buttons,
         responsive: true,
-        order: [[0, 'asc']]
+        order: [[0, 'desc']]
     });
 
     //filtro rango de fechas

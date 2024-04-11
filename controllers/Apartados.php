@@ -75,7 +75,7 @@ class Apartados extends Controller
                     foreach($datos['productos'] as $producto){
                         $result = $this->model->getProducto($producto['id']);
                         // Actualizar stock
-                        $nuevaCantidad = $result['cantidad'] + $producto['cantidad'];
+                        $nuevaCantidad = $result['cantidad'] - $producto['cantidad'];
                         $totalVentas = $result['ventas'] + $producto['cantidad'];
                         $this->model->actualizarStock($nuevaCantidad, $totalVentas, $result['id']);
 

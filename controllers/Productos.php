@@ -30,7 +30,7 @@ class Productos extends Controller
 
         for ($i = 0; $i < count($data); $i++) {
             $foto = ($data[$i]['foto'] == null) ? 'assets/images/productos/default.png' : $data[$i]['foto']  ;
-            $data[$i]['imagen'] = '<img class="img-thumbnail" src="' . $foto . '" width="50">';
+            $data[$i]['imagen'] = '<img class="img-thumbnail" src="' . BASE_URL . $foto . '" width="50">';
             $data[$i]['acciones'] =
                 '<div class="text-center">
                     <button class="btn btn-info" type="button" onClick="editarProducto(' . $data[$i]['id'] . ')"><i class="fa-solid fa-pen text-white"></i></button>
@@ -105,8 +105,10 @@ class Productos extends Controller
                 } else {
                     $verificar = $this->model->getValidar('codigo', $codigo, 'actualizar', $id);
                     if (empty($verificar)) {
-                        $data = $this->model->actualizar
-                        (
+                        // imagen temp
+                        $temp = $this->model->editar($id);
+                        $imgTemp = ($temp['foto'] != null) ? $temp['foto'] : 'default.png' ;
+                        $data = $this->model->actualizar(
                             $codigo,
                             $descripcion,
                             $precio_compra,
@@ -118,6 +120,9 @@ class Productos extends Controller
                         );
 
                         if ($data > 0) {
+                            if (file_exists($imgTemp) && $imgTemp != 'default.png') {
+                                unlink($imgTemp);
+                            }
                             if (!empty($name)) {
                                 move_uploaded_file($tmp, $destino);
                             }
@@ -174,7 +179,7 @@ class Productos extends Controller
         $data = $this->model->getProductos(0);
 
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['imagen'] = '<img class="img-thumbnail" src="' . $data[$i]['foto'] . '" width="100">';
+            $data[$i]['imagen'] = '<img class="img-thumbnail" src="' . BASE_URL . $data[$i]['foto'] . '" width="50">';
             $data[$i]['acciones'] =
                 '<div class="text-center">
                     <button class="btn btn-info" type="button" onClick="restaurarProducto(' . $data[$i]['id'] . ')"><i class="fas fa-check-circle text-white"></i></button>
