@@ -30,7 +30,7 @@ class Principal extends Controller
                 $password = strClean($_POST['password']);
                 $data = $this->model->getData($email);
 
-                if ($data['estado'] == 1) {
+                if ($data && $data['estado'] == 1) {
                     if (empty($data) || !password_verify($password, $data['clave'])) {
                         $res = array('msg' => 'Correo y Contraseña inválidos', 'type' => 'warning');
                     } else {
@@ -49,8 +49,10 @@ class Principal extends Controller
                             $res = array('msg' => 'No se pudo registrar el acceso', 'type' => 'error');
                         }
                     }
-                } else {
+                } else if ($data && $data['estado'] != 1) {
                     $res = array('msg' => 'Usuario Inactivo', 'type' => 'warning');
+                } else {
+                    $res = array('msg' => 'Usuario No Registrado', 'type' => 'warning');
                 }
             }
         } else {
